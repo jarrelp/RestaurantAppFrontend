@@ -6,7 +6,6 @@ import { Grid } from '@mui/material';
 // project imports
 import ApexRadarChart from './ApexRadarChart';
 import { gridSpacing } from 'store/constant';
-import MainCard from 'ui-component/cards/MainCard';
 
 // ==============================|| DEFAULT Result ||============================== //
 
@@ -19,9 +18,7 @@ const Result = () => {
     return (
         <Grid container spacing={gridSpacing}>
             <Grid item xs={12} md={12} xl={12}>
-                <MainCard title="result" contentSX={{ padding: 0 }}>
-                    <ApexRadarChart isLoading={isLoading} />
-                </MainCard>
+                <ApexRadarChart isLoading={isLoading} />
             </Grid>
         </Grid>
     );
