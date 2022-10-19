@@ -1,8 +1,5 @@
 // assets
-import { IconDashboard } from '@tabler/icons';
-
-// constant
-const icons = { IconDashboard };
+import { IconChartRadar } from '@tabler/icons';
 
 // ==============================|| result MENU ITEMS ||============================== //
 
@@ -16,7 +13,7 @@ const result = {
             title: 'Result',
             type: 'item',
             url: '/result/default',
-            icon: icons.IconDashboard
+            icon: IconChartRadar
         }
     ]
 };
