@@ -36,12 +36,7 @@ const chartData = {
             }
         },
         xaxis: {
-            categories: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-            labels: {
-                style: {
-                    fontFamily: fontFamily
-                }
-            }
+            categories: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
         }
     },
     series: [

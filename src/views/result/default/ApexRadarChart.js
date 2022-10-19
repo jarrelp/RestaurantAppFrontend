@@ -14,9 +14,6 @@ import SkeletonApexRadarChart from 'ui-component/cards/skeleton/ApexRadarChart';
 import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 
-// constants
-// import { fontFamily } from 'store/constant';
-
 // chart data
 import chartData from './chart-data/apex-radar-chart';
 
