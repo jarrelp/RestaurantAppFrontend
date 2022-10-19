@@ -80,6 +80,8 @@ const ApexRadarChart = ({ isLoading }) => {
         // </div>
         <>
             {isLoading ? (
+                <SkeletonApexRadarChart />
+            ) : (
                 <MainCard title="result" contentSX={{ padding: 0 }}>
                     <Grid container spacing={gridSpacing}>
                         <Grid item xs={12}>
@@ -87,8 +89,6 @@ const ApexRadarChart = ({ isLoading }) => {
                         </Grid>
                     </Grid>
                 </MainCard>
-            ) : (
-                <SkeletonApexRadarChart />
             )}
         </>
     );

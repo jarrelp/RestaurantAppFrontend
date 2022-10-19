@@ -24,7 +24,7 @@ const ApexRadarChart = () => {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item xs={12} height={widtht - widtht * 0.2}>
+                    <Grid item xs={12} height={widtht - widtht * 0.5}>
                         <Skeleton variant="rectangular" height="100%" />
                     </Grid>
                 </Grid>

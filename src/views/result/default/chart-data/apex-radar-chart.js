@@ -4,10 +4,12 @@ import { fontFamily } from '../../../../store/constant';
 
 const chartData = {
     type: 'radar',
-    toolbar: {
-        show: false
-    },
     options: {
+        chart: {
+            toolbar: {
+                show: false
+            }
+        },
         dataLabels: {
             enabled: false
         },
