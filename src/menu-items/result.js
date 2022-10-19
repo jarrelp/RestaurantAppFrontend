@@ -4,21 +4,21 @@ import { IconDashboard } from '@tabler/icons';
 // constant
 const icons = { IconDashboard };
 
-// ==============================|| DASHBOARD MENU ITEMS ||============================== //
+// ==============================|| result MENU ITEMS ||============================== //
 
-const dashboard = {
-    id: 'dashboard',
-    title: 'Dashboard',
+const result = {
+    id: 'result',
+    title: 'Result',
     type: 'group',
     children: [
         {
             id: 'default',
-            title: 'Dashboard',
+            title: 'Result',
             type: 'item',
-            url: '/dashboard/default',
+            url: '/result/default',
             icon: icons.IconDashboard
         }
     ]
 };
 
-export default dashboard;
+export default result;

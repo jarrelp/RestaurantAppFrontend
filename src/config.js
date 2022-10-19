@@ -1,5 +1,5 @@
 const config = {
-    defaultPath: 'dashboard/default'
+    defaultPath: 'result/default'
 };
 
 export default config;

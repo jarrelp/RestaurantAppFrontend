@@ -8,9 +8,9 @@ import ApexRadarChart from './ApexRadarChart';
 import { gridSpacing } from 'store/constant';
 import MainCard from 'ui-component/cards/MainCard';
 
-// ==============================|| DEFAULT DASHBOARD ||============================== //
+// ==============================|| DEFAULT Result ||============================== //
 
-const Dashboard = () => {
+const Result = () => {
     const [isLoading, setLoading] = useState(true);
     useEffect(() => {
         setLoading(false);
@@ -27,4 +27,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default Result;
