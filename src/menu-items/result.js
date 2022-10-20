@@ -1,7 +1,7 @@
 // assets
 import { IconChartRadar } from '@tabler/icons';
 
-// ==============================|| result MENU ITEMS ||============================== //
+// ==============================|| result MENU ITEM ||============================== //
 
 const result = {
     id: 'result',
@@ -9,10 +9,10 @@ const result = {
     type: 'group',
     children: [
         {
-            id: 'default',
+            id: 'result',
             title: 'Result',
             type: 'item',
-            url: '/result/default',
+            url: '/result',
             icon: IconChartRadar
         }
     ]

@@ -1,11 +1,10 @@
 import result from './result';
-import pages from './pages';
-import application from './application';
+import authentication from './authentication';
 
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-    items: [result, pages, application]
+    items: [result, authentication]
 };
 
 export default menuItems;
