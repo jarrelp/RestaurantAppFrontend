@@ -7,6 +7,9 @@ import Loadable from 'ui-component/Loadable';
 // result routing
 const Result = Loadable(lazy(() => import('views/result')));
 
+// quiz routing
+const Quiz = Loadable(lazy(() => import('views/quiz')));
+
 // application - account profile routing
 const AppUserAccountProfile = Loadable(lazy(() => import('views/account/account-settings')));
 
@@ -23,6 +26,10 @@ const MainRoutes = {
         {
             path: '/result',
             element: <Result />
+        },
+        {
+            path: '/quiz',
+            element: <Quiz />
         },
         {
             path: '/account/account-settings',
