@@ -72,9 +72,6 @@ const ApexRadarChart = ({ isLoading }) => {
     }, [primary, darkLight, grey200, backColor, secondary, primaryMain, successDark, error, warningDark, isLoading, orangeDark]);
 
     return (
-        // <div id="chart">
-        //     <ReactApexChart series={series} options={options} type="radar" margin="0px" padding="0px" border="0px" />
-        // </div>
         <>
             {isLoading ? (
                 <SkeletonApexRadarChart />
