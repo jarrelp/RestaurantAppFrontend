@@ -8,7 +8,7 @@ import Loadable from 'ui-component/Loadable';
 const Result = Loadable(lazy(() => import('views/result')));
 
 // application - account profile routing
-const AppUserAccountProfile = Loadable(lazy(() => import('views/application/users/account-profile/Profile')));
+const AppUserAccountProfile = Loadable(lazy(() => import('views/account/account-settings')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -25,7 +25,7 @@ const MainRoutes = {
             element: <Result />
         },
         {
-            path: '/user/account-profile/profile',
+            path: '/account/account-settings',
             element: <AppUserAccountProfile />
         }
     ]
