@@ -1,5 +1,3 @@
-import { fontFamily } from '../../../../store/constant';
-
 // ===========================|| DASHBOARD - TOTAL GROWTH BAR CHART ||=========================== //
 
 const chartData = {
