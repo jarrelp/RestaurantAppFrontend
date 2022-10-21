@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { Button, CardActions, Grid, Typography } from '@mui/material';
 
 // project imports
-import { gridSpacing } from 'store/constant';
 import UIProgress from 'ui-component/UIProgress';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import Question from './question';
@@ -69,11 +68,7 @@ const Quiz = () => {
                 setValueBasic={setValueBasic}
                 setUserAnswers={setUserAnswers}
             >
-                <Grid container spacing={gridSpacing}>
-                    <Grid item xs={12} lg={12}>
-                        <UIProgress value={number + 1} maxValue={Object.keys(QuizData).length - 1} />
-                    </Grid>
-                </Grid>
+                <UIProgress value={number + 1} maxValue={Object.keys(QuizData).length - 1} />
                 <CardActions>
                     <Grid container justifyContent="space-between" spacing={0}>
                         <Grid item>
