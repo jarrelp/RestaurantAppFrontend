@@ -5,7 +5,14 @@ import { FormControl, FormControlLabel, Grid, Radio, RadioGroup, Typography } fr
 // project imports
 import SubCard from 'ui-component/cards/SubCard';
 
+// ==============================|| ANSWER ||============================== //
+
 const Answer = (props) => {
+    let handleClickAnswer = (e) => {
+        props.setValueBasic(e.target.value);
+        props.setUserAnswer(props.questionId, e.target.value);
+    };
+
     return (
         <SubCard>
             <Grid container spacing={2}>
@@ -14,9 +21,9 @@ const Answer = (props) => {
                         <RadioGroup
                             row
                             aria-label={props.questionId}
-                            value={props.valueBasic}
-                            onChange={(e) => props.setValueBasic(e.target.value)}
-                            name="row-radio-buttons-group"
+                            value={props.valueBasic ?? ' '}
+                            onChange={(e) => handleClickAnswer(e)}
+                            name="controlled-radio-buttons-group"
                         >
                             <FormControlLabel value={props.answerId} control={<Radio />} label={props.answerPlace} />
                         </RadioGroup>

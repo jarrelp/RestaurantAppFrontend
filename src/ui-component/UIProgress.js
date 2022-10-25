@@ -33,7 +33,7 @@ const UIProgress = (props) => {
                         <Typography variant="caption">Progress</Typography>
                     </Grid>
                     <Grid item xs>
-                        <BorderLinearProgress variant="determinate" color="secondary" borderRadius="5" value={progress} />
+                        <BorderLinearProgress variant="determinate" color="secondary" value={progress} />
                     </Grid>
                     <Grid item>
                         <Typography variant="h6">{Math.round(progress)}%</Typography>

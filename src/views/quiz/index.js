@@ -46,14 +46,34 @@ import QuizData from './quiz-data';
 //     }
 // };
 
-// ==============================|| SKELETON TOTAL APEX RADAR CHART ||============================== //
+// ==============================|| QUIZ ||============================== //
+
+const userAnswersInitialState = () => {
+    var array = new Array();
+    QuizData.map((item) => array.push(item.id));
+    return array;
+};
 
 const Quiz = () => {
-    //radio buttons
-    const [valueBasic, setValueBasic] = useState();
-
     const [number, setNumber] = useState(0);
-    const [userAnswers, setUserAnswers] = useState([]);
+
+    // matrix
+    // first row: question
+    // seccond row: answer
+    const [userAnswers, setUserAnswers] = useState(new Array(Object.keys(QuizData).length)); //new Array(Object.keys(QuizData).length)
+
+    const setUserAnswer = (questionId, userAnswerId) => {
+        var data = userAnswersInitialState;
+        var index = data.indexOf(questionId);
+        var array = userAnswers;
+        array[index] = userAnswerId;
+        setUserAnswers(array);
+    };
+
+    // const handleChange = (event, questionId, newNumber) => {
+    //     var index = userAnswers.findIndex(questionId);
+    //     userAnswers.
+    // };
 
     const handleChange = (event, newNumber) => {
         setNumber(newNumber);
@@ -61,13 +81,7 @@ const Quiz = () => {
 
     return (
         <>
-            <Question
-                question={QuizData[number]}
-                userAnswer={userAnswers ? userAnswers[number] : undefined}
-                valueBasic={valueBasic}
-                setValueBasic={setValueBasic}
-                setUserAnswers={setUserAnswers}
-            >
+            <Question question={QuizData[number]} setUserAnswer={setUserAnswer}>
                 <UIProgress value={number + 1} maxValue={Object.keys(QuizData).length - 1} />
                 <CardActions>
                     <Grid container justifyContent="space-between" spacing={0}>
