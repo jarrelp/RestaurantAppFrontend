@@ -1,15 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 // import { Link } from 'react-router-dom';
 
 // material-ui
-import { Button, CardActions, Grid, Typography, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { Button, CardActions, Grid, Typography } from '@mui/material';
 
 // project imports
 import UIProgress from 'ui-component/UIProgress';
 import AnimateButton from 'ui-component/extended/AnimateButton';
-import MainCard from 'ui-component/cards/MainCard';
-import SubCard from 'ui-component/cards/SubCard';
+import Question from './question';
 import QuizData from './quiz-data';
 
 // ==============================|| QUIZ ||============================== //
@@ -67,9 +66,11 @@ const Quiz = () => {
                             )}
                         </Grid>
                     </Grid>
-                </MainCard>
-            ))}
-            {/* {console.log(valueBasic)} */}
+                </CardActions>
+                <Typography textAlign="center">
+                    Question: {number + 1} of {Object.keys(QuizData).length}
+                </Typography>
+            </Question>
         </>
     );
 };
