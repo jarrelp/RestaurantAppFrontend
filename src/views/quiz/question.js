@@ -16,8 +16,9 @@ const Question = (props) => {
                     <Grid item xs={12} lg={12} key={key}>
                         <Option
                             setOptionOnChange={props.setOptionOnChange}
-                            questionId={props.question.id}
+                            questionId={props.questionId}
                             option={option}
+                            optionKey={key}
                             optionList={props.optionList}
                         />
                     </Grid>

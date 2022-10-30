@@ -30,7 +30,7 @@ const Quiz = () => {
 
     return (
         <>
-            <Question question={QuizData[number]} setOptionOnChange={setOption} optionList={option}>
+            <Question question={QuizData[number]} setOptionOnChange={setOption} questionId={number} optionList={option}>
                 <UIProgress value={number + 1} maxValue={Object.keys(QuizData).length - 1} />
                 <CardActions>
                     <Grid container justifyContent="space-between" spacing={0}>

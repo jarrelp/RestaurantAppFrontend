@@ -17,6 +17,13 @@ const Option = (props) => {
         }));
     };
 
+    const intToChar = (int) => {
+        const code = 'A'.charCodeAt(0);
+        console.log(code);
+
+        return String.fromCharCode(code + int);
+    };
+
     return (
         <div onClick={handleChange}>
             <SubCard>
@@ -29,7 +36,7 @@ const Option = (props) => {
                             checked={list[props.questionId] === props.option.id}
                             name={props.questionId}
                         />
-                        <label>{props.option.place}</label>
+                        <label>{intToChar(props.optionKey)}</label>
                     </Grid>
                     <Grid item xs={10}>
                         <Typography>{props.option.description}</Typography>
