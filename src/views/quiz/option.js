@@ -18,10 +18,7 @@ const Option = (props) => {
     };
 
     const intToChar = (int) => {
-        const code = 'A'.charCodeAt(0);
-        console.log(code);
-
-        return String.fromCharCode(code + int);
+        return String.fromCharCode('A'.charCodeAt(0) + int);
     };
 
     return (
@@ -34,7 +31,7 @@ const Option = (props) => {
                             value={props.option.id}
                             onChange={handleChange}
                             checked={list[props.questionId] === props.option.id}
-                            name={props.questionId}
+                            name={props.questionId.toString()}
                         />
                         <label>{intToChar(props.optionKey)}</label>
                     </Grid>
