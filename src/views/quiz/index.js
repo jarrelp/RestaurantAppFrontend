@@ -11,7 +11,6 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import Question from './question';
 import useAxios from 'hooks/useAxios';
 import quizData from './quiz-data';
-// import skeletonQuiz from 'ui-component/cards/skeleton/Quiz';
 import QuizSkeleton from 'ui-component/cards/skeleton/Quiz';
 
 // ==============================|| QUIZ ||============================== //
