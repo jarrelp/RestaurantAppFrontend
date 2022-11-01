@@ -6,7 +6,7 @@ import UseWindowSize from 'hooks/useWindowSize';
 // project imports
 import { gridSpacing } from 'store/constant';
 
-// ==============================|| SKELETON TOTAL APEX RADAR CHART ||============================== //
+// ==============================|| SKELETON APEX RADAR CHART ||============================== //
 
 const ApexRadarChart = () => {
     const [widtht] = UseWindowSize();

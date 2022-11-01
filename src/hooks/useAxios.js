@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-axios.defaults.baseURL = 'http://localhost';
+// axios.defaults.baseURL = 'http://localhost:3000/';
 
 const useAxios = ({ url }) => {
     const [response, setResponse] = useState(null);
@@ -23,3 +23,5 @@ const useAxios = ({ url }) => {
 };
 
 export default useAxios;
+
+// https://the-trivia-api.com/api/questions?limit=12&region=NL&difficulty=easy
