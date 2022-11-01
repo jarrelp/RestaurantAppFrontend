@@ -11,7 +11,8 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import Question from './question';
 import useAxios from 'hooks/useAxios';
 import quizData from './quiz-data';
-import skeletonQuiz from 'ui-component/cards/skeleton/Quiz';
+// import skeletonQuiz from 'ui-component/cards/skeleton/Quiz';
+import QuizSkeleton from 'ui-component/cards/skeleton/Quiz';
 
 // ==============================|| QUIZ ||============================== //
 
@@ -49,7 +50,7 @@ const Quiz = () => {
     return (
         <>
             {loading ? (
-                <skeletonQuiz />
+                <QuizSkeleton />
             ) : (
                 <Question question={quizData[number]} setOptionOnChange={setOption} questionId={number} optionList={option}>
                     <UIProgress value={number + 1} maxValue={Object.keys(quizData).length - 1} />
