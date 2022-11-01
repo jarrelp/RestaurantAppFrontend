@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { Grid, Radio, Typography } from '@mui/material';
+import { Grid, Radio, Typography, useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+
+// constants
+import { gridSpacing } from 'store/constant';
 
 // project imports
 import SubCard from 'ui-component/cards/SubCard';
@@ -8,6 +12,9 @@ import SubCard from 'ui-component/cards/SubCard';
 // ==============================|| OPTION ||============================== //
 
 const Option = (props) => {
+    const theme = useTheme();
+    const matchUpSm = useMediaQuery(theme.breakpoints.up('sm'));
+
     let list = props.optionList;
 
     const handleChange = () => {
@@ -24,8 +31,8 @@ const Option = (props) => {
     return (
         <div onClick={handleChange}>
             <SubCard>
-                <Grid container spacing={2}>
-                    <Grid item sm={2} md={1} lg={1} xl={1} xxl={1}>
+                <Grid container spacing={gridSpacing}>
+                    <Grid item xs={2.2} sm={2} md={1.8} lg={1.2} xl={1}>
                         <Radio
                             aria-label={props.questionId}
                             value={props.option.id}
@@ -33,9 +40,9 @@ const Option = (props) => {
                             checked={list[props.questionId] === props.option.id}
                             name={props.questionId.toString()}
                         />
-                        <label>{intToChar(props.optionKey)}</label>
+                        {matchUpSm && <label>{intToChar(props.optionKey)}</label>}
                     </Grid>
-                    <Grid item xs={10}>
+                    <Grid item xs={9.8} sm={10} md={10.2} lg={10.8} xl={11}>
                         <Typography>{props.option.description}</Typography>
                     </Grid>
                 </Grid>
