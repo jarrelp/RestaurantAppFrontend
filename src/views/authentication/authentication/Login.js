@@ -7,15 +7,15 @@ import { Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 // project imports
 import AuthWrapper from '../AuthWrapper';
 import AuthCardWrapper from '../AuthCardWrapper';
+import AuthLogin from '../auth-forms/AuthLogin';
 import Logo from 'ui-component/Logo';
-import AuthRegister from '../auth-forms/AuthRegister';
 import AuthFooter from 'ui-component/cards/AuthFooter';
 
 // assets
 
-// ===============================|| AUTH - REGISTER ||=============================== //
+// ================================|| AUTH3 - LOGIN ||================================ //
 
-const Register = () => {
+const Login = () => {
     const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -46,7 +46,7 @@ const Register = () => {
                                                         gutterBottom
                                                         variant={matchDownSM ? 'h3' : 'h2'}
                                                     >
-                                                        Sign up
+                                                        Hi, Welcome Back
                                                     </Typography>
                                                     <Typography
                                                         variant="caption"
@@ -60,7 +60,7 @@ const Register = () => {
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <AuthRegister />
+                                        <AuthLogin />
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Divider />
@@ -69,11 +69,11 @@ const Register = () => {
                                         <Grid item container direction="column" alignItems="center" xs={12}>
                                             <Typography
                                                 component={Link}
-                                                to="/pages/login/login"
+                                                to="/auth/register"
                                                 variant="subtitle1"
                                                 sx={{ textDecoration: 'none' }}
                                             >
-                                                Already have an account?
+                                                Don&apos;t have an account?
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -90,4 +90,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default Login;

@@ -6,11 +6,11 @@ const icons = {
     IconKey
 };
 
-// ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
+// ==============================|| EXTRA AUTHENTICATION MENU ITEMS ||============================== //
 
-const pages = {
-    id: 'pages',
-    title: 'Pages',
+const authentication = {
+    id: 'authentication',
+    title: 'Authentication',
     type: 'group',
     children: [
         {
@@ -24,14 +24,14 @@ const pages = {
                     id: 'login',
                     title: 'Login',
                     type: 'item',
-                    url: '/pages/login/login',
+                    url: '/auth/login',
                     target: true
                 },
                 {
                     id: 'register',
                     title: 'Register',
                     type: 'item',
-                    url: '/pages/register/register',
+                    url: '/auth/register',
                     target: true
                 }
             ]
@@ -39,4 +39,4 @@ const pages = {
     ]
 };
 
-export default pages;
+export default authentication;

@@ -5,7 +5,13 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 
 // result routing
-const ResultDefault = Loadable(lazy(() => import('views/result/default')));
+const Result = Loadable(lazy(() => import('views/result')));
+
+// quiz routing
+const Quiz = Loadable(lazy(() => import('views/quiz')));
+
+// application - account profile routing
+const AppUserAccountProfile = Loadable(lazy(() => import('views/account/account-settings')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -15,11 +21,19 @@ const MainRoutes = {
     children: [
         {
             path: '/',
-            element: <ResultDefault />
+            element: <Result />
         },
         {
-            path: '/result/default',
-            element: <ResultDefault />
+            path: '/result',
+            element: <Result />
+        },
+        {
+            path: '/quiz',
+            element: <Quiz />
+        },
+        {
+            path: '/account/account-settings',
+            element: <AppUserAccountProfile />
         }
     ]
 };

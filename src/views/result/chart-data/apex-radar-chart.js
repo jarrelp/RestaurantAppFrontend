@@ -1,6 +1,4 @@
-import { fontFamily } from '../../../../store/constant';
-
-// ===========================|| DASHBOARD - TOTAL GROWTH BAR CHART ||=========================== //
+// ===========================|| result - APEX RADAR CHART ||=========================== //
 
 const chartData = {
     type: 'radar',
