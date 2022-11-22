@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
 
 // material-ui
@@ -9,8 +8,10 @@ import { AppBar, Box, CssBaseline, Toolbar, useMediaQuery } from '@mui/material'
 // project imports
 import Header from './Header';
 import Sidebar from './Sidebar';
+import navigation from 'menu-items';
 import { drawerWidth } from 'store/constant';
-import { SET_MENU } from 'store/actions';
+import { openDrawer } from 'store/slices/menu';
+import { useDispatch, useSelector } from 'store';
 
 // styles
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
@@ -63,16 +64,21 @@ const MainLayout = () => {
     const matchDownMd = useMediaQuery(theme.breakpoints.down('lg'));
 
     // Handle left drawer
-    const leftDrawerOpened = useSelector((state) => state.menu.opened);
     const dispatch = useDispatch();
-    const handleLeftDrawerToggle = () => {
-        dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
-    };
+    const { drawerOpen } = useSelector((state) => state.menu);
 
     useEffect(() => {
-        dispatch({ type: SET_MENU, opened: !matchDownMd });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        dispatch(openDrawer(!matchDownMd));
     }, [matchDownMd]);
+
+    const header = useMemo(
+        () => (
+            <Toolbar>
+                <Header />
+            </Toolbar>
+        ),
+        []
+    );
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -85,19 +91,17 @@ const MainLayout = () => {
                 elevation={0}
                 sx={{
                     bgcolor: theme.palette.background.default,
-                    transition: leftDrawerOpened ? theme.transitions.create('width') : 'none'
+                    transition: drawerOpen ? theme.transitions.create('width') : 'none'
                 }}
             >
-                <Toolbar>
-                    <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
-                </Toolbar>
+                {header}
             </AppBar>
 
             {/* drawer */}
-            <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
+            <Sidebar />
 
             {/* main content */}
-            <Main theme={theme} open={leftDrawerOpened}>
+            <Main theme={theme} open={drawerOpen}>
                 <Outlet />
             </Main>
         </Box>

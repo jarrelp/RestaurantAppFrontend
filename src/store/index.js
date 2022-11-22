@@ -1,8 +1,20 @@
-import { createStore } from 'redux';
-import reducer from './reducer';
+// third-party
+import { configureStore } from '@reduxjs/toolkit';
+import { useDispatch as useAppDispatch, useSelector as useAppSelector } from 'react-redux';
+
+// project imports
+import rootReducer from './reducer';
 
 // ==============================|| REDUX - MAIN STORE ||============================== //
 
-const store = createStore(reducer);
+const store = configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false, immutableCheck: false })
+});
 
-export { store };
+const { dispatch } = store;
+
+const useDispatch = () => useAppDispatch();
+const useSelector = useAppSelector;
+
+export { store, dispatch, useSelector, useDispatch };

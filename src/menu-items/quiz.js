@@ -1,7 +1,7 @@
 // assets
 import { IconQuestionMark } from '@tabler/icons';
 
-// ==============================|| quiz MENU ITEM ||============================== //
+// ==============================|| QUIZ MENU ITEM ||============================== //
 
 const quiz = {
     id: 'quiz',

@@ -10,6 +10,9 @@ const Result = Loadable(lazy(() => import('views/result')));
 // quiz routing
 const Quiz = Loadable(lazy(() => import('views/quiz')));
 
+// department routing
+const Department = Loadable(lazy(() => import('views/admin/department')));
+
 // application - account profile routing
 const AppUserAccountProfile = Loadable(lazy(() => import('views/account/account-settings')));
 
@@ -30,6 +33,10 @@ const MainRoutes = {
         {
             path: '/quiz',
             element: <Quiz />
+        },
+        {
+            path: '/department',
+            element: <Department />
         },
         {
             path: '/account/account-settings',

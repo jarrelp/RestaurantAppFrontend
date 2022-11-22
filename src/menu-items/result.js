@@ -1,7 +1,7 @@
 // assets
 import { IconChartRadar } from '@tabler/icons';
 
-// ==============================|| result MENU ITEM ||============================== //
+// ==============================|| RESULT MENU ITEM ||============================== //
 
 const result = {
     id: 'result',

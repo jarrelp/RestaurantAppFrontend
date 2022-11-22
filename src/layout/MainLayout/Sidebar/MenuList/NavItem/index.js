@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import { forwardRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import { Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography, useMediaQuery } from '@mui/material';
 
 // project imports
-import { MENU_OPEN, SET_MENU } from 'store/actions';
+import { useDispatch, useSelector } from 'store';
+import { activeItem, openDrawer } from 'store/slices/menu';
 
 // assets
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
@@ -21,7 +21,7 @@ import { borderRadius } from 'store/constant';
 const NavItem = ({ item, level }) => {
     const theme = useTheme();
     const dispatch = useDispatch();
-    const menu = useSelector((state) => state.menu);
+    const { selectedItem } = useSelector((state) => state.menu);
     const matchesSM = useMediaQuery(theme.breakpoints.down('lg'));
 
     const Icon = item.icon;
@@ -30,8 +30,8 @@ const NavItem = ({ item, level }) => {
     ) : (
         <FiberManualRecordIcon
             sx={{
-                width: menu.isOpen.findIndex((id) => id === item?.id) > -1 ? 8 : 6,
-                height: menu.isOpen.findIndex((id) => id === item?.id) > -1 ? 8 : 6
+                width: selectedItem.findIndex((id) => id === item?.id) > -1 ? 8 : 6,
+                height: selectedItem.findIndex((id) => id === item?.id) > -1 ? 8 : 6
             }}
             fontSize={level > 0 ? 'inherit' : 'medium'}
         />
@@ -50,8 +50,8 @@ const NavItem = ({ item, level }) => {
     }
 
     const itemHandler = (id) => {
-        dispatch({ type: MENU_OPEN, id });
-        if (matchesSM) dispatch({ type: SET_MENU, opened: false });
+        dispatch(activeItem([id]));
+        if (matchesSM) dispatch(openDrawer(false));
     };
 
     // active menu item on page load
@@ -61,7 +61,7 @@ const NavItem = ({ item, level }) => {
             .split('/')
             .findIndex((id) => id === item.id);
         if (currentIndex > -1) {
-            dispatch({ type: MENU_OPEN, id: item.id });
+            dispatch(activeItem([item.id]));
         }
         // eslint-disable-next-line
     }, []);
@@ -78,13 +78,13 @@ const NavItem = ({ item, level }) => {
                 py: level > 1 ? 1 : 1.25,
                 pl: `${level * 24}px`
             }}
-            selected={menu.isOpen.findIndex((id) => id === item.id) > -1}
+            selected={selectedItem?.findIndex((id) => id === item.id) > -1}
             onClick={() => itemHandler(item.id)}
         >
             <ListItemIcon sx={{ my: 'auto', minWidth: !item?.icon ? 18 : 36 }}>{itemIcon}</ListItemIcon>
             <ListItemText
                 primary={
-                    <Typography variant={menu.isOpen.findIndex((id) => id === item.id) > -1 ? 'h5' : 'body1'} color="inherit">
+                    <Typography variant={selectedItem?.findIndex((id) => id === item.id) > -1 ? 'h5' : 'body1'} color="inherit">
                         {item.title}
                     </Typography>
                 }
