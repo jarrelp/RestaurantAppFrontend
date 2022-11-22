@@ -2,7 +2,7 @@
 import services from 'utils/mockAdapter';
 
 // department list
-const department = [
+const departments = [
     {
         id: '1',
         name: 'Department 1'
@@ -31,4 +31,4 @@ const department = [
 
 // ==============================|| MOCK SERVICES ||============================== //
 
-services.onGet('/api/department/list').reply(200, { department });
+services.onGet('/api/department/list').reply(200, { departments });
