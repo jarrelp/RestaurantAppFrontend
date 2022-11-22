@@ -7,7 +7,7 @@ import {
     Box,
     CardContent,
     Checkbox,
-    // Fab,
+    Fab,
     Grid,
     IconButton,
     InputAdornment,
@@ -22,20 +22,22 @@ import {
     TextField,
     Toolbar,
     Tooltip,
-    Typography
+    Typography,
+    LinearProgress
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 
 // project imports
-// import DepartmentAdd from './DepartmentAdd';
+import DepartmentAdd from './DepartmentAdd';
 import MainCard from 'ui-component/cards/MainCard';
 import { useDispatch, useSelector } from 'store';
 import { getDepartmentsList } from 'store/slices/department';
+import { openDrawer } from 'store/slices/menu';
 
 // assets
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
-// import AddIcon from '@mui/icons-material/AddTwoTone';
+import AddIcon from '@mui/icons-material/AddTwoTone';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 
 // table sort
@@ -192,14 +194,34 @@ const DepartmentList = () => {
     const theme = useTheme();
     const dispatch = useDispatch();
 
+    const [isLoading, setLoading] = React.useState(true);
+    React.useEffect(() => {
+        setLoading(false);
+    }, []);
+
+    // department data
+    const [departments, setDepartments] = React.useState([]);
+    const departmentState = useSelector((state) => state.department);
+
+    React.useEffect(() => {
+        setDepartments(departmentState.departments);
+    }, [departmentState]);
+
+    React.useEffect(() => {
+        dispatch(getDepartmentsList());
+
+        // hide left drawer when email app opens
+        dispatch(openDrawer(false));
+    }, []);
+
     // show a right sidebar when clicked on new department
-    // const [open, setOpen] = React.useState(false);
-    // const handleClickOpenDialog = () => {
-    //     setOpen(true);
-    // };
-    // const handleCloseDialog = () => {
-    //     setOpen(false);
-    // };
+    const [open, setOpen] = React.useState(false);
+    const handleClickOpenDialog = () => {
+        setOpen(true);
+    };
+    const handleCloseDialog = () => {
+        setOpen(false);
+    };
 
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('calories');
@@ -208,10 +230,10 @@ const DepartmentList = () => {
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [search, setSearch] = React.useState('');
     const [rows, setRows] = React.useState([]);
-    const { departments } = useSelector((state) => state.department);
-    React.useEffect(() => {
-        dispatch(getDepartmentsList());
-    }, [dispatch]);
+    // const { departments } = useSelector((state) => state.department);
+    // React.useEffect(() => {
+    //     dispatch(getDepartmentsList());
+    // }, [dispatch]);
     React.useEffect(() => {
         setRows(departments);
     }, [departments]);
@@ -289,142 +311,151 @@ const DepartmentList = () => {
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     return (
-        <MainCard title="Department List" content={false}>
-            <CardContent>
-                <Grid container justifyContent="space-between" alignItems="center" spacing={2}>
-                    <Grid item xs={12} sm={12}>
-                        <TextField
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <SearchIcon fontSize="small" />
-                                    </InputAdornment>
-                                )
-                            }}
-                            onChange={handleSearch}
-                            placeholder="Search Department"
-                            value={search}
-                            size="small"
-                        />
-                    </Grid>
-                    {/* <Grid item xs={12} sm={6} sx={{ textAlign: 'right' }}>
-                        // department add & dialog
-                        <Tooltip title="Add Department">
-                            <Fab
-                                color="primary"
-                                size="small"
-                                onClick={handleClickOpenDialog}
-                                sx={{ boxShadow: 'none', ml: 1, width: 32, height: 32, minHeight: 32 }}
-                            >
-                                <AddIcon fontSize="small" />
-                            </Fab>
-                        </Tooltip>
-                        <DepartmentAdd open={open} handleCloseDialog={handleCloseDialog} />
-                    </Grid> */}
-                </Grid>
-            </CardContent>
-
-            {/* table */}
-            <TableContainer>
-                <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-                    <EnhancedTableHead
-                        numSelected={selected.length}
-                        order={order}
-                        orderBy={orderBy}
-                        onSelectAllClick={handleSelectAllClick}
-                        onRequestSort={handleRequestSort}
-                        rowCount={rows.length}
-                        theme={theme}
-                        selected={selected}
-                    />
-                    <TableBody>
-                        {stableSort(rows, getComparator(order, orderBy))
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row, index) => {
-                                /** Make sure no display bugs if row isn't an OrderData object */
-                                if (typeof row === 'number') return null;
-                                const isItemSelected = isSelected(row.name);
-                                const labelId = `enhanced-table-checkbox-${index}`;
-
-                                return (
-                                    <TableRow
-                                        hover
-                                        role="checkbox"
-                                        aria-checked={isItemSelected}
-                                        tabIndex={-1}
-                                        key={index}
-                                        selected={isItemSelected}
-                                    >
-                                        <TableCell padding="checkbox" sx={{ pl: 3 }} onClick={(event) => handleClick(event, row.name)}>
-                                            <Checkbox
-                                                color="primary"
-                                                checked={isItemSelected}
-                                                inputProps={{
-                                                    'aria-labelledby': labelId
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell
-                                            align="center"
-                                            component="th"
-                                            id={labelId}
-                                            scope="row"
-                                            onClick={(event) => handleClick(event, row.name)}
-                                            sx={{ cursor: 'pointer' }}
-                                        >
-                                            <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
-                                                {' '}
-                                                #{row.id}{' '}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell
-                                            component="th"
-                                            id={labelId}
-                                            scope="row"
-                                            onClick={(event) => handleClick(event, row.name)}
-                                            sx={{ cursor: 'pointer' }}
-                                        >
-                                            <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
-                                                {' '}
-                                                {row.name}{' '}
-                                            </Typography>
-                                        </TableCell>
-                                        {/* <TableCell>{row.category}</TableCell>
-                                        <TableCell align="right">{row.price}$</TableCell>
-                                        <TableCell align="center">{row.date}</TableCell>
-                                        <TableCell align="right">{row.qty}</TableCell> */}
-                                        <TableCell align="center" sx={{ pr: 3 }}>
-                                            <IconButton size="large">
-                                                <MoreHorizOutlinedIcon sx={{ fontSize: '1.3rem' }} />
-                                            </IconButton>
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                        {emptyRows > 0 && (
-                            <TableRow
-                                style={{
-                                    height: 53 * emptyRows
+        <>
+            <MainCard title="Department List" content={false}>
+                <CardContent>
+                    <Grid container justifyContent="space-between" alignItems="center" spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <SearchIcon fontSize="small" />
+                                        </InputAdornment>
+                                    )
                                 }}
-                            >
-                                <TableCell colSpan={6} />
-                            </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                                onChange={handleSearch}
+                                placeholder="Search Department"
+                                value={search}
+                                size="small"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6} sx={{ textAlign: 'right' }}>
+                            {/* department add & dialog */}
+                            <Tooltip title="Add Department">
+                                <Fab
+                                    color="primary"
+                                    size="small"
+                                    onClick={handleClickOpenDialog}
+                                    sx={{ boxShadow: 'none', ml: 1, width: 32, height: 32, minHeight: 32 }}
+                                >
+                                    <AddIcon fontSize="small" />
+                                </Fab>
+                            </Tooltip>
+                            <DepartmentAdd open={open} handleCloseDialog={handleCloseDialog} />
+                        </Grid>
+                    </Grid>
+                </CardContent>
 
-            {/* table pagination */}
-            <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-        </MainCard>
+                {/* table */}
+                <TableContainer>
+                    <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+                        <EnhancedTableHead
+                            numSelected={selected.length}
+                            order={order}
+                            orderBy={orderBy}
+                            onSelectAllClick={handleSelectAllClick}
+                            onRequestSort={handleRequestSort}
+                            rowCount={rows.length}
+                            theme={theme}
+                            selected={selected}
+                        />
+                        <TableBody>
+                            {stableSort(rows, getComparator(order, orderBy))
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .map((row, index) => {
+                                    if (typeof row === 'number') return null;
+                                    const isItemSelected = isSelected(row.name);
+                                    const labelId = `enhanced-table-checkbox-${index}`;
+
+                                    return (
+                                        <TableRow
+                                            hover
+                                            role="checkbox"
+                                            aria-checked={isItemSelected}
+                                            tabIndex={-1}
+                                            key={index}
+                                            selected={isItemSelected}
+                                        >
+                                            <TableCell padding="checkbox" sx={{ pl: 3 }} onClick={(event) => handleClick(event, row.name)}>
+                                                <Checkbox
+                                                    color="primary"
+                                                    checked={isItemSelected}
+                                                    inputProps={{
+                                                        'aria-labelledby': labelId
+                                                    }}
+                                                />
+                                            </TableCell>
+                                            <TableCell
+                                                align="center"
+                                                component="th"
+                                                id={labelId}
+                                                scope="row"
+                                                onClick={(event) => handleClick(event, row.name)}
+                                                sx={{ cursor: 'pointer' }}
+                                            >
+                                                <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
+                                                    {' '}
+                                                    #{row.id}{' '}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell
+                                                component="th"
+                                                id={labelId}
+                                                scope="row"
+                                                onClick={(event) => handleClick(event, row.name)}
+                                                sx={{ cursor: 'pointer' }}
+                                            >
+                                                <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
+                                                    {' '}
+                                                    {row.name}{' '}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ pr: 3 }}>
+                                                <IconButton size="large">
+                                                    <MoreHorizOutlinedIcon sx={{ fontSize: '1.3rem' }} />
+                                                </IconButton>
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            {emptyRows > 0 && (
+                                <TableRow
+                                    style={{
+                                        height: 53 * emptyRows
+                                    }}
+                                >
+                                    <TableCell colSpan={6} />
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+
+                {isLoading &&
+                    [1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+                        <Grid key={item} item xs={12} sm={6} md={4} lg={3}>
+                            <LinearProgress />
+                        </Grid>
+                    ))}
+
+                {/* table pagination */}
+                <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component="div"
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+            </MainCard>
+            {/* {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+                <Grid key={item} item xs={12} sm={6} md={4} lg={3}>
+                    <LinearProgress />
+                </Grid>
+            ))} */}
+        </>
     );
 };
 
