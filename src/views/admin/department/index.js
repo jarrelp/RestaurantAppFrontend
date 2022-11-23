@@ -17,8 +17,7 @@ import {
     TableRow,
     TextField,
     Tooltip,
-    Typography,
-    LinearProgress
+    Typography
 } from '@mui/material';
 
 // project imports
@@ -28,7 +27,7 @@ import { useDispatch, useSelector } from 'store';
 import { getDepartmentsList } from 'store/slices/department';
 import CustomTableHead from '../common/CustomTableHead';
 import { openDrawer } from 'store/slices/menu';
-// import RowSkeleton from 'ui-component/cards/skeleton/Row';
+import RowSkeleton from 'ui-component/cards/skeleton/RowSkeleton';
 
 // assets
 import SearchIcon from '@mui/icons-material/Search';
@@ -252,64 +251,75 @@ const DepartmentList = () => {
                             headCells={headCells}
                         />
                         <TableBody>
-                            {stableSort(rows, getComparator(order, orderBy))
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row, index) => {
-                                    if (typeof row === 'number') return null;
-                                    const isItemSelected = isSelected(row.name);
-                                    const labelId = `enhanced-table-checkbox-${index}`;
+                            {isLoading ? (
+                                // [1, 2, 3, 4, 5, 6, 7, 8].map((item) =>
+                                <RowSkeleton rowsPerPage={rowsPerPage} />
+                            ) : (
+                                // )
+                                stableSort(rows, getComparator(order, orderBy))
+                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    .map((row, index) => {
+                                        if (typeof row === 'number') return null;
+                                        const isItemSelected = isSelected(row.name);
+                                        const labelId = `enhanced-table-checkbox-${index}`;
 
-                                    return (
-                                        <TableRow
-                                            hover
-                                            role="checkbox"
-                                            aria-checked={isItemSelected}
-                                            tabIndex={-1}
-                                            key={index}
-                                            selected={isItemSelected}
-                                        >
-                                            <TableCell padding="checkbox" sx={{ pl: 3 }} onClick={(event) => handleClick(event, row.name)}>
-                                                <Checkbox
-                                                    color="primary"
-                                                    checked={isItemSelected}
-                                                    inputProps={{
-                                                        'aria-labelledby': labelId
-                                                    }}
-                                                />
-                                            </TableCell>
-                                            <TableCell
-                                                align="center"
-                                                component="th"
-                                                id={labelId}
-                                                scope="row"
-                                                onClick={(event) => handleClick(event, row.name)}
-                                                sx={{ cursor: 'pointer' }}
+                                        return (
+                                            <TableRow
+                                                hover
+                                                role="checkbox"
+                                                aria-checked={isItemSelected}
+                                                tabIndex={-1}
+                                                key={index}
+                                                selected={isItemSelected}
                                             >
-                                                <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
-                                                    {' '}
-                                                    #{row.id}{' '}
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell
-                                                component="th"
-                                                id={labelId}
-                                                scope="row"
-                                                onClick={(event) => handleClick(event, row.name)}
-                                                sx={{ cursor: 'pointer' }}
-                                            >
-                                                <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
-                                                    {' '}
-                                                    {row.name}{' '}
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell align="center" sx={{ pr: 3 }}>
-                                                <IconButton size="large">
-                                                    <MoreHorizOutlinedIcon sx={{ fontSize: '1.3rem' }} />
-                                                </IconButton>
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })}
+                                                <TableCell
+                                                    padding="checkbox"
+                                                    sx={{ pl: 3 }}
+                                                    onClick={(event) => handleClick(event, row.name)}
+                                                >
+                                                    <Checkbox
+                                                        color="primary"
+                                                        checked={isItemSelected}
+                                                        inputProps={{
+                                                            'aria-labelledby': labelId
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    component="th"
+                                                    id={labelId}
+                                                    scope="row"
+                                                    onClick={(event) => handleClick(event, row.name)}
+                                                    sx={{ cursor: 'pointer' }}
+                                                >
+                                                    <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
+                                                        {' '}
+                                                        #{row.id}{' '}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell
+                                                    component="th"
+                                                    id={labelId}
+                                                    scope="row"
+                                                    onClick={(event) => handleClick(event, row.name)}
+                                                    sx={{ cursor: 'pointer' }}
+                                                >
+                                                    <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
+                                                        {' '}
+                                                        {row.name}{' '}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell align="center" sx={{ pr: 3 }}>
+                                                    <IconButton size="large">
+                                                        <MoreHorizOutlinedIcon sx={{ fontSize: '1.3rem' }} />
+                                                    </IconButton>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })
+                            )}
+
                             {emptyRows > 0 && (
                                 <TableRow
                                     style={{
@@ -322,22 +332,6 @@ const DepartmentList = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-
-                {isLoading &&
-                    [1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-                        <Grid key={item} item xs={12} sm={6} md={4} lg={3}>
-                            {/* <RowSkeleton
-                                handleSelectAllClick={handleSelectAllClick}
-                                rows={rows}
-                                theme={theme}
-                                selected={selected}
-                                rowsPerPage={rowsPerPage}
-                                isSelected={isSelected}
-                                handleClick={handleClick}
-                            /> */}
-                            <LinearProgress />
-                        </Grid>
-                    ))}
 
                 {/* table pagination */}
                 <TablePagination

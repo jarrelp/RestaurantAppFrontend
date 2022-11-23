@@ -76,7 +76,7 @@ CustomTableHead.propTypes = {
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
     orderBy: PropTypes.string.isRequired,
     rowCount: PropTypes.number.isRequired,
-    headCells: PropTypes.object
+    headCells: PropTypes.array
 };
 
 export default CustomTableHead;
