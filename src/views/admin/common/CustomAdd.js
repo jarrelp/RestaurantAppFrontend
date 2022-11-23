@@ -14,9 +14,9 @@ import { borderRadius } from 'store/constant';
 // animation
 const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
-// ==============================|| PRODUCT ADD DIALOG ||============================== //
+// ==============================|| CUSTOM ADD DIALOG ||============================== //
 
-const DepartmentAdd = ({ open, handleCloseDialog }) => {
+const CustomAdd = ({ open, handleCloseDialog }) => {
     return (
         <Dialog
             open={open}
@@ -36,11 +36,11 @@ const DepartmentAdd = ({ open, handleCloseDialog }) => {
         >
             {open && (
                 <>
-                    <DialogTitle>Add Department</DialogTitle>
+                    <DialogTitle>Add Custom</DialogTitle>
                     <DialogContent>
                         <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
                             <Grid item xs={12}>
-                                <TextField id="outlined-basic1" fullWidth label="Enter Department Name*" defaultValue="department *" />
+                                <TextField id="outlined-basic1" fullWidth label="Enter Custom Name*" defaultValue="custom *" />
                             </Grid>
                         </Grid>
                     </DialogContent>
@@ -58,9 +58,9 @@ const DepartmentAdd = ({ open, handleCloseDialog }) => {
     );
 };
 
-DepartmentAdd.propTypes = {
+CustomAdd.propTypes = {
     open: PropTypes.bool,
     handleCloseDialog: PropTypes.func
 };
 
-export default DepartmentAdd;
+export default CustomAdd;
