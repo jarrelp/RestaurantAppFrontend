@@ -33,8 +33,6 @@ const departments = [
 
 // ==============================|| MOCK SERVICES ||============================== //
 
-// services.onGet('/api/department/list').reply(200, { departments });
-
 services.onGet('/api/department/list').reply(async (request) => {
     try {
         await delay(2000);

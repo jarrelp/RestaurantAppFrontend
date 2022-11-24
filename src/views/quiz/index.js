@@ -9,46 +9,50 @@ import { Button, CardActions, Grid, Typography } from '@mui/material';
 import UIProgress from 'ui-component/UIProgress';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import Question from './question';
-import useAxios from 'hooks/useAxios';
-import quizData from './quiz-data';
 import QuizSkeleton from 'ui-component/cards/skeleton/Quiz';
+
+import { useDispatch, useSelector } from 'store';
+import { getQuizActive } from 'store/slices/quiz';
+import { openDrawer } from 'store/slices/menu';
 
 // ==============================|| QUIZ ||============================== //
 
-const apiUrl = 'http://localhost5000/api/quiz';
-
-const responseData = quizData;
-
 const Quiz = () => {
     const [number, setNumber] = useState(0);
-    const [option, setOption] = useState({});
-    const [quizData, setQuizData] = useState({});
-
-    const { response, loading } = useAxios({ url: apiUrl });
+    const [option, setOption] = useState([]);
 
     const handleChange = (event, newNumber) => {
         setNumber(newNumber);
     };
 
-    // const getResult = () => {
-    //     var iets = option.toList();
-    //     iets?.foreach((option) => {
-    //         console.log(' answer= ' + option);
-    //     });
-    // };
+    const dispatch = useDispatch();
+
+    const [isLoading, setLoading] = useState(true);
+
+    // quiz data
+    const [quizData, setQuizData] = useState([]);
+    const quizState = useSelector((state) => state.quiz);
 
     useEffect(() => {
-        if (response?.results.length) {
-            const data = response.results;
-            setQuizData(data);
-        } else {
-            setQuizData(responseData);
+        setQuizData(quizState.activeQuiz);
+    }, [quizState]);
+
+    useEffect(() => {
+        dispatch(getQuizActive());
+
+        // hide left drawer when email app opens
+        dispatch(openDrawer(false));
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (quizData.length > 0) {
+            setLoading(false);
         }
-    }, [response]);
+    }, [quizData]);
 
     return (
         <>
-            {loading ? (
+            {isLoading ? (
                 <QuizSkeleton />
             ) : (
                 <Question question={quizData[number]} setOptionOnChange={setOption} questionId={number} optionList={option}>
