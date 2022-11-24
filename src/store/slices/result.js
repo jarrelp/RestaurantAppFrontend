@@ -10,7 +10,7 @@ import { dispatch } from '../index';
 const initialState = {
     error: null,
     results: [],
-    chartData: []
+    seriesData: []
 };
 
 const slice = createSlice({
@@ -28,8 +28,8 @@ const slice = createSlice({
         },
 
         // GET RESULTCHARTDATA
-        getResultChartSuccess(state, action) {
-            state.chartData = action.payload;
+        getResultsChartSuccess(state, action) {
+            state.seriesData = action.payload;
         }
     }
 });
@@ -50,11 +50,11 @@ export function getResultsList() {
     };
 }
 
-export function getResultChart() {
+export function getResultsChart() {
     return async () => {
         try {
-            const response = await axios.get('/api/result/list');
-            dispatch(slice.actions.getResultChartSuccess(response.data.chartData));
+            const response = await axios.get('/api/result/chart');
+            dispatch(slice.actions.getResultsChartSuccess(response.data.chartData));
         } catch (error) {
             dispatch(slice.actions.hasError(error));
         }
