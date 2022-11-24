@@ -54,7 +54,7 @@ export function getQuizActive() {
     return async () => {
         try {
             const response = await axios.get('/api/quiz/active');
-            dispatch(slice.actions.getQuizActiveSuccess(response.data.activeQuiz));
+            dispatch(slice.actions.getQuizActiveSuccess(response.data.activeQuizQuestions));
         } catch (error) {
             dispatch(slice.actions.hasError(error));
         }
