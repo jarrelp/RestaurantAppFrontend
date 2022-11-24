@@ -17,7 +17,7 @@ const Result = () => {
 
     return (
         <Grid container spacing={gridSpacing}>
-            <Grid item xs={12} md={12} xl={12}>
+            <Grid item xs={12} sm={12} md={10} lg={8} xl={6}>
                 <ApexRadarChart isLoading={true} />
             </Grid>
         </Grid>
