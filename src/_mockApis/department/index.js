@@ -1,6 +1,8 @@
 // project imports
 import services from 'utils/mockAdapter';
 
+const delay = (timeout) => new Promise((res) => setTimeout(res, timeout));
+
 // department list
 const departments = [
     {
@@ -31,4 +33,13 @@ const departments = [
 
 // ==============================|| MOCK SERVICES ||============================== //
 
-services.onGet('/api/department/list').reply(200, { departments });
+// services.onGet('/api/department/list').reply(200, { departments });
+
+services.onGet('/api/department/list').reply(async (request) => {
+    try {
+        await delay(2000);
+        return [200, { departments }];
+    } catch (err) {
+        return [500, { message: 'Server Error' }];
+    }
+});
