@@ -160,8 +160,8 @@ const RowSkeleton = ({ rowsPerPage, attributeAmmount }) => {
                         }}
                     />
                 </TableCell>
-                {attributeAmmount.map((item) => (
-                    <TableCell key={item} component="th" id={labelId} scope="row" sx={{ cursor: 'pointer' }}>
+                {attributeAmmount.map((key) => (
+                    <TableCell key={key.label} component="th" id={labelId} scope="row" sx={{ cursor: 'pointer' }}>
                         <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
                             {' '}
                             <Skeleton variant="text" height={30} />{' '}

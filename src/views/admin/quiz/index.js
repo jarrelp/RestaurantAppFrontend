@@ -138,7 +138,8 @@ const QuizList = () => {
             const newRows = rows.filter((row) => {
                 let matches = true;
 
-                const properties = ['description', 'id', 'active'];
+                let properties = headCells.map((h) => h.id);
+
                 let containsQuery = false;
 
                 properties.forEach((property) => {

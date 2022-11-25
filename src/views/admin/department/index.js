@@ -135,7 +135,8 @@ const DepartmentList = () => {
             const newRows = rows.filter((row) => {
                 let matches = true;
 
-                const properties = ['name', 'id'];
+                let properties = headCells.map((h) => h.id);
+
                 let containsQuery = false;
 
                 properties.forEach((property) => {
