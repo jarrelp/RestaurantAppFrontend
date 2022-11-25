@@ -106,10 +106,46 @@ const rowsList = [
     {
         id: '1',
         name: 'iets1'
+    },
+    {
+        id: '1',
+        name: 'iets1'
+    },
+    {
+        id: '1',
+        name: 'iets1'
+    },
+    {
+        id: '1',
+        name: 'iets1'
+    },
+    {
+        id: '1',
+        name: 'iets1'
+    },
+    {
+        id: '1',
+        name: 'iets1'
+    },
+    {
+        id: '1',
+        name: 'iets1'
+    },
+    {
+        id: '1',
+        name: 'iets1'
+    },
+    {
+        id: '1',
+        name: 'iets1'
+    },
+    {
+        id: '1',
+        name: 'iets1'
     }
 ];
 
-const RowSkeleton = ({ rowsPerPage }) => {
+const RowSkeleton = ({ rowsPerPage, attributeAmmount }) => {
     return rowsList.slice(1 * rowsPerPage, 1 * rowsPerPage + rowsPerPage).map((row, index) => {
         if (typeof row === 'number') return null;
         const labelId = `enhanced-table-checkbox-${index}`;
@@ -124,18 +160,15 @@ const RowSkeleton = ({ rowsPerPage }) => {
                         }}
                     />
                 </TableCell>
-                <TableCell align="center" component="th" id={labelId} scope="row" sx={{ cursor: 'pointer' }}>
-                    <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
-                        {' '}
-                        <Skeleton variant="text" height={30} />{' '}
-                    </Typography>
-                </TableCell>
-                <TableCell component="th" id={labelId} scope="row" sx={{ cursor: 'pointer' }}>
-                    <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
-                        {' '}
-                        <Skeleton variant="text" height={30} />{' '}
-                    </Typography>
-                </TableCell>
+                {attributeAmmount.map((item) => (
+                    <TableCell key={item} component="th" id={labelId} scope="row" sx={{ cursor: 'pointer' }}>
+                        <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
+                            {' '}
+                            <Skeleton variant="text" height={30} />{' '}
+                        </Typography>
+                    </TableCell>
+                ))}
+
                 <TableCell align="center" sx={{ pr: 3 }}>
                     <IconButton size="large">
                         <MoreHorizOutlinedIcon sx={{ fontSize: '1.3rem' }} />
@@ -147,5 +180,3 @@ const RowSkeleton = ({ rowsPerPage }) => {
 };
 
 export default RowSkeleton;
-
-// ==============================|| TABLE HEADER ||============================== //

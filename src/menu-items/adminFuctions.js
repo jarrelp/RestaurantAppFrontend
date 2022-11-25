@@ -20,6 +20,12 @@ const adminFunctions = {
                     title: 'Department',
                     type: 'item',
                     url: '/admin/departments'
+                },
+                {
+                    id: 'Quiz',
+                    title: 'Quiz',
+                    type: 'item',
+                    url: '/admin/quizzes'
                 }
             ]
         }

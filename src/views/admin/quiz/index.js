@@ -24,7 +24,7 @@ import {
 import CustomAdd from '../common/CustomAdd';
 import MainCard from 'ui-component/cards/MainCard';
 import { useDispatch, useSelector } from 'store';
-import { getDepartmentsList } from 'store/slices/department';
+import { getQuizList } from 'store/slices/quiz';
 import CustomTableHead from '../common/CustomTableHead';
 import { openDrawer } from 'store/slices/menu';
 import RowSkeleton from 'ui-component/cards/skeleton/RowSkeleton';
@@ -67,43 +67,49 @@ const headCells = [
         align: 'center'
     },
     {
-        id: 'name',
+        id: 'description',
         numeric: false,
-        label: 'Name',
+        label: 'Description',
+        align: 'left'
+    },
+    {
+        id: 'active',
+        numeric: false,
+        label: 'Active',
         align: 'left'
     }
 ];
 
 // ==============================|| DEPARTMENT LIST ||============================== //
 
-const DepartmentList = () => {
+const QuizList = () => {
     const theme = useTheme();
     const dispatch = useDispatch();
 
     const [isLoading, setLoading] = useState(true);
 
-    // department data
-    const [departments, setDepartments] = useState([]);
-    const departmentState = useSelector((state) => state.department);
+    // quiz data
+    const [quizzes, setQuizzes] = useState([]);
+    const quizState = useSelector((state) => state.quiz);
 
     useEffect(() => {
-        setDepartments(departmentState.departments);
-    }, [departmentState]);
+        setQuizzes(quizState.quizzes);
+    }, [quizState]);
 
     useEffect(() => {
-        dispatch(getDepartmentsList());
+        dispatch(getQuizList());
 
         // hide left drawer when email app opens
         dispatch(openDrawer(false));
     }, [dispatch]);
 
     useEffect(() => {
-        if (departments.length > 0) {
+        if (quizzes.length > 0) {
             setLoading(false);
         }
-    }, [departments]);
+    }, [quizzes]);
 
-    // show a right sidebar when clicked on new department
+    // show a right sidebar when clicked on new quiz
     const [open, setOpen] = useState(false);
     const handleClickOpenDialog = () => {
         setOpen(true);
@@ -119,13 +125,10 @@ const DepartmentList = () => {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [search, setSearch] = useState('');
     const [rows, setRows] = useState([]);
-    // const { departments } = useSelector((state) => state.department);
-    // useEffect(() => {
-    //     dispatch(getDepartmentsList());
-    // }, [dispatch]);
+
     useEffect(() => {
-        setRows(departments);
-    }, [departments]);
+        setRows(quizzes);
+    }, [quizzes]);
 
     const handleSearch = (event) => {
         const newString = event?.target.value;
@@ -135,7 +138,7 @@ const DepartmentList = () => {
             const newRows = rows.filter((row) => {
                 let matches = true;
 
-                const properties = ['name', 'id'];
+                const properties = ['description', 'id', 'active'];
                 let containsQuery = false;
 
                 properties.forEach((property) => {
@@ -151,7 +154,7 @@ const DepartmentList = () => {
             });
             setRows(newRows);
         } else {
-            setRows(departments);
+            setRows(quizzes);
         }
     };
 
@@ -201,7 +204,7 @@ const DepartmentList = () => {
 
     return (
         <>
-            <MainCard title="Department List" content={false}>
+            <MainCard title="Quiz List" content={false}>
                 <CardContent>
                     <Grid container justifyContent="space-between" alignItems="center" spacing={2}>
                         <Grid item xs={12} sm={6}>
@@ -214,14 +217,14 @@ const DepartmentList = () => {
                                     )
                                 }}
                                 onChange={handleSearch}
-                                placeholder="Search Department"
+                                placeholder="Search Quiz"
                                 value={search}
                                 size="small"
                             />
                         </Grid>
                         <Grid item xs={12} sm={6} sx={{ textAlign: 'right' }}>
-                            {/* department add & dialog */}
-                            <Tooltip title="Add Department">
+                            {/* quiz add & dialog */}
+                            <Tooltip title="Add Quiz">
                                 <Fab
                                     color="primary"
                                     size="small"
@@ -305,7 +308,19 @@ const DepartmentList = () => {
                                                 >
                                                     <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
                                                         {' '}
-                                                        {row.name}{' '}
+                                                        {row.description}{' '}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell
+                                                    component="th"
+                                                    id={labelId}
+                                                    scope="row"
+                                                    onClick={(event) => handleClick(event, row.name)}
+                                                    sx={{ cursor: 'pointer' }}
+                                                >
+                                                    <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
+                                                        {' '}
+                                                        {row.active ? 'true' : 'false'}{' '}
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell align="center" sx={{ pr: 3 }}>
@@ -346,4 +361,4 @@ const DepartmentList = () => {
     );
 };
 
-export default DepartmentList;
+export default QuizList;

@@ -1,6 +1,5 @@
 import result from './result';
 import quiz from './quiz';
-import department from './department';
 import authentication from './authentication';
 import adminFunctions from './adminFuctions';
 
