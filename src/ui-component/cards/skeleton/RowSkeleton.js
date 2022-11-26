@@ -152,7 +152,7 @@ const RowSkeleton = ({ rowsPerPage, attributeAmmount }) => {
 
         return (
             <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                <TableCell padding="checkbox" sx={{ pl: 3 }}>
+                <TableCell padding="checkbox" sx={{ pl: 3, pr: 3 }}>
                     <Checkbox
                         color="primary"
                         inputProps={{
@@ -164,12 +164,12 @@ const RowSkeleton = ({ rowsPerPage, attributeAmmount }) => {
                     <TableCell key={key.label} component="th" id={labelId} scope="row" sx={{ cursor: 'pointer' }}>
                         <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
                             {' '}
-                            <Skeleton variant="text" height={30} />{' '}
+                            <Skeleton variant="text" height={30} width={150} />{' '}
                         </Typography>
                     </TableCell>
                 ))}
 
-                <TableCell align="center" sx={{ pr: 3 }}>
+                <TableCell align="center" sx={{ pl: 3, pr: 3, width: 0 }}>
                     <IconButton size="large">
                         <MoreHorizOutlinedIcon sx={{ fontSize: '1.3rem' }} />
                     </IconButton>
