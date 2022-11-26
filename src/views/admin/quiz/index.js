@@ -12,7 +12,7 @@ const headCells = [
         id: 'id',
         numeric: true,
         label: 'ID',
-        align: 'center'
+        align: 'left'
     },
     {
         id: 'description',

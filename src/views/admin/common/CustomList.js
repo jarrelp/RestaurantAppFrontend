@@ -235,7 +235,7 @@ const CustomList = ({ name, headCells, customs }) => {
                                             >
                                                 <TableCell
                                                     padding="checkbox"
-                                                    sx={{ pl: 3 }}
+                                                    sx={{ pl: 3, pr: 3 }}
                                                     onClick={(event) => handleClick(event, row.name)}
                                                 >
                                                     <Checkbox
@@ -246,32 +246,25 @@ const CustomList = ({ name, headCells, customs }) => {
                                                         }}
                                                     />
                                                 </TableCell>
-                                                <TableCell
-                                                    align="center"
-                                                    component="th"
-                                                    id={labelId}
-                                                    scope="row"
-                                                    onClick={(event) => handleClick(event, row.name)}
-                                                    sx={{ cursor: 'pointer' }}
-                                                >
-                                                    <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
-                                                        {' '}
-                                                        #{row.id}{' '}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell
-                                                    component="th"
-                                                    id={labelId}
-                                                    scope="row"
-                                                    onClick={(event) => handleClick(event, row.name)}
-                                                    sx={{ cursor: 'pointer' }}
-                                                >
-                                                    <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
-                                                        {' '}
-                                                        {row.name}{' '}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell align="center" sx={{ pr: 3 }}>
+
+                                                {/* unsolved error */}
+                                                {headCells.map((item) => (
+                                                    <TableCell
+                                                        key={item.id}
+                                                        component="th"
+                                                        id={labelId}
+                                                        scope="row"
+                                                        onClick={(event) => handleClick(event, row.name)}
+                                                        sx={{ cursor: 'pointer' }}
+                                                    >
+                                                        <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
+                                                            {' '}
+                                                            {row[item.id]}{' '}
+                                                        </Typography>
+                                                    </TableCell>
+                                                ))}
+
+                                                <TableCell align="right" sx={{ pl: 3, pr: 3, width: 0 }}>
                                                     <IconButton size="large">
                                                         <MoreHorizOutlinedIcon sx={{ fontSize: '1.3rem' }} />
                                                     </IconButton>

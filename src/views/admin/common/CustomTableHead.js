@@ -56,7 +56,7 @@ const CustomTableHead = ({ onSelectAllClick, order, orderBy, numSelected, rowCou
                         </TableCell>
                     ))}
                 {numSelected <= 0 && (
-                    <TableCell sortDirection={false} align="center" sx={{ pr: 3 }}>
+                    <TableCell sortDirection={false} align="right" sx={{ pl: 3, pr: 3 }}>
                         <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
                             Action
                         </Typography>
