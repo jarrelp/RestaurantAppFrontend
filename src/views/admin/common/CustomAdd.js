@@ -16,7 +16,7 @@ const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {.
 
 // ==============================|| CUSTOM ADD DIALOG ||============================== //
 
-const CustomAdd = ({ open, handleCloseDialog }) => {
+const CustomAdd = ({ name, headCells, open, handleCloseDialog }) => {
     return (
         <Dialog
             open={open}
@@ -36,12 +36,16 @@ const CustomAdd = ({ open, handleCloseDialog }) => {
         >
             {open && (
                 <>
-                    <DialogTitle>Add Custom</DialogTitle>
+                    <DialogTitle>Add {name}</DialogTitle>
                     <DialogContent>
                         <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
-                            <Grid item xs={12}>
-                                <TextField id="outlined-basic1" fullWidth label="Enter Custom Name*" defaultValue="custom *" />
-                            </Grid>
+                            {headCells
+                                .filter((x) => x.id !== 'id')
+                                .map((item) => (
+                                    <Grid item xs={12} key={item.id}>
+                                        <TextField id="outlined-basic1" fullWidth label={`Enter ${name} ${item.id}*`} />
+                                    </Grid>
+                                ))}
                         </Grid>
                     </DialogContent>
                     <DialogActions>
@@ -59,6 +63,8 @@ const CustomAdd = ({ open, handleCloseDialog }) => {
 };
 
 CustomAdd.propTypes = {
+    name: PropTypes.string,
+    headCells: PropTypes.array,
     open: PropTypes.bool,
     handleCloseDialog: PropTypes.func
 };

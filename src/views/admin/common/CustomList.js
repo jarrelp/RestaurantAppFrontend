@@ -206,7 +206,7 @@ const CustomList = ({ name, headCells, customs }) => {
                                     <AddIcon fontSize="small" />
                                 </Fab>
                             </Tooltip>
-                            <CustomAdd open={open} handleCloseDialog={handleCloseDialog} />
+                            <CustomAdd name={name} headCells={headCells} open={open} handleCloseDialog={handleCloseDialog} />
                         </Grid>
                     </Grid>
                 </CardContent>
@@ -270,8 +270,7 @@ const CustomList = ({ name, headCells, customs }) => {
                                                         sx={{ cursor: 'pointer' }}
                                                     >
                                                         <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
-                                                            {' '}
-                                                            {row[item.id]}{' '}
+                                                            <> {row[item.id]} </>
                                                         </Typography>
                                                     </TableCell>
                                                 ))}
