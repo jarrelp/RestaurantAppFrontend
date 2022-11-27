@@ -9,6 +9,8 @@ import {
     Grid,
     IconButton,
     InputAdornment,
+    Menu,
+    MenuItem,
     Table,
     TableBody,
     TableCell,
@@ -84,6 +86,16 @@ const CustomList = ({ name, headCells, customs }) => {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [search, setSearch] = useState('');
     const [rows, setRows] = useState([]);
+
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleMenuClick = (event) => {
+        setAnchorEl(event?.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     useEffect(() => {
         setRows(customs);
@@ -265,9 +277,37 @@ const CustomList = ({ name, headCells, customs }) => {
                                                 ))}
 
                                                 <TableCell align="right" sx={{ pl: 3, pr: 3, width: 0 }}>
-                                                    <IconButton size="large">
-                                                        <MoreHorizOutlinedIcon sx={{ fontSize: '1.3rem' }} />
+                                                    <IconButton onClick={handleMenuClick} size="large">
+                                                        <MoreHorizOutlinedIcon
+                                                            aria-controls="menu-popular-card-1"
+                                                            aria-haspopup="true"
+                                                            sx={{ fontSize: '1.3rem' }}
+                                                        />
                                                     </IconButton>
+                                                    <Menu
+                                                        id="menu-popular-card-1"
+                                                        anchorEl={anchorEl}
+                                                        keepMounted
+                                                        open={Boolean(anchorEl)}
+                                                        onClose={handleClose}
+                                                        variant="selectedMenu"
+                                                        anchorOrigin={{
+                                                            vertical: 'bottom',
+                                                            horizontal: 'right'
+                                                        }}
+                                                        transformOrigin={{
+                                                            vertical: 'top',
+                                                            horizontal: 'right'
+                                                        }}
+                                                        sx={{
+                                                            '& .MuiMenu-paper': {
+                                                                boxShadow: 1
+                                                            }
+                                                        }}
+                                                    >
+                                                        <MenuItem onClick={handleClose}> Edit</MenuItem>
+                                                        <MenuItem onClick={handleClose}> Delete</MenuItem>
+                                                    </Menu>
                                                 </TableCell>
                                             </TableRow>
                                         );
