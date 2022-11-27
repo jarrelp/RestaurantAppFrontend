@@ -252,3 +252,16 @@ services.onGet('/api/quiz/active').reply(async (request) => {
         return [500, { message: 'Server Error' }];
     }
 });
+
+services.onPost('/api/quiz/add-quiz').reply((config) => {
+    try {
+        const { quiz, quizzes } = JSON.parse(config.data);
+        const result = {
+            quizzes: [...quizzes, quiz]
+        };
+
+        return [200, { ...result }];
+    } catch (err) {
+        return [500, { message: 'Internal server error' }];
+    }
+});

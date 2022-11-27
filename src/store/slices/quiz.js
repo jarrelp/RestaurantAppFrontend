@@ -30,6 +30,21 @@ const slice = createSlice({
         // GET QUIZ ACTIVE
         getQuizActiveSuccess(state, action) {
             state.activeQuiz = action.payload;
+        },
+
+        // ADD QUIZ
+        addQuizSuccess(state, action) {
+            state.quizzes = action.payload.quizzes;
+        },
+
+        // EDIT QUIZ
+        editQuizSuccess(state, action) {
+            state.quizzes = action.payload.quizzes;
+        },
+
+        // DELETE QUIZ
+        deleteQuizSuccess(state, action) {
+            state.quizzes = action.payload.quizzes;
         }
     }
 });
@@ -55,6 +70,39 @@ export function getQuizActive() {
         try {
             const response = await axios.get('/api/quiz/active');
             dispatch(slice.actions.getQuizActiveSuccess(response.data.activeQuizQuestions));
+        } catch (error) {
+            dispatch(slice.actions.hasError(error));
+        }
+    };
+}
+
+export function addQuiz(quiz, quizzes) {
+    return async () => {
+        try {
+            const response = await axios.post('/api/quiz/add-quiz', { quiz, quizzes });
+            dispatch(slice.actions.addQuizSuccess(response.data));
+        } catch (error) {
+            dispatch(slice.actions.hasError(error));
+        }
+    };
+}
+
+export function editQuiz(quiz, quizzes) {
+    return async () => {
+        try {
+            const response = await axios.post('/api/quiz/edit-quiz', { quiz, quizzes });
+            dispatch(slice.actions.editQuizSuccess(response.data));
+        } catch (error) {
+            dispatch(slice.actions.hasError(error));
+        }
+    };
+}
+
+export function deleteQuiz(quizId, quizzes) {
+    return async () => {
+        try {
+            const response = await axios.post('/api/quiz/delete-quiz', { quizId, quizzes });
+            dispatch(slice.actions.deleteQuizSuccess(response.data));
         } catch (error) {
             dispatch(slice.actions.hasError(error));
         }

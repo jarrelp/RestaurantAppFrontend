@@ -4,19 +4,56 @@ import { forwardRef } from 'react';
 // material-ui
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Slide, TextField } from '@mui/material';
 
+// third party
+// import * as yup from 'yup';
+import { Chance } from 'chance';
+import { useFormik } from 'formik';
+
 // project imports
 import { gridSpacing } from 'store/constant';
 import AnimateButton from 'ui-component/extended/AnimateButton';
+
+import { openSnackbar } from 'store/slices/snackbar';
+import { useDispatch, useSelector } from 'store';
+import { addQuiz } from 'store/slices/quiz';
 
 // constants
 import { borderRadius } from 'store/constant';
 
 // animation
 const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
+const chance = new Chance();
 
 // ==============================|| CUSTOM ADD DIALOG ||============================== //
 
 const CustomAdd = ({ name, headCells, open, handleCloseDialog }) => {
+    const dispatch = useDispatch();
+    const quiz = useSelector((state) => state.quiz);
+    const { quizzes } = quiz;
+
+    const formik = useFormik({
+        initialValues: {
+            id: `${chance.integer({ min: 1000, max: 9999 })}`,
+            description: '',
+            active: false
+        },
+        onSubmit: (values) => {
+            dispatch(addQuiz(values, quizzes));
+            dispatch(
+                openSnackbar({
+                    open: true,
+                    message: 'Submit Success',
+                    variant: 'alert',
+                    alert: {
+                        color: 'success'
+                    },
+                    close: false
+                })
+            );
+            handleCloseDialog();
+        }
+    });
+
     return (
         <Dialog
             open={open}
@@ -35,7 +72,7 @@ const CustomAdd = ({ name, headCells, open, handleCloseDialog }) => {
             }}
         >
             {open && (
-                <>
+                <form onSubmit={formik.handleSubmit}>
                     <DialogTitle>Add {name}</DialogTitle>
                     <DialogContent>
                         <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
@@ -43,20 +80,29 @@ const CustomAdd = ({ name, headCells, open, handleCloseDialog }) => {
                                 .filter((x) => x.id !== 'id')
                                 .map((item) => (
                                     <Grid item xs={12} key={item.id}>
-                                        <TextField id="outlined-basic1" fullWidth label={`Enter ${name} ${item.id}*`} />
+                                        <TextField
+                                            id={item.id}
+                                            name={item.name}
+                                            label={item.label}
+                                            fullWidth
+                                            value={formik.values[item.id]}
+                                            onChange={formik.handleChange}
+                                        />
                                     </Grid>
                                 ))}
                         </Grid>
                     </DialogContent>
                     <DialogActions>
                         <AnimateButton>
-                            <Button variant="contained">Create</Button>
+                            <Button variant="contained" type="submit">
+                                Create
+                            </Button>
                         </AnimateButton>
                         <Button variant="text" color="error" onClick={handleCloseDialog}>
                             Close
                         </Button>
                     </DialogActions>
-                </>
+                </form>
             )}
         </Dialog>
     );
