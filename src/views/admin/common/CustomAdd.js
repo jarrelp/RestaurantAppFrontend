@@ -14,8 +14,7 @@ import { gridSpacing } from 'store/constant';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
 import { openSnackbar } from 'store/slices/snackbar';
-import { useDispatch, useSelector } from 'store';
-import { addQuiz } from 'store/slices/quiz';
+import { useDispatch } from 'store';
 
 // constants
 import { borderRadius } from 'store/constant';
@@ -26,19 +25,24 @@ const chance = new Chance();
 
 // ==============================|| CUSTOM ADD DIALOG ||============================== //
 
-const CustomAdd = ({ name, headCells, open, handleCloseDialog }) => {
-    const dispatch = useDispatch();
-    const quiz = useSelector((state) => state.quiz);
-    const { quizzes } = quiz;
+const getInitialValues = (headCells) => {
+    let obj = {};
+    Array.prototype.forEach.call(headCells, (item) => {
+        obj[item.id] = item.initialValue;
+    });
+    obj['id'] = `${chance.integer({ min: 1000, max: 9999 })}`;
+    console.log('generateInitialValues');
+    return obj;
+};
 
+const CustomAdd = ({ name, headCells, customs, addCustom, open, handleCloseDialog }) => {
+    const dispatch = useDispatch();
+
+    // every time it renders: getInitialValues() will be called
     const formik = useFormik({
-        initialValues: {
-            id: `${chance.integer({ min: 1000, max: 9999 })}`,
-            description: '',
-            active: false
-        },
+        initialValues: getInitialValues(headCells),
         onSubmit: (values) => {
-            dispatch(addQuiz(values, quizzes));
+            dispatch(addCustom(values, customs));
             dispatch(
                 openSnackbar({
                     open: true,

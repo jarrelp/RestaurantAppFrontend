@@ -24,6 +24,21 @@ const slice = createSlice({
         // GET DEPARTMENTS
         getDepartmentsListSuccess(state, action) {
             state.departments = action.payload;
+        },
+
+        // ADD QUIZ
+        addDepartmentSuccess(state, action) {
+            state.departments = action.payload.departments;
+        },
+
+        // EDIT QUIZ
+        editDepartmentSuccess(state, action) {
+            state.departments = action.payload.departments;
+        },
+
+        // DELETE QUIZ
+        deleteDepartmentSuccess(state, action) {
+            state.departments = action.payload.departments;
         }
     }
 });
@@ -38,6 +53,39 @@ export function getDepartmentsList() {
         try {
             const response = await axios.get('/api/department/list');
             dispatch(slice.actions.getDepartmentsListSuccess(response.data.departments));
+        } catch (error) {
+            dispatch(slice.actions.hasError(error));
+        }
+    };
+}
+
+export function addDepartment(department, departments) {
+    return async () => {
+        try {
+            const response = await axios.post('/api/department/add-department', { department, departments });
+            dispatch(slice.actions.addDepartmentSuccess(response.data));
+        } catch (error) {
+            dispatch(slice.actions.hasError(error));
+        }
+    };
+}
+
+export function editDepartment(department, departments) {
+    return async () => {
+        try {
+            const response = await axios.post('/api/department/edit-department', { department, departments });
+            dispatch(slice.actions.editDepartmentSuccess(response.data));
+        } catch (error) {
+            dispatch(slice.actions.hasError(error));
+        }
+    };
+}
+
+export function deleteDepartment(departmentId, departments) {
+    return async () => {
+        try {
+            const response = await axios.post('/api/department/delete-department', { departmentId, departments });
+            dispatch(slice.actions.deleteDepartmentSuccess(response.data));
         } catch (error) {
             dispatch(slice.actions.hasError(error));
         }

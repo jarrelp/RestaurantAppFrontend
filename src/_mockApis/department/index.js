@@ -41,3 +41,16 @@ services.onGet('/api/department/list').reply(async (request) => {
         return [500, { message: 'Server Error' }];
     }
 });
+
+services.onPost('/api/department/add-department').reply((config) => {
+    try {
+        const { department, departments } = JSON.parse(config.data);
+        const result = {
+            departments: [...departments, department]
+        };
+
+        return [200, { ...result }];
+    } catch (err) {
+        return [500, { message: 'Internal server error' }];
+    }
+});
