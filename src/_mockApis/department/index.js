@@ -54,3 +54,34 @@ services.onPost('/api/department/add-department').reply((config) => {
         return [500, { message: 'Internal server error' }];
     }
 });
+
+services.onPost('/api/kanban/edit-department').reply((config) => {
+    try {
+        const { department, departments } = JSON.parse(config.data);
+
+        departments.splice(
+            departments.findIndex((c) => c.id === department.id),
+            1,
+            department
+        );
+
+        return [200, { departments }];
+    } catch (err) {
+        return [500, { message: 'Internal server error' }];
+    }
+});
+
+services.onPost('/api/kanban/delete-department').reply((config) => {
+    try {
+        const { departmentId, departments } = JSON.parse(config.data);
+
+        departments.splice(
+            departments.findIndex((department) => department.id === departmentId),
+            1
+        );
+
+        return [200, { departments }];
+    } catch (err) {
+        return [500, { message: 'Internal server error' }];
+    }
+});

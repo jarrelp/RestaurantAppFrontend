@@ -265,3 +265,34 @@ services.onPost('/api/quiz/add-quiz').reply((config) => {
         return [500, { message: 'Internal server error' }];
     }
 });
+
+services.onPost('/api/kanban/edit-quiz').reply((config) => {
+    try {
+        const { quiz, quizzes } = JSON.parse(config.data);
+
+        quizzes.splice(
+            quizzes.findIndex((c) => c.id === quiz.id),
+            1,
+            quiz
+        );
+
+        return [200, { quizzes }];
+    } catch (err) {
+        return [500, { message: 'Internal server error' }];
+    }
+});
+
+services.onPost('/api/kanban/delete-quiz').reply((config) => {
+    try {
+        const { quizId, quizzes } = JSON.parse(config.data);
+
+        quizzes.splice(
+            quizzes.findIndex((quiz) => quiz.id === quizId),
+            1
+        );
+
+        return [200, { quizzes }];
+    } catch (err) {
+        return [500, { message: 'Internal server error' }];
+    }
+});
