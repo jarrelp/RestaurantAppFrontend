@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 
 // project imports
 import CustomList from '../common/CustomList';
+import AddDepartment from './AddDepartment';
 import { useDispatch, useSelector } from 'store';
-import { getDepartmentsList, addDepartment } from 'store/slices/department';
+import { getDepartmentsList } from 'store/slices/department';
 import { openDrawer } from 'store/slices/menu';
 
 // table header options
@@ -29,6 +30,15 @@ const headCells = [
 const DepartmentList = () => {
     const dispatch = useDispatch();
 
+    // show a right sidebar when clicked on new custom
+    const [open, setOpen] = useState(false);
+    const handleClickOpenDialog = () => {
+        setOpen(true);
+    };
+    const handleCloseDialog = () => {
+        setOpen(false);
+    };
+
     // department data
     const [departments, setDepartments] = useState([]);
     const departmentState = useSelector((state) => state.department);
@@ -44,7 +54,15 @@ const DepartmentList = () => {
         dispatch(openDrawer(false));
     }, [dispatch]);
 
-    return <CustomList name={'Department'} headCells={headCells} customs={departments} addCustom={addDepartment} />;
+    return (
+        <CustomList
+            name={'Department'}
+            headCells={headCells}
+            customs={departments}
+            handleClickOpenDialog={handleClickOpenDialog}
+            addCustom={<AddDepartment open={open} handleCloseDialog={handleCloseDialog} />}
+        />
+    );
 };
 
 export default DepartmentList;

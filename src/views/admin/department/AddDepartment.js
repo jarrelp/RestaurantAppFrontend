@@ -5,44 +5,44 @@ import { forwardRef } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Slide, TextField } from '@mui/material';
 
 // third party
-// import * as yup from 'yup';
+import * as yup from 'yup';
 import { Chance } from 'chance';
 import { useFormik } from 'formik';
 
 // project imports
 import { gridSpacing } from 'store/constant';
 import AnimateButton from 'ui-component/extended/AnimateButton';
-
 import { openSnackbar } from 'store/slices/snackbar';
-import { useDispatch } from 'store';
+import { useDispatch, useSelector } from 'store';
+import { addDepartment } from 'store/slices/department';
 
 // constants
 import { borderRadius } from 'store/constant';
 
 // animation
 const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
+
+// validation
 const chance = new Chance();
+const validationSchema = yup.object({
+    name: yup.string().required('Department name is required')
+});
 
-// ==============================|| CUSTOM ADD DIALOG ||============================== //
+// ==============================|| ADD DEPARTMENT DIALOG ||============================== //
 
-const getInitialValues = (headCells) => {
-    let obj = {};
-    Array.prototype.forEach.call(headCells, (item) => {
-        obj[item.id] = item.initialValue;
-    });
-    obj['id'] = `${chance.integer({ min: 1000, max: 9999 })}`;
-    console.log('generateInitialValues');
-    return obj;
-};
-
-const CustomAdd = ({ name, headCells, customs, addCustom, open, handleCloseDialog }) => {
+const DepartmentAdd = ({ open, handleCloseDialog }) => {
     const dispatch = useDispatch();
+    const department = useSelector((state) => state.department);
+    const { departments } = department;
 
-    // every time it renders: getInitialValues() will be called
     const formik = useFormik({
-        initialValues: getInitialValues(headCells),
+        initialValues: {
+            id: `${chance.integer({ min: 1000, max: 9999 })}`,
+            name: ''
+        },
+        validationSchema,
         onSubmit: (values) => {
-            dispatch(addCustom(values, customs));
+            dispatch(addDepartment(values, departments));
             dispatch(
                 openSnackbar({
                     open: true,
@@ -77,23 +77,21 @@ const CustomAdd = ({ name, headCells, customs, addCustom, open, handleCloseDialo
         >
             {open && (
                 <form onSubmit={formik.handleSubmit}>
-                    <DialogTitle>Add {name}</DialogTitle>
+                    <DialogTitle>Add Department</DialogTitle>
                     <DialogContent>
                         <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
-                            {headCells
-                                .filter((x) => x.id !== 'id')
-                                .map((item) => (
-                                    <Grid item xs={12} key={item.id}>
-                                        <TextField
-                                            id={item.id}
-                                            name={item.name}
-                                            label={item.label}
-                                            fullWidth
-                                            value={formik.values[item.id]}
-                                            onChange={formik.handleChange}
-                                        />
-                                    </Grid>
-                                ))}
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    id="name"
+                                    name="name"
+                                    label="Name"
+                                    value={formik.values.name}
+                                    onChange={formik.handleChange}
+                                    error={formik.touched.name && Boolean(formik.errors.name)}
+                                    helperText={formik.touched.name && formik.errors.name}
+                                />
+                            </Grid>
                         </Grid>
                     </DialogContent>
                     <DialogActions>
@@ -112,11 +110,9 @@ const CustomAdd = ({ name, headCells, customs, addCustom, open, handleCloseDialo
     );
 };
 
-CustomAdd.propTypes = {
-    name: PropTypes.string,
-    headCells: PropTypes.array,
+DepartmentAdd.propTypes = {
     open: PropTypes.bool,
     handleCloseDialog: PropTypes.func
 };
 
-export default CustomAdd;
+export default DepartmentAdd;

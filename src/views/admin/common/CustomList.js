@@ -23,7 +23,6 @@ import {
 } from '@mui/material';
 
 // project imports
-import CustomAdd from '../common/CustomAdd';
 import MainCard from 'ui-component/cards/MainCard';
 import CustomTableHead from '../common/CustomTableHead';
 import RowSkeleton from 'ui-component/cards/skeleton/RowSkeleton';
@@ -59,7 +58,7 @@ function stableSort(array, comparator) {
 
 // ==============================|| CUSTOM LIST ||============================== //
 
-const CustomList = ({ name, headCells, customs, addCustom }) => {
+const CustomList = ({ name, headCells, customs, handleClickOpenDialog, addCustom }) => {
     const theme = useTheme();
 
     const [isLoading, setLoading] = useState(true);
@@ -69,15 +68,6 @@ const CustomList = ({ name, headCells, customs, addCustom }) => {
             setLoading(false);
         }
     }, [customs]);
-
-    // show a right sidebar when clicked on new custom
-    const [open, setOpen] = useState(false);
-    const handleClickOpenDialog = () => {
-        setOpen(true);
-    };
-    const handleCloseDialog = () => {
-        setOpen(false);
-    };
 
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('calories');
@@ -206,14 +196,11 @@ const CustomList = ({ name, headCells, customs, addCustom }) => {
                                     <AddIcon fontSize="small" />
                                 </Fab>
                             </Tooltip>
-                            <CustomAdd
-                                name={name}
-                                headCells={headCells}
-                                customs={customs}
-                                addCustom={addCustom}
+                            {/* <addCustom
                                 open={open}
                                 handleCloseDialog={handleCloseDialog}
-                            />
+                            /> */}
+                            {addCustom}
                         </Grid>
                     </Grid>
                 </CardContent>
