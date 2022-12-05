@@ -5,11 +5,19 @@ import { Checkbox, IconButton, Menu, MenuItem, TableCell, TableRow, Typography }
 
 // project imports
 import EditDepartment from './EditDepartment';
+import AlertDepartmentDelete from './AlertDepartmentDelete';
+import { openSnackbar } from 'store/slices/snackbar';
+import { useDispatch, useSelector } from 'store';
+import { deleteDepartment } from 'store/slices/department';
 
 // assets
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 
 const DepartmentItem = ({ department, index, isItemSelected, labelId, handleClick }) => {
+    const dispatch = useDispatch();
+    const departmentSelector = useSelector((state) => state.department);
+    const { departments } = departmentSelector;
+
     const [openEdit, setOpenEdit] = useState(false);
     const handleClickOpenEditDialog = () => {
         setOpenEdit(true);
@@ -26,6 +34,27 @@ const DepartmentItem = ({ department, index, isItemSelected, labelId, handleClic
 
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+    const handleDeleteModalClose = (status) => {
+        setOpenDeleteModal(false);
+        if (status) {
+            dispatch(deleteDepartment(department.id, departments));
+            dispatch(
+                openSnackbar({
+                    open: true,
+                    message: 'Task Deleted successfully',
+                    anchorOrigin: { vertical: 'top', horizontal: 'right' },
+                    variant: 'alert',
+                    alert: {
+                        color: 'success'
+                    },
+                    close: false
+                })
+            );
+        }
     };
 
     return (
@@ -57,7 +86,7 @@ const DepartmentItem = ({ department, index, isItemSelected, labelId, handleClic
                     component="th"
                     id={labelId}
                     scope="row"
-                    onClick={(event) => handleClick(event, department.name)}
+                    onClick={(event) => handleClick(event, department.id)}
                     sx={{ cursor: 'pointer' }}
                 >
                     <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
@@ -99,7 +128,18 @@ const DepartmentItem = ({ department, index, isItemSelected, labelId, handleClic
                             {' '}
                             Edit
                         </MenuItem>
-                        <MenuItem onClick={handleClose}> Delete</MenuItem>
+                        <MenuItem
+                            onClick={() => {
+                                handleClose();
+                                setOpenDeleteModal(true);
+                            }}
+                        >
+                            {' '}
+                            Delete
+                        </MenuItem>
+                        {openDeleteModal && (
+                            <AlertDepartmentDelete title={department.name} open={openDeleteModal} handleClose={handleDeleteModalClose} />
+                        )}
                     </Menu>
                 </TableCell>
             </TableRow>
