@@ -229,10 +229,6 @@ const DepartmentList = () => {
                                     <AddIcon fontSize="small" />
                                 </Fab>
                             </Tooltip>
-                            {/* <addCustom
-                                open={open}
-                                handleCloseDialog={handleCloseDialog}
-                            /> */}
                             <AddDepartment open={openAdd} handleCloseDialog={handleCloseAddDialog} />
                         </Grid>
                     </Grid>
@@ -300,16 +296,6 @@ const DepartmentList = () => {
                 />
             </MainCard>
         </>
-
-        // <CustomList
-        //     name={'Department'}
-        //     headCells={headCells}
-        //     departments={departments}
-        //     handleClickOpenAddDialog={handleClickOpenAddDialog}
-        //     handleClickOpenEditDialog={handleClickOpenEditDialog}
-        //     addCustom={<AddDepartment open={openAdd} handleCloseDialog={handleCloseAddDialog} />}
-        //     editCustom={<EditDepartment open={openEdit} handleCloseDialog={handleCloseEditDialog} />}
-        // />
     );
 };
 
