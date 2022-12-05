@@ -54,3 +54,23 @@ services.onPost('/api/department/add-department').reply((config) => {
         return [500, { message: 'Internal server error' }];
     }
 });
+
+services.onPost('/api/department/edit-department').reply((config) => {
+    try {
+        const { department, departments } = JSON.parse(config.data);
+
+        departments.splice(
+            departments.findIndex((s) => s.id === department.id),
+            1,
+            department
+        );
+
+        const result = {
+            departments
+        };
+
+        return [200, { ...result }];
+    } catch (err) {
+        return [500, { message: 'Internal server error' }];
+    }
+});

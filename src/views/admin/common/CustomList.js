@@ -58,7 +58,7 @@ function stableSort(array, comparator) {
 
 // ==============================|| CUSTOM LIST ||============================== //
 
-const CustomList = ({ name, headCells, customs, handleClickOpenDialog, addCustom }) => {
+const CustomList = ({ name, headCells, customs, handleClickOpenAddDialog, handleClickOpenEditDialog, addCustom, editCustom }) => {
     const theme = useTheme();
 
     const [isLoading, setLoading] = useState(true);
@@ -190,7 +190,7 @@ const CustomList = ({ name, headCells, customs, handleClickOpenDialog, addCustom
                                 <Fab
                                     color="primary"
                                     size="small"
-                                    onClick={handleClickOpenDialog}
+                                    onClick={handleClickOpenAddDialog}
                                     sx={{ boxShadow: 'none', ml: 1, width: 32, height: 32, minHeight: 32 }}
                                 >
                                     <AddIcon fontSize="small" />
@@ -231,78 +231,89 @@ const CustomList = ({ name, headCells, customs, handleClickOpenDialog, addCustom
                                         const labelId = `enhanced-table-checkbox-${index}`;
 
                                         return (
-                                            <TableRow
-                                                hover
-                                                role="checkbox"
-                                                aria-checked={isItemSelected}
-                                                tabIndex={-1}
-                                                key={index}
-                                                selected={isItemSelected}
-                                            >
-                                                <TableCell
-                                                    padding="checkbox"
-                                                    sx={{ pl: 3, pr: 3 }}
-                                                    onClick={(event) => handleClick(event, row.name)}
+                                            <>
+                                                <TableRow
+                                                    hover
+                                                    role="checkbox"
+                                                    aria-checked={isItemSelected}
+                                                    tabIndex={-1}
+                                                    key={index}
+                                                    selected={isItemSelected}
                                                 >
-                                                    <Checkbox
-                                                        color="primary"
-                                                        checked={isItemSelected}
-                                                        inputProps={{
-                                                            'aria-labelledby': labelId
-                                                        }}
-                                                    />
-                                                </TableCell>
-
-                                                {/* unsolved error */}
-                                                {headCells.map((item) => (
                                                     <TableCell
-                                                        key={item.id}
-                                                        component="th"
-                                                        id={labelId}
-                                                        scope="row"
+                                                        padding="checkbox"
+                                                        sx={{ pl: 3, pr: 3 }}
                                                         onClick={(event) => handleClick(event, row.name)}
-                                                        sx={{ cursor: 'pointer' }}
                                                     >
-                                                        <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
-                                                            <> {row[item.id]} </>
-                                                        </Typography>
-                                                    </TableCell>
-                                                ))}
-
-                                                <TableCell align="right" sx={{ pl: 3, pr: 3, width: 0 }}>
-                                                    <IconButton onClick={handleMenuClick} size="large">
-                                                        <MoreHorizOutlinedIcon
-                                                            aria-controls="menu-popular-card-1"
-                                                            aria-haspopup="true"
-                                                            sx={{ fontSize: '1.3rem' }}
+                                                        <Checkbox
+                                                            color="primary"
+                                                            checked={isItemSelected}
+                                                            inputProps={{
+                                                                'aria-labelledby': labelId
+                                                            }}
                                                         />
-                                                    </IconButton>
-                                                    <Menu
-                                                        id="menu-popular-card-1"
-                                                        anchorEl={anchorEl}
-                                                        keepMounted
-                                                        open={Boolean(anchorEl)}
-                                                        onClose={handleClose}
-                                                        variant="selectedMenu"
-                                                        anchorOrigin={{
-                                                            vertical: 'bottom',
-                                                            horizontal: 'right'
-                                                        }}
-                                                        transformOrigin={{
-                                                            vertical: 'top',
-                                                            horizontal: 'right'
-                                                        }}
-                                                        sx={{
-                                                            '& .MuiMenu-paper': {
-                                                                boxShadow: 1
-                                                            }
-                                                        }}
-                                                    >
-                                                        <MenuItem onClick={handleClose}> Edit</MenuItem>
-                                                        <MenuItem onClick={handleClose}> Delete</MenuItem>
-                                                    </Menu>
-                                                </TableCell>
-                                            </TableRow>
+                                                    </TableCell>
+
+                                                    {/* unsolved error */}
+                                                    {headCells.map((item) => (
+                                                        <TableCell
+                                                            key={item.id}
+                                                            component="th"
+                                                            id={labelId}
+                                                            scope="row"
+                                                            onClick={(event) => handleClick(event, row.name)}
+                                                            sx={{ cursor: 'pointer' }}
+                                                        >
+                                                            <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
+                                                                <> {row[item.id]} </>
+                                                            </Typography>
+                                                        </TableCell>
+                                                    ))}
+
+                                                    <TableCell align="right" sx={{ pl: 3, pr: 3, width: 0 }}>
+                                                        <IconButton onClick={handleMenuClick} size="large">
+                                                            <MoreHorizOutlinedIcon
+                                                                aria-controls="menu-popular-card-1"
+                                                                aria-haspopup="true"
+                                                                sx={{ fontSize: '1.3rem' }}
+                                                            />
+                                                        </IconButton>
+                                                        <Menu
+                                                            id="menu-popular-card-1"
+                                                            anchorEl={anchorEl}
+                                                            keepMounted
+                                                            open={Boolean(anchorEl)}
+                                                            onClose={handleClose}
+                                                            variant="selectedMenu"
+                                                            anchorOrigin={{
+                                                                vertical: 'bottom',
+                                                                horizontal: 'right'
+                                                            }}
+                                                            transformOrigin={{
+                                                                vertical: 'top',
+                                                                horizontal: 'right'
+                                                            }}
+                                                            sx={{
+                                                                '& .MuiMenu-paper': {
+                                                                    boxShadow: 1
+                                                                }
+                                                            }}
+                                                        >
+                                                            <MenuItem
+                                                                onClick={() => {
+                                                                    handleClose();
+                                                                    handleClickOpenEditDialog();
+                                                                }}
+                                                            >
+                                                                {' '}
+                                                                Edit
+                                                            </MenuItem>
+                                                            <MenuItem onClick={handleClose}> Delete</MenuItem>
+                                                        </Menu>
+                                                    </TableCell>
+                                                    {editCustom}
+                                                </TableRow>
+                                            </>
                                         );
                                     })
                             )}

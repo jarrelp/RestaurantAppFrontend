@@ -6,7 +6,6 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Slide,
 
 // third party
 import * as yup from 'yup';
-import { Chance } from 'chance';
 import { useFormik } from 'formik';
 
 // project imports
@@ -14,7 +13,7 @@ import { gridSpacing } from 'store/constant';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch, useSelector } from 'store';
-import { addDepartment } from 'store/slices/department';
+import { editDepartment } from 'store/slices/department';
 
 // constants
 import { borderRadius } from 'store/constant';
@@ -23,26 +22,26 @@ import { borderRadius } from 'store/constant';
 const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
 // validation
-const chance = new Chance();
 const validationSchema = yup.object({
     name: yup.string().required('Department name is required')
 });
 
 // ==============================|| ADD DEPARTMENT DIALOG ||============================== //
 
-const AddDepartment = ({ open, handleCloseDialog }) => {
+const EditDepartment = ({ department, open, handleCloseDialog }) => {
     const dispatch = useDispatch();
-    const department = useSelector((state) => state.department);
-    const { departments } = department;
+    const departmentSelector = useSelector((state) => state.department);
+    const { departments } = departmentSelector;
 
     const formik = useFormik({
+        enableReinitialize: true,
         initialValues: {
-            id: `${chance.integer({ min: 1000, max: 9999 })}`,
-            name: ''
+            id: department.id,
+            name: department.name
         },
         validationSchema,
         onSubmit: (values) => {
-            dispatch(addDepartment(values, departments));
+            dispatch(editDepartment(values, departments));
             dispatch(
                 openSnackbar({
                     open: true,
@@ -77,7 +76,7 @@ const AddDepartment = ({ open, handleCloseDialog }) => {
         >
             {open && (
                 <form onSubmit={formik.handleSubmit}>
-                    <DialogTitle>Add Department</DialogTitle>
+                    <DialogTitle>Edit Department</DialogTitle>
                     <DialogContent>
                         <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
                             <Grid item xs={12}>
@@ -97,7 +96,7 @@ const AddDepartment = ({ open, handleCloseDialog }) => {
                     <DialogActions>
                         <AnimateButton>
                             <Button variant="contained" type="submit">
-                                Create
+                                Save
                             </Button>
                         </AnimateButton>
                         <Button variant="text" color="error" onClick={handleCloseDialog}>
@@ -110,9 +109,10 @@ const AddDepartment = ({ open, handleCloseDialog }) => {
     );
 };
 
-AddDepartment.propTypes = {
+EditDepartment.propTypes = {
     open: PropTypes.bool,
-    handleCloseDialog: PropTypes.func
+    handleCloseDialog: PropTypes.func,
+    department: PropTypes.object
 };
 
-export default AddDepartment;
+export default EditDepartment;
