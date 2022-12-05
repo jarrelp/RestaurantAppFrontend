@@ -60,7 +60,7 @@ const DepartmentItem = ({ department, index, isItemSelected, labelId, handleClic
     return (
         <>
             <TableRow hover role="checkbox" aria-checked={isItemSelected} tabIndex={-1} key={index} selected={isItemSelected}>
-                <TableCell padding="checkbox" sx={{ pl: 3, pr: 3 }} onClick={(event) => handleClick(event, department.name)}>
+                <TableCell padding="checkbox" sx={{ pl: 3, pr: 3 }} onClick={(event) => handleClick(event, department.id)}>
                     <Checkbox
                         color="primary"
                         checked={isItemSelected}
