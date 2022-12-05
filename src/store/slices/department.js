@@ -26,17 +26,17 @@ const slice = createSlice({
             state.departments = action.payload;
         },
 
-        // ADD QUIZ
+        // ADD DEPARTMENT
         addDepartmentSuccess(state, action) {
             state.departments = action.payload.departments;
         },
 
-        // EDIT QUIZ
+        // EDIT DEPARTMENT
         editDepartmentSuccess(state, action) {
             state.departments = action.payload.departments;
         },
 
-        // DELETE QUIZ
+        // DELETE DEPARTMENT
         deleteDepartmentSuccess(state, action) {
             state.departments = action.payload.departments;
         }
@@ -84,7 +84,7 @@ export function editDepartment(department, departments) {
 export function deleteDepartment(departmentId, departments) {
     return async () => {
         try {
-            const response = await axios.post('/api/department/delete-department', { departmentId, departments });
+            const response = await axios.post('/api/department/delete-department', { departments, departmentId });
             dispatch(slice.actions.deleteDepartmentSuccess(response.data));
         } catch (error) {
             dispatch(slice.actions.hasError(error));
