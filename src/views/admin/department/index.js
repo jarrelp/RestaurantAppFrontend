@@ -19,6 +19,7 @@ import {
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
+import SubCard from 'ui-component/cards/SubCard';
 import DepartmentTableHead from './DepartmentTableHead';
 import RowSkeleton from 'ui-component/cards/skeleton/RowSkeleton';
 import DepartmentItem from './DepartmentItem';
@@ -26,6 +27,10 @@ import AddDepartment from './AddDepartment';
 import { useDispatch, useSelector } from 'store';
 import { getDepartmentsList } from 'store/slices/department';
 import { openDrawer } from 'store/slices/menu';
+import EmptyBoxImage from 'assets/Images/empty-box.png';
+
+// constants
+import { gridSpacing } from 'store/constant';
 
 // assets
 import SearchIcon from '@mui/icons-material/Search';
@@ -199,101 +204,118 @@ const DepartmentList = () => {
 
     return (
         <>
-            <MainCard title="Department List" content={false}>
-                <CardContent>
-                    <Grid container justifyContent="space-between" alignItems="center" spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <SearchIcon fontSize="small" />
-                                        </InputAdornment>
-                                    )
-                                }}
-                                onChange={handleSearch}
-                                placeholder="Search Department"
-                                value={search}
-                                size="small"
-                            />
+            <MainCard title="Department List" content={true}>
+                {!isLoading && departments.length === 0 ? (
+                    <Grid container spacing={gridSpacing}>
+                        <Grid item xs={12} md={12}>
+                            <SubCard>
+                                <img src={EmptyBoxImage} alt="empty box" width="20%" height="20%" position="absolute" />
+                            </SubCard>
                         </Grid>
-                        <Grid item xs={12} sm={6} sx={{ textAlign: 'right' }}>
-                            {/* custom add & dialog */}
-                            <Tooltip title="Add Department">
-                                <Fab
-                                    color="primary"
-                                    size="small"
-                                    onClick={handleClickOpenAddDialog}
-                                    sx={{ boxShadow: 'none', ml: 1, width: 32, height: 32, minHeight: 32 }}
-                                >
-                                    <AddIcon fontSize="small" />
-                                </Fab>
-                            </Tooltip>
-                            <AddDepartment open={openAdd} handleCloseDialog={handleCloseAddDialog} />
+                        <Grid item xs={12} md={12}>
+                            <SubCard>
+                                <h1>No departments found</h1>
+                            </SubCard>
                         </Grid>
                     </Grid>
-                </CardContent>
+                ) : (
+                    <>
+                        <CardContent>
+                            <Grid container justifyContent="space-between" alignItems="center" spacing={2}>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <SearchIcon fontSize="small" />
+                                                </InputAdornment>
+                                            )
+                                        }}
+                                        onChange={handleSearch}
+                                        placeholder="Search Department"
+                                        value={search}
+                                        size="small"
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6} sx={{ textAlign: 'right' }}>
+                                    {/* custom add & dialog */}
+                                    <Tooltip title="Add Department">
+                                        <Fab
+                                            color="primary"
+                                            size="small"
+                                            onClick={handleClickOpenAddDialog}
+                                            sx={{ boxShadow: 'none', ml: 1, width: 32, height: 32, minHeight: 32 }}
+                                        >
+                                            <AddIcon fontSize="small" />
+                                        </Fab>
+                                    </Tooltip>
+                                    <AddDepartment open={openAdd} handleCloseDialog={handleCloseAddDialog} />
+                                </Grid>
+                            </Grid>
+                        </CardContent>
 
-                {/* table */}
-                <TableContainer>
-                    <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-                        <DepartmentTableHead
-                            numSelected={selected.length}
-                            order={order}
-                            orderBy={orderBy}
-                            onSelectAllClick={handleSelectAllClick}
-                            onRequestSort={handleRequestSort}
-                            rowCount={rows.length}
-                            theme={theme}
-                            selected={selected}
-                            headCells={headCells}
+                        {/* table */}
+                        <TableContainer>
+                            <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+                                <DepartmentTableHead
+                                    numSelected={selected.length}
+                                    order={order}
+                                    orderBy={orderBy}
+                                    onSelectAllClick={handleSelectAllClick}
+                                    onRequestSort={handleRequestSort}
+                                    rowCount={rows.length}
+                                    theme={theme}
+                                    selected={selected}
+                                    headCells={headCells}
+                                />
+                                <TableBody>
+                                    {isLoading ? (
+                                        <RowSkeleton rowsPerPage={rowsPerPage} attributeAmmount={headCells} />
+                                    ) : (
+                                        stableSort(rows, getComparator(order, orderBy))
+                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                            .map((row, index) => {
+                                                if (typeof row === 'number') return null;
+                                                const isItemSelected = isSelected(row.id);
+                                                const labelId = `enhanced-table-checkbox-${index}`;
+
+                                                return (
+                                                    <DepartmentItem
+                                                        key={index}
+                                                        department={row}
+                                                        isItemSelected={isItemSelected}
+                                                        labelId={labelId}
+                                                        handleClick={handleClick}
+                                                    />
+                                                );
+                                            })
+                                    )}
+
+                                    {emptyRows > 0 && (
+                                        <TableRow
+                                            style={{
+                                                height: 53 * emptyRows
+                                            }}
+                                        >
+                                            <TableCell colSpan={6} />
+                                        </TableRow>
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+
+                        {/* table pagination */}
+                        <TablePagination
+                            rowsPerPageOptions={[5, 10, 25]}
+                            component="div"
+                            count={rows.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
                         />
-                        <TableBody>
-                            {isLoading ? (
-                                <RowSkeleton rowsPerPage={rowsPerPage} attributeAmmount={headCells} />
-                            ) : (
-                                stableSort(rows, getComparator(order, orderBy))
-                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    .map((row, index) => {
-                                        if (typeof row === 'number') return null;
-                                        const isItemSelected = isSelected(row.id);
-                                        const labelId = `enhanced-table-checkbox-${index}`;
-
-                                        return (
-                                            <DepartmentItem
-                                                key={index}
-                                                department={row}
-                                                isItemSelected={isItemSelected}
-                                                labelId={labelId}
-                                                handleClick={handleClick}
-                                            />
-                                        );
-                                    })
-                            )}
-
-                            {emptyRows > 0 && (
-                                <TableRow
-                                    style={{
-                                        height: 53 * emptyRows
-                                    }}
-                                >
-                                    <TableCell colSpan={6} />
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-
-                {/* table pagination */}
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
+                    </>
+                )}
             </MainCard>
         </>
     );
