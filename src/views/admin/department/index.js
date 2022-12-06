@@ -14,7 +14,8 @@ import {
     TablePagination,
     TableRow,
     TextField,
-    Tooltip
+    Tooltip,
+    Typography
 } from '@mui/material';
 
 // project imports
@@ -206,18 +207,56 @@ const DepartmentList = () => {
         <>
             <MainCard title="Department List" content={true}>
                 {!isLoading && departments.length === 0 ? (
-                    <Grid container spacing={gridSpacing}>
-                        <Grid item xs={12} md={12}>
-                            <SubCard>
-                                <img src={EmptyBoxImage} alt="empty box" width="20%" height="20%" position="absolute" />
-                            </SubCard>
+                    <>
+                        <CardContent>
+                            <Grid container justifyContent="space-between" alignItems="center" spacing={2}>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <SearchIcon fontSize="small" />
+                                                </InputAdornment>
+                                            )
+                                        }}
+                                        onChange={handleSearch}
+                                        placeholder="Search Department"
+                                        value={search}
+                                        size="small"
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6} sx={{ textAlign: 'right' }}>
+                                    {/* custom add & dialog */}
+                                    <Tooltip title="Add Department">
+                                        <Fab
+                                            color="primary"
+                                            size="small"
+                                            onClick={handleClickOpenAddDialog}
+                                            sx={{ boxShadow: 'none', ml: 1, width: 32, height: 32, minHeight: 32 }}
+                                        >
+                                            <AddIcon fontSize="small" />
+                                        </Fab>
+                                    </Tooltip>
+                                    <AddDepartment open={openAdd} handleCloseDialog={handleCloseAddDialog} />
+                                </Grid>
+                            </Grid>
+                        </CardContent>
+
+                        <Grid container spacing={gridSpacing}>
+                            <Grid item xs={12} md={4}>
+                                <SubCard variant="body1" sx={{ height: '100%' }}>
+                                    <Typography variant="subtitle1" sx={{ textAlign: 'center' }}>
+                                        No departments found
+                                    </Typography>
+                                </SubCard>
+                            </Grid>
+                            <Grid item xs={12} md={8}>
+                                <SubCard>
+                                    <img src={EmptyBoxImage} alt="empty box" width="50%" height="50%" position="absolute" />
+                                </SubCard>
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12} md={12}>
-                            <SubCard>
-                                <h1>No departments found</h1>
-                            </SubCard>
-                        </Grid>
-                    </Grid>
+                    </>
                 ) : (
                     <>
                         <CardContent>
