@@ -26,6 +26,24 @@ const adminFunctions = {
                     title: 'Quiz',
                     type: 'item',
                     url: '/admin/quizzes'
+                },
+                {
+                    id: 'Skill',
+                    title: 'Skill',
+                    type: 'item',
+                    url: '/admin/skills'
+                },
+                {
+                    id: 'User',
+                    title: 'User',
+                    type: 'item',
+                    url: '/admin/users'
+                },
+                {
+                    id: 'Result',
+                    title: 'Result',
+                    type: 'item',
+                    url: '/admin/results'
                 }
             ]
         }
