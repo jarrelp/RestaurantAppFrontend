@@ -13,7 +13,7 @@ import { deleteDepartment } from 'store/slices/department';
 // assets
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 
-const DepartmentItem = ({ department, index, isItemSelected, labelId, handleClick }) => {
+const DepartmentItem = ({ department, isItemSelected, labelId, handleClick }) => {
     const dispatch = useDispatch();
     const departmentSelector = useSelector((state) => state.department);
     const { departments } = departmentSelector;
@@ -59,7 +59,7 @@ const DepartmentItem = ({ department, index, isItemSelected, labelId, handleClic
 
     return (
         <>
-            <TableRow hover role="checkbox" aria-checked={isItemSelected} tabIndex={-1} key={index} selected={isItemSelected}>
+            <TableRow hover role="checkbox" aria-checked={isItemSelected} tabIndex={-1} selected={isItemSelected}>
                 <TableCell padding="checkbox" sx={{ pl: 3, pr: 3 }} onClick={(event) => handleClick(event, department.id)}>
                     <Checkbox
                         color="primary"

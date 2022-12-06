@@ -5,11 +5,11 @@ import { Box, Checkbox, TableCell, TableHead, TableRow, TableSortLabel, Typograp
 import { visuallyHidden } from '@mui/utils';
 
 // project imports
-import CustomHeaderTableToolbar from './CustomHeaderTableToolbar';
+import DepartmentHeaderTableToolbar from './DepartmentHeaderTableToolbar';
 
 // ==============================|| CUSTOM TABLE HEADER ||============================== //
 
-const CustomTableHead = ({ onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, selected, headCells }) => {
+const DepartmentTableHead = ({ onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, selected, headCells }) => {
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
@@ -30,7 +30,7 @@ const CustomTableHead = ({ onSelectAllClick, order, orderBy, numSelected, rowCou
                 </TableCell>
                 {numSelected > 0 && (
                     <TableCell padding="none" colSpan={7}>
-                        <CustomHeaderTableToolbar numSelected={selected.length} />
+                        <DepartmentHeaderTableToolbar selected={selected} />
                     </TableCell>
                 )}
                 {numSelected <= 0 &&
@@ -67,7 +67,7 @@ const CustomTableHead = ({ onSelectAllClick, order, orderBy, numSelected, rowCou
     );
 };
 
-CustomTableHead.propTypes = {
+DepartmentTableHead.propTypes = {
     theme: PropTypes.object,
     selected: PropTypes.array,
     numSelected: PropTypes.number.isRequired,
@@ -79,4 +79,4 @@ CustomTableHead.propTypes = {
     headCells: PropTypes.array
 };
 
-export default CustomTableHead;
+export default DepartmentTableHead;

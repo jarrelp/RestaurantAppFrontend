@@ -19,7 +19,7 @@ import {
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
-import CustomTableHead from '../common/CustomTableHead';
+import DepartmentTableHead from './DepartmentTableHead';
 import RowSkeleton from 'ui-component/cards/skeleton/RowSkeleton';
 import DepartmentItem from './DepartmentItem';
 import AddDepartment from './AddDepartment';
@@ -237,7 +237,7 @@ const DepartmentList = () => {
                 {/* table */}
                 <TableContainer>
                     <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-                        <CustomTableHead
+                        <DepartmentTableHead
                             numSelected={selected.length}
                             order={order}
                             orderBy={orderBy}
@@ -261,8 +261,8 @@ const DepartmentList = () => {
 
                                         return (
                                             <DepartmentItem
+                                                key={index}
                                                 department={row}
-                                                index={index}
                                                 isItemSelected={isItemSelected}
                                                 labelId={labelId}
                                                 handleClick={handleClick}

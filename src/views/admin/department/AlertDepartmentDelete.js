@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 // material-ui
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
 // ==============================|| KANBAN BACKLOGS - STORY DELETE ||============================== //
 
@@ -17,9 +17,7 @@ export default function AlertDepartmentDelete({ title, open, handleClose }) {
         >
             {open && (
                 <>
-                    <DialogTitle>
-                        <Typography variant="h4">{title} - Are you sure you want to delete?</Typography>
-                    </DialogTitle>
+                    <DialogTitle variant="subtitle3">{title} - Are you sure you want to delete?</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
                             By deleting user department, all task inside that user department will also be deleted.

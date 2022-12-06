@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 
 // material-ui
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Slide, TextField, Typography } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Slide, TextField } from '@mui/material';
 
 // third party
 import * as yup from 'yup';
@@ -76,9 +76,7 @@ const EditDepartment = ({ department, open, handleCloseDialog }) => {
         >
             {open && (
                 <form onSubmit={formik.handleSubmit}>
-                    <DialogTitle>
-                        <Typography variant="h4">Edit Department</Typography>
-                    </DialogTitle>
+                    <DialogTitle variant="subtitle3">Edit Department</DialogTitle>
                     <DialogContent>
                         <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
                             <Grid item xs={12}>

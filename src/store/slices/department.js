@@ -39,6 +39,11 @@ const slice = createSlice({
         // DELETE DEPARTMENT
         deleteDepartmentSuccess(state, action) {
             state.departments = action.payload.departments;
+        },
+
+        // DELETE DEPARTMENTS
+        deleteDepartmentsSuccess(state, action) {
+            state.departments = action.payload.departments;
         }
     }
 });
@@ -86,6 +91,17 @@ export function deleteDepartment(departmentId, departments) {
         try {
             const response = await axios.post('/api/department/delete-department', { departments, departmentId });
             dispatch(slice.actions.deleteDepartmentSuccess(response.data));
+        } catch (error) {
+            dispatch(slice.actions.hasError(error));
+        }
+    };
+}
+
+export function deleteDepartments(departmentIds, departments) {
+    return async () => {
+        try {
+            const response = await axios.post('/api/department/delete-departments', { departments, departmentIds });
+            dispatch(slice.actions.deleteDepartmentsSuccess(response.data));
         } catch (error) {
             dispatch(slice.actions.hasError(error));
         }

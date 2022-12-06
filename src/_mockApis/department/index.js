@@ -35,15 +35,16 @@ const departments = [
 
 services.onGet('/api/department/list').reply(async (request) => {
     try {
-        await delay(2000);
+        await delay(1000);
         return [200, { departments }];
     } catch (err) {
         return [500, { message: 'Server Error' }];
     }
 });
 
-services.onPost('/api/department/add-department').reply((config) => {
+services.onPost('/api/department/add-department').reply(async (config) => {
     try {
+        await delay(200);
         const { department, departments } = JSON.parse(config.data);
         const result = {
             departments: [...departments, department]
@@ -55,8 +56,9 @@ services.onPost('/api/department/add-department').reply((config) => {
     }
 });
 
-services.onPost('/api/department/edit-department').reply((config) => {
+services.onPost('/api/department/edit-department').reply(async (config) => {
     try {
+        await delay(200);
         const { department, departments } = JSON.parse(config.data);
 
         departments.splice(
@@ -75,14 +77,37 @@ services.onPost('/api/department/edit-department').reply((config) => {
     }
 });
 
-services.onPost('/api/department/delete-department').reply((config) => {
+services.onPost('/api/department/delete-department').reply(async (config) => {
     try {
+        await delay(200);
         const { departments, departmentId } = JSON.parse(config.data);
 
         departments.splice(
             departments.findIndex((department) => department.id === departmentId),
             1
         );
+
+        const result = {
+            departments
+        };
+
+        return [200, { ...result }];
+    } catch (err) {
+        return [500, { message: 'Internal server error' }];
+    }
+});
+
+services.onPost('/api/department/delete-departments').reply(async (config) => {
+    try {
+        await delay(200);
+        const { departments, departmentIds } = JSON.parse(config.data);
+
+        departmentIds.map((id) => {
+            departments.splice(
+                departments.findIndex((department) => department.id === id),
+                1
+            );
+        });
 
         const result = {
             departments

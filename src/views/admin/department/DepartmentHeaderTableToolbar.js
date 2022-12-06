@@ -8,14 +8,14 @@ import { Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
 import AlertDepartmentDelete from './AlertDepartmentDelete';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch, useSelector } from 'store';
-import { deleteDepartment } from 'store/slices/department';
+import { deleteDepartments } from 'store/slices/department';
 
 // assets
 import DeleteIcon from '@mui/icons-material/Delete';
 
 // ==============================|| TABLE HEADER TOOLBAR ||============================== //
 
-const CustomHeaderTableToolbar = ({ numSelected }) => {
+const DepartmentHeaderTableToolbar = ({ selected }) => {
     const dispatch = useDispatch();
     const departmentSelector = useSelector((state) => state.department);
     const { departments } = departmentSelector;
@@ -26,9 +26,7 @@ const CustomHeaderTableToolbar = ({ numSelected }) => {
     const handleDeleteModalClose = (status) => {
         setOpenDeleteModal(false);
         if (status) {
-            let departmentIds = [];
-
-            dispatch(deleteDepartment(department.id, departments));
+            dispatch(deleteDepartments(selected, departments));
             dispatch(
                 openSnackbar({
                     open: true,
@@ -52,14 +50,14 @@ const CustomHeaderTableToolbar = ({ numSelected }) => {
                     p: 0,
                     pl: 1,
                     pr: 1,
-                    ...(numSelected > 0 && {
+                    ...(selected.length > 0 && {
                         color: (theme) => theme.palette.secondary.main
                     })
                 }}
             >
-                {numSelected > 0 ? (
+                {selected.length > 0 ? (
                     <Typography color="inherit" variant="h4">
-                        {numSelected} Selected
+                        {selected.length} Selected
                     </Typography>
                 ) : (
                     <Typography variant="h6" id="tableTitle">
@@ -67,22 +65,22 @@ const CustomHeaderTableToolbar = ({ numSelected }) => {
                     </Typography>
                 )}
                 <Box sx={{ flexGrow: 1 }} />
-                {numSelected > 0 && (
+                {selected.length > 0 && (
                     <Tooltip title="Delete">
-                        <IconButton size="large">
-                            <DeleteIcon
-                                fontSize="small"
-                                onClick={() => {
-                                    setOpenDeleteModal(true);
-                                }}
-                            />
+                        <IconButton
+                            size="large"
+                            onClick={() => {
+                                setOpenDeleteModal(true);
+                            }}
+                        >
+                            <DeleteIcon fontSize="small" />
                         </IconButton>
                     </Tooltip>
                 )}
             </Toolbar>
             {openDeleteModal && (
                 <AlertDepartmentDelete
-                    title="Are you sure you want to delete these departments?"
+                    title={`${selected.length} department(s)`}
                     open={openDeleteModal}
                     handleClose={handleDeleteModalClose}
                 />
@@ -91,8 +89,8 @@ const CustomHeaderTableToolbar = ({ numSelected }) => {
     );
 };
 
-CustomHeaderTableToolbar.propTypes = {
-    numSelected: PropTypes.number.isRequired
+DepartmentHeaderTableToolbar.propTypes = {
+    selected: PropTypes.array.isRequired
 };
 
-export default CustomHeaderTableToolbar;
+export default DepartmentHeaderTableToolbar;
