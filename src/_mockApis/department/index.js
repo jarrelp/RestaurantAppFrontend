@@ -102,12 +102,12 @@ services.onPost('/api/department/delete-departments').reply(async (config) => {
         await delay(200);
         const { departments, departmentIds } = JSON.parse(config.data);
 
-        departmentIds.map((id) => {
+        departmentIds.map((id) =>
             departments.splice(
                 departments.findIndex((department) => department.id === id),
                 1
-            );
-        });
+            )
+        );
 
         const result = {
             departments
