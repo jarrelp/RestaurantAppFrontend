@@ -4,6 +4,8 @@ import { combineReducers } from 'redux';
 // project imports
 import snackbarReducer from './slices/snackbar';
 import departmentReducer from './slices/department';
+import skillReducer from './slices/skill';
+import userReducer from './slices/user';
 import quizReducer from './slices/quiz';
 import resultReducer from './slices/result';
 
@@ -16,7 +18,9 @@ const reducer = combineReducers({
     department: departmentReducer,
     quiz: quizReducer,
     result: resultReducer,
-    menu: menuReducer
+    menu: menuReducer,
+    skill: skillReducer,
+    user: userReducer
 });
 
 export default reducer;

@@ -4,3 +4,4 @@
 // app pages
 import './department';
 import './quiz';
+import './skill';

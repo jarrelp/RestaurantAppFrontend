@@ -3,51 +3,51 @@ import services from 'utils/mockAdapter';
 
 const delay = (timeout) => new Promise((res) => setTimeout(res, timeout));
 
-// skill list
-const skills = [
+// user list
+const users = [
     {
         id: '1',
-        name: 'Skill 1'
+        name: 'User 1'
     },
     {
         id: '2',
-        name: 'Skill 2'
+        name: 'User 2'
     },
     {
         id: '3',
-        name: 'Skill 3'
+        name: 'User 3'
     },
     {
         id: '4',
-        name: 'Skill 4'
+        name: 'User 4'
     },
     {
         id: '5',
-        name: 'Skill 5'
+        name: 'User 5'
     },
     {
         id: '6',
-        name: 'Skill 6'
+        name: 'User 6'
     }
 ];
 
 // ==============================|| MOCK SERVICES ||============================== //
 
-services.onGet('/api/skill/list').reply(async (request) => {
+services.onGet('/api/user/list').reply(async (request) => {
     try {
         await delay(1000);
-        return [200, { skills }];
+        return [200, { users }];
     } catch (err) {
         return [500, { message: 'Server Error' }];
     }
 });
 
-services.onPost('/api/skill/add-skill').reply(async (config) => {
+services.onPost('/api/user/add-user').reply(async (config) => {
     try {
         await delay(200);
-        const { skill, skills } = JSON.parse(config.data);
+        const { user, users } = JSON.parse(config.data);
         const result = {
-            skills: [...skills, skill]
+            users: [...users, user]
         };
 
         return [200, { ...result }];
@@ -56,19 +56,19 @@ services.onPost('/api/skill/add-skill').reply(async (config) => {
     }
 });
 
-services.onPost('/api/skill/edit-skill').reply(async (config) => {
+services.onPost('/api/user/edit-user').reply(async (config) => {
     try {
         await delay(200);
-        const { skill, skills } = JSON.parse(config.data);
+        const { user, users } = JSON.parse(config.data);
 
-        skills.splice(
-            skills.findIndex((s) => s.id === skill.id),
+        users.splice(
+            users.findIndex((s) => s.id === user.id),
             1,
-            skill
+            user
         );
 
         const result = {
-            skills
+            users
         };
 
         return [200, { ...result }];
@@ -77,18 +77,18 @@ services.onPost('/api/skill/edit-skill').reply(async (config) => {
     }
 });
 
-services.onPost('/api/skill/delete-skill').reply(async (config) => {
+services.onPost('/api/user/delete-user').reply(async (config) => {
     try {
         await delay(200);
-        const { skills, skillId } = JSON.parse(config.data);
+        const { users, userId } = JSON.parse(config.data);
 
-        skills.splice(
-            skills.findIndex((skill) => skill.id === skillId),
+        users.splice(
+            users.findIndex((user) => user.id === userId),
             1
         );
 
         const result = {
-            skills
+            users
         };
 
         return [200, { ...result }];
@@ -97,20 +97,20 @@ services.onPost('/api/skill/delete-skill').reply(async (config) => {
     }
 });
 
-services.onPost('/api/skill/delete-skills').reply(async (config) => {
+services.onPost('/api/user/delete-users').reply(async (config) => {
     try {
         await delay(200);
-        const { skills, skillIds } = JSON.parse(config.data);
+        const { users, userIds } = JSON.parse(config.data);
 
-        skillIds.map((id) =>
-            skills.splice(
-                skills.findIndex((skill) => skill.id === id),
+        userIds.map((id) =>
+            users.splice(
+                users.findIndex((user) => user.id === id),
                 1
             )
         );
 
         const result = {
-            skills
+            users
         };
 
         return [200, { ...result }];
