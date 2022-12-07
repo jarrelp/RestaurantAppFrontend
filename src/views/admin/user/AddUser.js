@@ -1,8 +1,20 @@
 import PropTypes from 'prop-types';
-import { forwardRef } from 'react';
+import { useState, useEffect, forwardRef, Fragment } from 'react';
 
 // material-ui
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Slide, TextField } from '@mui/material';
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Grid,
+    Slide,
+    TextField,
+    Autocomplete,
+    Box,
+    CircularProgress
+} from '@mui/material';
 
 // third party
 import * as yup from 'yup';
@@ -15,6 +27,7 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch, useSelector } from 'store';
 import { addUser } from 'store/slices/user';
+import { getDepartmentsList } from 'store/slices/department';
 
 // constants
 import { borderRadius } from 'store/constant';
@@ -25,7 +38,8 @@ const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {.
 // validation
 const chance = new Chance();
 const validationSchema = yup.object({
-    name: yup.string().required('User name is required')
+    name: yup.string().required('User name is required'),
+    department: yup.string().required('Department name is required')
 });
 
 // ==============================|| ADD DEPARTMENT DIALOG ||============================== //
@@ -34,6 +48,29 @@ const AddUser = ({ open, handleCloseDialog }) => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
     const { users } = user;
+
+    const [departments, setDepartments] = useState([]);
+    const departmentState = useSelector((state) => state.department);
+
+    const [openAutoComplete, setOpenAutoComplete] = useState(false);
+
+    useEffect(() => {
+        setDepartments(departmentState.departments);
+    }, [departmentState]);
+
+    useEffect(() => {
+        if (openAutoComplete) {
+            dispatch(getDepartmentsList());
+        }
+    }, [dispatch, openAutoComplete]);
+
+    const [isLoading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (departments.length > 0) {
+            setLoading(false);
+        }
+    }, [departments]);
 
     const formik = useFormik({
         initialValues: {
@@ -94,41 +131,45 @@ const AddUser = ({ open, handleCloseDialog }) => {
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <Grid container alignItems="center" spacing={2}>
-                                    <Grid item xs={12} sm={4}>
-                                        <Typography variant="subtitle1">department</Typography>
-                                    </Grid>
-                                    <Grid item xs={12} sm={8}>
-                                        <Grid container justifyContent="flex-start">
-                                            <Autocomplete
-                                                id="department"
-                                                value={profiles.find((profile) => profile.id === formik.values.department) || null}
-                                                onChange={(event, value) => formik.setFieldValue('department', value?.id)}
-                                                options={profiles}
-                                                fullWidth
-                                                autoHighlight
-                                                getOptionLabel={(option) => option.name}
-                                                isOptionEqualToValue={(option) => option.id === formik.values.department}
-                                                renderOption={(props, option) => (
-                                                    <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-                                                        <img loading="lazy" width="20" src={avatarImage(`./${option.avatar}`)} alt="" />
-                                                        {option.name}
-                                                    </Box>
-                                                )}
-                                                renderInput={(params) => (
-                                                    <TextField
-                                                        {...params}
-                                                        label="Choose a assignee"
-                                                        inputProps={{
-                                                            ...params.inputProps,
-                                                            autoComplete: 'new-password' // disable autocomplete and autofill
-                                                        }}
-                                                    />
-                                                )}
-                                            />
-                                        </Grid>
-                                    </Grid>
-                                </Grid>
+                                <Autocomplete
+                                    id="department"
+                                    open={openAutoComplete}
+                                    onOpen={() => {
+                                        setOpenAutoComplete(true);
+                                    }}
+                                    onClose={() => {
+                                        setOpenAutoComplete(false);
+                                    }}
+                                    value={formik.values.department.name}
+                                    onChange={(event, value) => formik.setFieldValue('department', value?.name)}
+                                    options={departments}
+                                    fullWidth
+                                    autoHighlight
+                                    getOptionLabel={(option) => option.name}
+                                    isOptionEqualToValue={(option) => option.name === formik.values.department}
+                                    renderOption={(props, option) => (
+                                        <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                                            {option.name}
+                                        </Box>
+                                    )}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="department"
+                                            InputProps={{
+                                                ...params.InputProps,
+                                                endAdornment: (
+                                                    <Fragment>
+                                                        {isLoading && openAutoComplete ? (
+                                                            <CircularProgress color="inherit" size={20} />
+                                                        ) : null}
+                                                        {params.InputProps.endAdornment}
+                                                    </Fragment>
+                                                )
+                                            }}
+                                        />
+                                    )}
+                                />
                             </Grid>
                         </Grid>
                     </DialogContent>
