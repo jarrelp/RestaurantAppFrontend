@@ -9,8 +9,10 @@ import { dispatch } from '../index';
 
 const initialState = {
     error: null,
+    activeQuiz: [],
     quizzes: [],
-    activeQuiz: []
+    questions: [],
+    options: []
 };
 
 const slice = createSlice({
@@ -45,6 +47,13 @@ const slice = createSlice({
         // DELETE QUIZ
         deleteQuizSuccess(state, action) {
             state.quizzes = action.payload.quizzes;
+        },
+
+        // DELETE QUIZZES
+        deleteQuizzesSuccess(state, action) {
+            state.quizzes = action.payload.quizzes;
+            state.questions = action.payload.questions;
+            state.options = action.payload.options;
         }
     }
 });
@@ -54,7 +63,7 @@ export default slice.reducer;
 
 // ----------------------------------------------------------------------
 
-export function getQuizList() {
+export function getQuizzesList() {
     return async () => {
         try {
             const response = await axios.get('/api/quiz/list');
@@ -103,6 +112,17 @@ export function deleteQuiz(quizId, quizzes) {
         try {
             const response = await axios.post('/api/quiz/delete-quiz', { quizId, quizzes });
             dispatch(slice.actions.deleteQuizSuccess(response.data));
+        } catch (error) {
+            dispatch(slice.actions.hasError(error));
+        }
+    };
+}
+
+export function deleteQuizzes(quizIds, quizzes) {
+    return async () => {
+        try {
+            const response = await axios.post('/api/quiz/delete-quizzes', { quizzes, quizIds });
+            dispatch(slice.actions.deleteQuizzesSuccess(response.data));
         } catch (error) {
             dispatch(slice.actions.hasError(error));
         }

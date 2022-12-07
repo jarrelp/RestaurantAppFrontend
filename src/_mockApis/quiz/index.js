@@ -226,7 +226,7 @@ const activeQuizQuestions = [
 // quiz list
 const quizzes = [
     {
-        id: 'quiz1',
+        id: '1',
         description: 'quiz1',
         active: 'true',
         questions: activeQuizQuestions
@@ -237,7 +237,7 @@ const quizzes = [
 
 services.onGet('/api/quiz/list').reply(async (request) => {
     try {
-        await delay(2000);
+        await delay(1000);
         return [200, { quizzes }];
     } catch (err) {
         return [500, { message: 'Server Error' }];
@@ -246,18 +246,182 @@ services.onGet('/api/quiz/list').reply(async (request) => {
 
 services.onGet('/api/quiz/active').reply(async (request) => {
     try {
-        await delay(2000);
+        await delay(1000);
         return [200, { activeQuizQuestions }];
     } catch (err) {
         return [500, { message: 'Server Error' }];
     }
 });
 
-services.onPost('/api/quiz/add-quiz').reply((config) => {
+services.onPost('/api/quiz/add-quiz').reply(async (config) => {
     try {
+        await delay(200);
         const { quiz, quizzes } = JSON.parse(config.data);
         const result = {
             quizzes: [...quizzes, quiz]
+        };
+
+        return [200, { ...result }];
+    } catch (err) {
+        return [500, { message: 'Internal server error' }];
+    }
+});
+
+services.onPost('/api/quiz/edit-quiz').reply(async (config) => {
+    try {
+        await delay(200);
+        const { quiz, quizzes } = JSON.parse(config.data);
+
+        quizzes.splice(
+            quizzes.findIndex((s) => s.id === quiz.id),
+            1,
+            quiz
+        );
+
+        const result = {
+            quizzes
+        };
+
+        return [200, { ...result }];
+    } catch (err) {
+        return [500, { message: 'Internal server error' }];
+    }
+});
+
+services.onPost('/api/quiz/delete-quiz').reply(async (config) => {
+    try {
+        await delay(200);
+        const { quizzes, quizId } = JSON.parse(config.data);
+
+        quizzes.splice(
+            quizzes.findIndex((quiz) => quiz.id === quizId),
+            1
+        );
+
+        const result = {
+            quizzes
+        };
+
+        return [200, { ...result }];
+    } catch (err) {
+        return [500, { message: 'Internal server error' }];
+    }
+});
+
+services.onPost('/api/quiz/delete-quizzes').reply(async (config) => {
+    try {
+        await delay(200);
+        const { quizzes, quizIds } = JSON.parse(config.data);
+
+        quizIds.map((id) =>
+            quizzes.splice(
+                quizzes.findIndex((quiz) => quiz.id === id),
+                1
+            )
+        );
+
+        const result = {
+            quizzes
+        };
+
+        return [200, { ...result }];
+    } catch (err) {
+        return [500, { message: 'Internal server error' }];
+    }
+});
+
+//question
+services.onGet('/api/question/list').reply(async (config) => {
+    try {
+        await delay(1000);
+        const { quizId } = JSON.parse(config.data);
+        quizzes.splice(
+            quizzes.findIndex((s) => s.id === quizId),
+            1,
+            quizzes
+        );
+
+        const questions = quizzes.map((q) => q.questions);
+
+        const result = {
+            questions
+        };
+
+        return [200, { ...result }];
+    } catch (err) {
+        return [500, { message: 'Server Error' }];
+    }
+});
+
+services.onPost('/api/question/add-question').reply(async (config) => {
+    try {
+        await delay(200);
+        const { question, questions } = JSON.parse(config.data);
+        const result = {
+            questions: [...questions, question]
+        };
+
+        return [200, { ...result }];
+    } catch (err) {
+        return [500, { message: 'Internal server error' }];
+    }
+});
+
+services.onPost('/api/question/edit-question').reply(async (config) => {
+    try {
+        await delay(200);
+        const { question, questions } = JSON.parse(config.data);
+
+        questions.splice(
+            questions.findIndex((s) => s.id === question.id),
+            1,
+            question
+        );
+
+        const result = {
+            questions
+        };
+
+        return [200, { ...result }];
+    } catch (err) {
+        return [500, { message: 'Internal server error' }];
+    }
+});
+
+services.onPost('/api/question/delete-question').reply(async (config) => {
+    try {
+        await delay(200);
+        const { questions, questionId } = JSON.parse(config.data);
+
+        questions.splice(
+            questions.findIndex((question) => question.id === questionId),
+            1
+        );
+
+        const result = {
+            questions
+        };
+
+        return [200, { ...result }];
+    } catch (err) {
+        return [500, { message: 'Internal server error' }];
+    }
+});
+
+services.onPost('/api/question/delete-questions').reply(async (config) => {
+    try {
+        await delay(200);
+        const { questions, questionIds } = JSON.parse(config.data);
+
+        questionIds.map((id) =>
+            questions.splice(
+                questions.findIndex((question) => question.id === id),
+                1
+            )
+        );
+
+        const result = {
+            questions
         };
 
         return [200, { ...result }];
