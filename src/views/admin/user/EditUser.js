@@ -37,7 +37,8 @@ const EditUser = ({ user, open, handleCloseDialog }) => {
         enableReinitialize: true,
         initialValues: {
             id: user.id,
-            name: user.name
+            name: user.name,
+            department: user.department
         },
         validationSchema,
         onSubmit: (values) => {

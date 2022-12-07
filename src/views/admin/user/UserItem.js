@@ -94,6 +94,18 @@ const UserItem = ({ user, isItemSelected, labelId, handleClick }) => {
                     </Typography>
                 </TableCell>
 
+                <TableCell
+                    component="th"
+                    id={labelId}
+                    scope="row"
+                    onClick={(event) => handleClick(event, user.id)}
+                    sx={{ cursor: 'pointer' }}
+                >
+                    <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
+                        {user.department}
+                    </Typography>
+                </TableCell>
+
                 <TableCell align="right" sx={{ pl: 3, pr: 3, width: 0 }}>
                     <IconButton onClick={handleMenuClick} size="large">
                         <MoreHorizOutlinedIcon aria-controls="menu-popular-card-1" aria-haspopup="true" sx={{ fontSize: '1.3rem' }} />

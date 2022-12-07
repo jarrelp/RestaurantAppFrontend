@@ -7,27 +7,33 @@ const delay = (timeout) => new Promise((res) => setTimeout(res, timeout));
 const users = [
     {
         id: '1',
-        name: 'User 1'
+        name: 'User 1',
+        department: 'Department 1'
     },
     {
         id: '2',
-        name: 'User 2'
+        name: 'User 2',
+        department: 'Department 1'
     },
     {
         id: '3',
-        name: 'User 3'
+        name: 'User 3',
+        department: 'Department 2'
     },
     {
         id: '4',
-        name: 'User 4'
+        name: 'User 4',
+        department: 'Department 2'
     },
     {
         id: '5',
-        name: 'User 5'
+        name: 'User 5',
+        department: 'Department 3'
     },
     {
         id: '6',
-        name: 'User 6'
+        name: 'User 6',
+        department: 'Department 3'
     }
 ];
 

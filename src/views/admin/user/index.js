@@ -76,6 +76,13 @@ const headCells = [
         label: 'Name',
         align: 'left',
         initialValue: ''
+    },
+    {
+        id: 'department',
+        numeric: false,
+        label: 'Department',
+        align: 'left',
+        initialValue: ''
     }
 ];
 

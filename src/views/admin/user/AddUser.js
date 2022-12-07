@@ -38,7 +38,8 @@ const AddUser = ({ open, handleCloseDialog }) => {
     const formik = useFormik({
         initialValues: {
             id: `${chance.integer({ min: 1000, max: 9999 })}`,
-            name: ''
+            name: '',
+            department: ''
         },
         validationSchema,
         onSubmit: (values) => {
@@ -91,6 +92,43 @@ const AddUser = ({ open, handleCloseDialog }) => {
                                     error={formik.touched.name && Boolean(formik.errors.name)}
                                     helperText={formik.touched.name && formik.errors.name}
                                 />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Grid container alignItems="center" spacing={2}>
+                                    <Grid item xs={12} sm={4}>
+                                        <Typography variant="subtitle1">department</Typography>
+                                    </Grid>
+                                    <Grid item xs={12} sm={8}>
+                                        <Grid container justifyContent="flex-start">
+                                            <Autocomplete
+                                                id="department"
+                                                value={profiles.find((profile) => profile.id === formik.values.department) || null}
+                                                onChange={(event, value) => formik.setFieldValue('department', value?.id)}
+                                                options={profiles}
+                                                fullWidth
+                                                autoHighlight
+                                                getOptionLabel={(option) => option.name}
+                                                isOptionEqualToValue={(option) => option.id === formik.values.department}
+                                                renderOption={(props, option) => (
+                                                    <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                                                        <img loading="lazy" width="20" src={avatarImage(`./${option.avatar}`)} alt="" />
+                                                        {option.name}
+                                                    </Box>
+                                                )}
+                                                renderInput={(params) => (
+                                                    <TextField
+                                                        {...params}
+                                                        label="Choose a assignee"
+                                                        inputProps={{
+                                                            ...params.inputProps,
+                                                            autoComplete: 'new-password' // disable autocomplete and autofill
+                                                        }}
+                                                    />
+                                                )}
+                                            />
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </DialogContent>
