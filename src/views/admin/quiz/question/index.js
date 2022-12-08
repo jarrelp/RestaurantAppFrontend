@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -21,12 +22,12 @@ import {
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import SubCard from 'ui-component/cards/SubCard';
-import QuizTableHead from './QuizTableHead';
+import QuestionTableHead from './QuestionTableHead';
 import RowSkeleton from 'ui-component/cards/skeleton/RowSkeleton';
-import QuizItem from './QuizItem';
-import AddQuiz from './AddQuiz';
+import QuestionItem from './QuestionItem';
+import AddQuestion from './AddQuestion';
 import { useDispatch, useSelector } from 'store';
-import { getQuizzesList } from 'store/slices/quiz';
+import { getQuestionsList } from 'store/slices/quiz';
 import { openDrawer } from 'store/slices/menu';
 import EmptyBoxImage from 'assets/Images/empty-box.png';
 
@@ -81,7 +82,8 @@ const headCells = [
 
 // ==============================|| DEPARTMENT LIST ||============================== //
 
-const QuizList = () => {
+const QuestionList = () => {
+    const { id } = useParams();
     const dispatch = useDispatch();
 
     // show a right sidebar when clicked on new custom
@@ -93,16 +95,16 @@ const QuizList = () => {
         setOpenAdd(false);
     };
 
-    // quiz data
-    const [quizzes, setQuizzes] = useState([]);
+    // question data
+    const [questions, setQuestions] = useState([]);
     const quizState = useSelector((state) => state.quiz);
 
     useEffect(() => {
-        setQuizzes(quizState.quizzes);
+        setQuestions(quizState.questions);
     }, [quizState]);
 
     useEffect(() => {
-        dispatch(getQuizzesList());
+        dispatch(getQuestionsList(id));
 
         // hide left drawer when email app opens
         dispatch(openDrawer(false));
@@ -113,10 +115,10 @@ const QuizList = () => {
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (quizzes.length > 0) {
+        if (questions.length > 0) {
             setLoading(false);
         }
-    }, [quizzes]);
+    }, [questions]);
 
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('calories');
@@ -127,8 +129,8 @@ const QuizList = () => {
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
-        setRows(quizzes);
-    }, [quizzes]);
+        setRows(questions);
+    }, [questions]);
 
     const handleSearch = (event) => {
         const newString = event?.target.value;
@@ -155,7 +157,7 @@ const QuizList = () => {
             });
             setRows(newRows);
         } else {
-            setRows(quizzes);
+            setRows(questions);
         }
     };
 
@@ -205,7 +207,7 @@ const QuizList = () => {
 
     return (
         <>
-            <MainCard title="Quiz List" content={true}>
+            <MainCard title="Question List" content={true}>
                 <CardContent>
                     <Grid container justifyContent="space-between" alignItems="center" spacing={2}>
                         <Grid item xs={12} sm={6}>
@@ -218,14 +220,14 @@ const QuizList = () => {
                                     )
                                 }}
                                 onChange={handleSearch}
-                                placeholder="Search Quiz"
+                                placeholder="Search Question"
                                 value={search}
                                 size="small"
                             />
                         </Grid>
                         <Grid item xs={12} sm={6} sx={{ textAlign: 'right' }}>
                             {/* custom add & dialog */}
-                            <Tooltip title="Add Quiz">
+                            <Tooltip title="Add Question">
                                 <Fab
                                     color="primary"
                                     size="small"
@@ -235,16 +237,16 @@ const QuizList = () => {
                                     <AddIcon fontSize="small" />
                                 </Fab>
                             </Tooltip>
-                            <AddQuiz open={openAdd} handleCloseDialog={handleCloseAddDialog} />
+                            <AddQuestion open={openAdd} handleCloseDialog={handleCloseAddDialog} />
                         </Grid>
                     </Grid>
                 </CardContent>
-                {!isLoading && quizzes.length === 0 ? (
+                {!isLoading && questions.length === 0 ? (
                     <Grid container spacing={gridSpacing}>
                         <Grid item xs={12} md={4}>
                             <SubCard variant="body1" sx={{ height: '100%' }}>
                                 <Typography variant="subtitle1" sx={{ textAlign: 'center' }}>
-                                    No quizzes found
+                                    No questions found
                                 </Typography>
                             </SubCard>
                         </Grid>
@@ -259,7 +261,7 @@ const QuizList = () => {
                         {/* table */}
                         <TableContainer>
                             <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-                                <QuizTableHead
+                                <QuestionTableHead
                                     numSelected={selected.length}
                                     order={order}
                                     orderBy={orderBy}
@@ -282,9 +284,9 @@ const QuizList = () => {
                                                 const labelId = `enhanced-table-checkbox-${index}`;
 
                                                 return (
-                                                    <QuizItem
+                                                    <QuestionItem
                                                         key={index}
-                                                        quiz={row}
+                                                        question={row}
                                                         isItemSelected={isItemSelected}
                                                         labelId={labelId}
                                                         handleClick={handleClick}
@@ -323,4 +325,4 @@ const QuizList = () => {
     );
 };
 
-export default QuizList;
+export default QuestionList;

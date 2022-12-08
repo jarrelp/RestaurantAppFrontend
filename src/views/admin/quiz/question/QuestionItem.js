@@ -1,23 +1,22 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 // material-ui
 import { Checkbox, IconButton, Menu, MenuItem, TableCell, TableRow, Typography } from '@mui/material';
 
 // project imports
-import EditQuiz from './EditQuiz';
-import AlertQuizDelete from './AlertQuizDelete';
+import EditQuestion from './EditQuestion';
+import AlertQuestionDelete from './AlertQuestionDelete';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch, useSelector } from 'store';
-import { deleteQuiz } from 'store/slices/quiz';
+import { deleteQuestion } from 'store/slices/quiz';
 
 // assets
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 
-const QuizItem = ({ quiz, isItemSelected, labelId, handleClick }) => {
+const QuestionItem = ({ question, isItemSelected, labelId, handleClick }) => {
     const dispatch = useDispatch();
-    const quizSelector = useSelector((state) => state.quiz);
-    const { quizzes } = quizSelector;
+    const questionSelector = useSelector((state) => state.question);
+    const { questions } = questionSelector;
 
     const [openEdit, setOpenEdit] = useState(false);
     const handleClickOpenEditDialog = () => {
@@ -42,7 +41,7 @@ const QuizItem = ({ quiz, isItemSelected, labelId, handleClick }) => {
     const handleDeleteModalClose = (status) => {
         setOpenDeleteModal(false);
         if (status) {
-            dispatch(deleteQuiz(quiz.id, quizzes));
+            dispatch(deleteQuestion(question.id, questions));
             dispatch(
                 openSnackbar({
                     open: true,
@@ -61,7 +60,7 @@ const QuizItem = ({ quiz, isItemSelected, labelId, handleClick }) => {
     return (
         <>
             <TableRow hover role="checkbox" aria-checked={isItemSelected} tabIndex={-1} selected={isItemSelected}>
-                <TableCell padding="checkbox" sx={{ pl: 3, pr: 3 }} onClick={(event) => handleClick(event, quiz.id)}>
+                <TableCell padding="checkbox" sx={{ pl: 3, pr: 3 }} onClick={(event) => handleClick(event, question.id)}>
                     <Checkbox
                         color="primary"
                         checked={isItemSelected}
@@ -75,11 +74,11 @@ const QuizItem = ({ quiz, isItemSelected, labelId, handleClick }) => {
                     component="th"
                     id={labelId}
                     scope="row"
-                    onClick={(event) => handleClick(event, quiz.id)}
+                    onClick={(event) => handleClick(event, question.id)}
                     sx={{ cursor: 'pointer' }}
                 >
                     <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
-                        {quiz.id}
+                        {question.id}
                     </Typography>
                 </TableCell>
 
@@ -87,11 +86,11 @@ const QuizItem = ({ quiz, isItemSelected, labelId, handleClick }) => {
                     component="th"
                     id={labelId}
                     scope="row"
-                    onClick={(event) => handleClick(event, quiz.id)}
+                    onClick={(event) => handleClick(event, question.id)}
                     sx={{ cursor: 'pointer' }}
                 >
                     <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
-                        {quiz.name}
+                        {question.name}
                     </Typography>
                 </TableCell>
 
@@ -129,10 +128,6 @@ const QuizItem = ({ quiz, isItemSelected, labelId, handleClick }) => {
                             {' '}
                             Edit
                         </MenuItem>
-                        <MenuItem onClick={handleClose()} component={Link} to={`/admin/questions/:${quiz.id}`}>
-                            {' '}
-                            Edit
-                        </MenuItem>
                         <MenuItem
                             onClick={() => {
                                 handleClose();
@@ -143,14 +138,14 @@ const QuizItem = ({ quiz, isItemSelected, labelId, handleClick }) => {
                             Delete
                         </MenuItem>
                         {openDeleteModal && (
-                            <AlertQuizDelete title={quiz.name} open={openDeleteModal} handleClose={handleDeleteModalClose} />
+                            <AlertQuestionDelete title={question.name} open={openDeleteModal} handleClose={handleDeleteModalClose} />
                         )}
                     </Menu>
                 </TableCell>
             </TableRow>
-            <EditQuiz quiz={quiz} open={openEdit} handleCloseDialog={handleCloseEditDialog} />
+            <EditQuestion question={question} open={openEdit} handleCloseDialog={handleCloseEditDialog} />
         </>
     );
 };
 
-export default QuizItem;
+export default QuestionItem;

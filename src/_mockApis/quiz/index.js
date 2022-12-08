@@ -227,7 +227,7 @@ const activeQuizQuestions = [
 const quizzes = [
     {
         id: '1',
-        description: 'quiz1',
+        name: 'quiz1',
         active: 'true',
         questions: activeQuizQuestions
     }

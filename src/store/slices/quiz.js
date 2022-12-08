@@ -128,3 +128,15 @@ export function deleteQuizzes(quizIds, quizzes) {
         }
     };
 }
+
+//question
+export function getQuestionsList(quizId) {
+    return async () => {
+        try {
+            const response = await axios.get('/api/question/list', { quizId });
+            dispatch(slice.actions.getQuizListSuccess(response.data.quizzes));
+        } catch (error) {
+            dispatch(slice.actions.hasError(error));
+        }
+    };
+}

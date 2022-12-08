@@ -38,8 +38,7 @@ const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {.
 // validation
 const chance = new Chance();
 const validationSchema = yup.object({
-    name: yup.string().required('User name is required'),
-    department: yup.string().required('Department name is required')
+    name: yup.string().required('User name is required')
 });
 
 // ==============================|| ADD DEPARTMENT DIALOG ||============================== //
