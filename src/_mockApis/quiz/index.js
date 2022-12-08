@@ -6,217 +6,217 @@ const delay = (timeout) => new Promise((res) => setTimeout(res, timeout));
 // question list of active quiz
 const activeQuizQuestions = [
     {
-        id: 'question1',
+        id: '1',
         description: 'question1',
         options: [
             {
-                id: 'question1option1',
+                id: '1',
                 description: 'question1option1'
             },
             {
-                id: 'question1option2',
+                id: '2',
                 description: 'question1option2'
             },
             {
-                id: 'question1option3',
+                id: '3',
                 description: 'question1option3'
             }
         ]
     },
     {
-        id: 'question2',
+        id: '2',
         description: 'question2',
         options: [
             {
-                id: 'question2option1',
+                id: '4',
                 description: 'question2option1'
             },
             {
-                id: 'question2option2',
+                id: '5',
                 description: 'question2option2'
             },
             {
-                id: 'question2option3',
+                id: '6',
                 description: 'question2option3'
             }
         ]
     },
     {
-        id: 'question3',
+        id: '3',
         description: 'question3',
         options: [
             {
-                id: 'question3option1',
+                id: '7',
                 description: 'question3option1'
             },
             {
-                id: 'question3option2',
+                id: '8',
                 description: 'question3option2'
             },
             {
-                id: 'question3option3',
+                id: '9',
                 description: 'question3option3'
             }
         ]
     },
     {
-        id: 'question4',
+        id: '4',
         description: 'question4',
         options: [
             {
-                id: 'question4option1',
+                id: '10',
                 description: 'question4option1'
             },
             {
-                id: 'question4option2',
+                id: '11',
                 description: 'question4option2'
             },
             {
-                id: 'question4option3',
+                id: '12',
                 description: 'question4option3'
             }
         ]
     },
     {
-        id: 'question5',
+        id: '5',
         description: 'question5',
         options: [
             {
-                id: 'question5option1',
+                id: '13',
                 description: 'question5option1'
             },
             {
-                id: 'question5option2',
+                id: '14',
                 description: 'question5option2'
             },
             {
-                id: 'question5option3',
+                id: '15',
                 description: 'question5option3'
             }
         ]
     },
     {
-        id: 'question6',
+        id: '6',
         description: 'question6',
         options: [
             {
-                id: 'question6option1',
+                id: '16',
                 description: 'question6option1'
             },
             {
-                id: 'question6option2',
+                id: '17',
                 description: 'question6option2'
             },
             {
-                id: 'question6option3',
+                id: '18',
                 description: 'question6option3'
             }
         ]
     },
     {
-        id: 'question7',
+        id: '7',
         description: 'question7',
         options: [
             {
-                id: 'question7option1',
+                id: '19',
                 description: 'question7option1'
             },
             {
-                id: 'question7option2',
+                id: '20',
                 description: 'question7option2'
             },
             {
-                id: 'question7option3',
+                id: '21',
                 description: 'question7option3'
             }
         ]
     },
     {
-        id: 'question8',
+        id: '8',
         description: 'question8',
         options: [
             {
-                id: 'question8option1',
+                id: '22',
                 description: 'question8option1'
             },
             {
-                id: 'question8option2',
+                id: '23',
                 description: 'question8option2'
             },
             {
-                id: 'question8option3',
+                id: '24',
                 description: 'question8option3'
             }
         ]
     },
     {
-        id: 'question9',
+        id: '9',
         description: 'question9',
         options: [
             {
-                id: 'question9option1',
+                id: '25',
                 description: 'question9option1'
             },
             {
-                id: 'question9option2',
+                id: '26',
                 description: 'question9option2'
             },
             {
-                id: 'question9option3',
+                id: '27',
                 description: 'question9option3'
             }
         ]
     },
     {
-        id: 'question10',
+        id: '10',
         description: 'question10',
         options: [
             {
-                id: 'question10option1',
+                id: '28',
                 description: 'question10option1'
             },
             {
-                id: 'question10option2',
+                id: '29',
                 description: 'question10option2'
             },
             {
-                id: 'question10option3',
+                id: '30',
                 description: 'question10option3'
             }
         ]
     },
     {
-        id: 'question11',
+        id: '11',
         description: 'question11',
         options: [
             {
-                id: 'question11option1',
+                id: '31',
                 description: 'question11option1'
             },
             {
-                id: 'question11option2',
+                id: '32',
                 description: 'question11option2'
             },
             {
-                id: 'question11option3',
+                id: '33',
                 description: 'question11option3'
             }
         ]
     },
     {
-        id: 'question12',
+        id: '12',
         description: 'question12',
         options: [
             {
-                id: 'question12option1',
+                id: '34',
                 description: 'question12option1'
             },
             {
-                id: 'question12option2',
+                id: '35',
                 description: 'question12option2'
             },
             {
-                id: 'question12option3',
+                id: '36',
                 description: 'question12option3'
             }
         ]

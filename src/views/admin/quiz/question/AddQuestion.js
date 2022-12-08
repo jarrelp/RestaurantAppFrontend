@@ -25,7 +25,7 @@ const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {.
 // validation
 const chance = new Chance();
 const validationSchema = yup.object({
-    name: yup.string().required('Question name is required')
+    description: yup.string().required('Question description is required')
 });
 
 // ==============================|| ADD DEPARTMENT DIALOG ||============================== //
@@ -38,7 +38,7 @@ const AddQuestion = ({ quizId, open, handleCloseDialog }) => {
     const formik = useFormik({
         initialValues: {
             id: `${chance.integer({ min: 1000, max: 9999 })}`,
-            name: ''
+            description: ''
         },
         validationSchema,
         onSubmit: (values) => {
@@ -83,13 +83,13 @@ const AddQuestion = ({ quizId, open, handleCloseDialog }) => {
                             <Grid item xs={12}>
                                 <TextField
                                     fullWidth
-                                    id="name"
-                                    name="name"
-                                    label="Name"
-                                    value={formik.values.name}
+                                    id="description"
+                                    name="description"
+                                    label="Description"
+                                    value={formik.values.description}
                                     onChange={formik.handleChange}
-                                    error={formik.touched.name && Boolean(formik.errors.name)}
-                                    helperText={formik.touched.name && formik.errors.name}
+                                    error={formik.touched.description && Boolean(formik.errors.description)}
+                                    helperText={formik.touched.description && formik.errors.description}
                                 />
                             </Grid>
                         </Grid>

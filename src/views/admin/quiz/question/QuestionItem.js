@@ -90,7 +90,7 @@ const QuestionItem = ({ quizId, question, isItemSelected, labelId, handleClick }
                     sx={{ cursor: 'pointer' }}
                 >
                     <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
-                        {question.name}
+                        {question.description}
                     </Typography>
                 </TableCell>
 
