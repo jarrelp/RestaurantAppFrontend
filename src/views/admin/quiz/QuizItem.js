@@ -129,9 +129,9 @@ const QuizItem = ({ quiz, isItemSelected, labelId, handleClick }) => {
                             {' '}
                             Edit
                         </MenuItem>
-                        <MenuItem onClick={handleClose()} component={Link} to={`/admin/questions/:${quiz.id}`}>
+                        <MenuItem component={Link} to={`/admin/quiz/${quiz.id}`}>
                             {' '}
-                            Edit
+                            Questions
                         </MenuItem>
                         <MenuItem
                             onClick={() => {

@@ -11,8 +11,7 @@ const initialState = {
     error: null,
     activeQuiz: [],
     quizzes: [],
-    questions: [],
-    options: []
+    questions: []
 };
 
 const slice = createSlice({
@@ -52,8 +51,31 @@ const slice = createSlice({
         // DELETE QUIZZES
         deleteQuizzesSuccess(state, action) {
             state.quizzes = action.payload.quizzes;
-            state.questions = action.payload.questions;
-            state.options = action.payload.options;
+        },
+
+        // GET QUESTIONS
+        getQuestionsListSuccess(state, action) {
+            state.questions = action.payload;
+        },
+
+        // ADD QUESTION
+        addQuestionSuccess(state, action) {
+            state.quizzes = action.payload.quizzes;
+        },
+
+        // EDIT QUESTION
+        editQuestionSuccess(state, action) {
+            state.quizzes = action.payload.quizzes;
+        },
+
+        // DELETE QUESTION
+        deleteQuestionSuccess(state, action) {
+            state.quizzes = action.payload.quizzes;
+        },
+
+        // DELETE QUESTIONS
+        deleteQuestionsSuccess(state, action) {
+            state.quizzes = action.payload.quizzes;
         }
     }
 });
@@ -133,8 +155,52 @@ export function deleteQuizzes(quizIds, quizzes) {
 export function getQuestionsList(quizId) {
     return async () => {
         try {
-            const response = await axios.get('/api/question/list', { quizId });
-            dispatch(slice.actions.getQuizListSuccess(response.data.quizzes));
+            const response = await axios.post('/api/question/list', { quizId });
+            dispatch(slice.actions.getQuestionsListSuccess(response.data));
+        } catch (error) {
+            dispatch(slice.actions.hasError(error));
+        }
+    };
+}
+
+export function addQuestion(quizId, question, questions) {
+    return async () => {
+        try {
+            const response = await axios.post('/api/question/add-question', { quizId, question, questions });
+            dispatch(slice.actions.addQuestionSuccess(response.data));
+        } catch (error) {
+            dispatch(slice.actions.hasError(error));
+        }
+    };
+}
+
+export function editQuestion(quizId, question, questions) {
+    return async () => {
+        try {
+            const response = await axios.post('/api/question/edit-question', { quizId, question, questions });
+            dispatch(slice.actions.editQuestionSuccess(response.data));
+        } catch (error) {
+            dispatch(slice.actions.hasError(error));
+        }
+    };
+}
+
+export function deleteQuestion(quizId, questionId, questions) {
+    return async () => {
+        try {
+            const response = await axios.post('/api/question/delete-question', { quizId, questions, questionId });
+            dispatch(slice.actions.deleteQuestionSuccess(response.data));
+        } catch (error) {
+            dispatch(slice.actions.hasError(error));
+        }
+    };
+}
+
+export function deleteQuestions(quizId, questionIds, questions) {
+    return async () => {
+        try {
+            const response = await axios.post('/api/question/delete-questions', { quizId, questions, questionIds });
+            dispatch(slice.actions.deleteQuestionsSuccess(response.data));
         } catch (error) {
             dispatch(slice.actions.hasError(error));
         }

@@ -108,7 +108,7 @@ const QuestionList = () => {
 
         // hide left drawer when email app opens
         dispatch(openDrawer(false));
-    }, [dispatch]);
+    }, [dispatch, id]);
 
     const theme = useTheme();
 
@@ -237,7 +237,7 @@ const QuestionList = () => {
                                     <AddIcon fontSize="small" />
                                 </Fab>
                             </Tooltip>
-                            <AddQuestion open={openAdd} handleCloseDialog={handleCloseAddDialog} />
+                            <AddQuestion quizId={id} open={openAdd} handleCloseDialog={handleCloseAddDialog} />
                         </Grid>
                     </Grid>
                 </CardContent>
@@ -262,6 +262,7 @@ const QuestionList = () => {
                         <TableContainer>
                             <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
                                 <QuestionTableHead
+                                    quizId={id}
                                     numSelected={selected.length}
                                     order={order}
                                     orderBy={orderBy}
@@ -285,6 +286,7 @@ const QuestionList = () => {
 
                                                 return (
                                                     <QuestionItem
+                                                        quizId={id}
                                                         key={index}
                                                         question={row}
                                                         isItemSelected={isItemSelected}

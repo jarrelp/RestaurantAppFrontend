@@ -28,10 +28,10 @@ const validationSchema = yup.object({
 
 // ==============================|| ADD DEPARTMENT DIALOG ||============================== //
 
-const EditQuestion = ({ question, open, handleCloseDialog }) => {
+const EditQuestion = ({ quizId, question, open, handleCloseDialog }) => {
     const dispatch = useDispatch();
-    const questionSelector = useSelector((state) => state.question);
-    const { questions } = questionSelector;
+    const quizSelector = useSelector((state) => state.quiz);
+    const { quizzes } = quizSelector;
 
     const formik = useFormik({
         enableReinitialize: true,
@@ -41,7 +41,7 @@ const EditQuestion = ({ question, open, handleCloseDialog }) => {
         },
         validationSchema,
         onSubmit: (values) => {
-            dispatch(editQuestion(values, questions));
+            dispatch(editQuestion(quizId, values, quizzes));
             dispatch(
                 openSnackbar({
                     open: true,

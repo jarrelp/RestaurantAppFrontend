@@ -331,23 +331,14 @@ services.onPost('/api/quiz/delete-quizzes').reply(async (config) => {
 });
 
 //question
-services.onGet('/api/question/list').reply(async (config) => {
+services.onPost('/api/question/list').reply(async (config) => {
     try {
         await delay(1000);
         const { quizId } = JSON.parse(config.data);
-        quizzes.splice(
-            quizzes.findIndex((s) => s.id === quizId),
-            1,
-            quizzes
-        );
 
-        const questions = quizzes.map((q) => q.questions);
+        const quiz = quizzes.find((s) => s.id === quizId);
 
-        const result = {
-            questions
-        };
-
-        return [200, { ...result }];
+        return [200, quiz.questions];
     } catch (err) {
         return [500, { message: 'Server Error' }];
     }
@@ -356,9 +347,25 @@ services.onGet('/api/question/list').reply(async (config) => {
 services.onPost('/api/question/add-question').reply(async (config) => {
     try {
         await delay(200);
-        const { question, questions } = JSON.parse(config.data);
+        const { quizId, question, quizzes } = JSON.parse(config.data);
+
+        const quiz = quizzes.findIndex((s) => s.id === quizId);
+        // const currentQuestions = quiz.map((q) => q.questions);
+        // currentQuestions.splice(
+        //     currentQuestions.findIndex((s) => s.id === question.id),
+        //     1,
+        //     question
+        // );
+        quiz.questions.push(question);
+
+        quizzes.splice(
+            quizzes.findIndex((s) => s.id === quizId),
+            1,
+            quiz
+        );
+
         const result = {
-            questions: [...questions, question]
+            quizzes
         };
 
         return [200, { ...result }];
@@ -370,16 +377,29 @@ services.onPost('/api/question/add-question').reply(async (config) => {
 services.onPost('/api/question/edit-question').reply(async (config) => {
     try {
         await delay(200);
-        const { question, questions } = JSON.parse(config.data);
+        const { quizId, question, quizzes } = JSON.parse(config.data);
 
-        questions.splice(
-            questions.findIndex((s) => s.id === question.id),
+        const quiz = quizzes.findIndex((s) => s.id === quizId);
+        // const currentQuestions = quiz.map((q) => q.questions);
+        // currentQuestions.splice(
+        //     currentQuestions.findIndex((s) => s.id === question.id),
+        //     1,
+        //     question
+        // );
+        quiz.questions.splice(
+            quiz.questions.findIndex((s) => s.id === question.id),
             1,
             question
         );
 
+        quizzes.splice(
+            quizzes.findIndex((s) => s.id === quizId),
+            1,
+            quiz
+        );
+
         const result = {
-            questions
+            quizzes
         };
 
         return [200, { ...result }];
@@ -391,15 +411,28 @@ services.onPost('/api/question/edit-question').reply(async (config) => {
 services.onPost('/api/question/delete-question').reply(async (config) => {
     try {
         await delay(200);
-        const { questions, questionId } = JSON.parse(config.data);
+        const { quizId, questionId, quizzes } = JSON.parse(config.data);
 
-        questions.splice(
-            questions.findIndex((question) => question.id === questionId),
+        const quiz = quizzes.findIndex((s) => s.id === quizId);
+        // const currentQuestions = quiz.map((q) => q.questions);
+        // currentQuestions.splice(
+        //     currentQuestions.findIndex((s) => s.id === question.id),
+        //     1,
+        //     question
+        // );
+        quiz.questions.splice(
+            quiz.questions.findIndex((s) => s.id === questionId),
             1
         );
 
+        quizzes.splice(
+            quizzes.findIndex((s) => s.id === quizId),
+            1,
+            quiz
+        );
+
         const result = {
-            questions
+            quizzes
         };
 
         return [200, { ...result }];
@@ -411,17 +444,30 @@ services.onPost('/api/question/delete-question').reply(async (config) => {
 services.onPost('/api/question/delete-questions').reply(async (config) => {
     try {
         await delay(200);
-        const { questions, questionIds } = JSON.parse(config.data);
+        const { quizId, questionIds, quizzes } = JSON.parse(config.data);
 
+        const quiz = quizzes.findIndex((s) => s.id === quizId);
+        // const currentQuestions = quiz.map((q) => q.questions);
+        // currentQuestions.splice(
+        //     currentQuestions.findIndex((s) => s.id === question.id),
+        //     1,
+        //     question
+        // );
         questionIds.map((id) =>
-            questions.splice(
-                questions.findIndex((question) => question.id === id),
+            quiz.questions.splice(
+                quiz.questions.findIndex((s) => s.id === id),
                 1
             )
         );
 
+        quizzes.splice(
+            quizzes.findIndex((s) => s.id === quizId),
+            1,
+            quiz
+        );
+
         const result = {
-            questions
+            quizzes
         };
 
         return [200, { ...result }];

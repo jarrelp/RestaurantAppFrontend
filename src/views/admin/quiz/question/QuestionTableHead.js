@@ -9,7 +9,7 @@ import QuestionHeaderTableToolbar from './QuestionHeaderTableToolbar';
 
 // ==============================|| CUSTOM TABLE HEADER ||============================== //
 
-const QuestionTableHead = ({ onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, selected, headCells }) => {
+const QuestionTableHead = ({ quizId, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, selected, headCells }) => {
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
@@ -30,7 +30,7 @@ const QuestionTableHead = ({ onSelectAllClick, order, orderBy, numSelected, rowC
                 </TableCell>
                 {numSelected > 0 && (
                     <TableCell padding="none" colSpan={7}>
-                        <QuestionHeaderTableToolbar selected={selected} />
+                        <QuestionHeaderTableToolbar quizId={quizId} selected={selected} />
                     </TableCell>
                 )}
                 {numSelected <= 0 &&

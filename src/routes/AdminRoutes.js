@@ -28,7 +28,7 @@ const AdminRoutes = {
             element: <Quiz />
         },
         {
-            path: '/admin/questions/:id',
+            path: '/admin/quiz/:id',
             element: <Question />
         },
         {

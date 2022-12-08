@@ -30,10 +30,10 @@ const validationSchema = yup.object({
 
 // ==============================|| ADD DEPARTMENT DIALOG ||============================== //
 
-const AddQuestion = ({ open, handleCloseDialog }) => {
+const AddQuestion = ({ quizId, open, handleCloseDialog }) => {
     const dispatch = useDispatch();
-    const question = useSelector((state) => state.question);
-    const { questions } = question;
+    const quiz = useSelector((state) => state.quiz);
+    const { quizzes } = quiz;
 
     const formik = useFormik({
         initialValues: {
@@ -42,7 +42,7 @@ const AddQuestion = ({ open, handleCloseDialog }) => {
         },
         validationSchema,
         onSubmit: (values) => {
-            dispatch(addQuestion(values, questions));
+            dispatch(addQuestion(quizId, values, quizzes));
             dispatch(
                 openSnackbar({
                     open: true,

@@ -13,10 +13,10 @@ import { deleteQuestion } from 'store/slices/quiz';
 // assets
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 
-const QuestionItem = ({ question, isItemSelected, labelId, handleClick }) => {
+const QuestionItem = ({ quizId, question, isItemSelected, labelId, handleClick }) => {
     const dispatch = useDispatch();
-    const questionSelector = useSelector((state) => state.question);
-    const { questions } = questionSelector;
+    const quizSelector = useSelector((state) => state.quiz);
+    const { quizzes } = quizSelector;
 
     const [openEdit, setOpenEdit] = useState(false);
     const handleClickOpenEditDialog = () => {
@@ -41,7 +41,7 @@ const QuestionItem = ({ question, isItemSelected, labelId, handleClick }) => {
     const handleDeleteModalClose = (status) => {
         setOpenDeleteModal(false);
         if (status) {
-            dispatch(deleteQuestion(question.id, questions));
+            dispatch(deleteQuestion(quizId, question.id, quizzes));
             dispatch(
                 openSnackbar({
                     open: true,
@@ -143,7 +143,7 @@ const QuestionItem = ({ question, isItemSelected, labelId, handleClick }) => {
                     </Menu>
                 </TableCell>
             </TableRow>
-            <EditQuestion question={question} open={openEdit} handleCloseDialog={handleCloseEditDialog} />
+            <EditQuestion quizId={quizId} question={question} open={openEdit} handleCloseDialog={handleCloseEditDialog} />
         </>
     );
 };

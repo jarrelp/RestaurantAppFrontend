@@ -15,10 +15,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 // ==============================|| TABLE HEADER TOOLBAR ||============================== //
 
-const QuestionHeaderTableToolbar = ({ selected }) => {
+const QuestionHeaderTableToolbar = ({ quizId, selected }) => {
     const dispatch = useDispatch();
-    const questionSelector = useSelector((state) => state.question);
-    const { questions } = questionSelector;
+    const quizSelector = useSelector((state) => state.quiz);
+    const { quizzes } = quizSelector;
 
     //delete
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -26,7 +26,7 @@ const QuestionHeaderTableToolbar = ({ selected }) => {
     const handleDeleteModalClose = (status) => {
         setOpenDeleteModal(false);
         if (status) {
-            dispatch(deleteQuestions(selected, questions));
+            dispatch(deleteQuestions(quizId, selected, quizzes));
             dispatch(
                 openSnackbar({
                     open: true,
