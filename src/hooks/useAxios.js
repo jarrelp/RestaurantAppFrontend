@@ -1,27 +1,47 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
-// axios.defaults.baseURL = 'http://localhost:3000/';
+const useAxios = (configObj) => {
+    const { axiosInstance, method, url, requestConfig = {} } = configObj;
 
-const useAxios = ({ url }) => {
-    const [response, setResponse] = useState(null);
+    const [response, setResponse] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
+    const [reload, setReload] = useState(0);
+
+    const refetch = () => setReload((prev) => prev + 1);
 
     useEffect(() => {
-        const fetchData = () => {
-            axios
-                .get(url)
-                .then((res) => setResponse(res.data))
-                .catch((err) => setError(err))
-                .finally(() => setLoading(false));
-        };
-        fetchData();
-    }, [url]);
+        //let isMounted = true;
+        const controller = new AbortController();
 
-    return { response, error, loading };
+        const fetchData = async () => {
+            try {
+                const res = await axiosInstance[method.toLowerCase()](url, {
+                    ...requestConfig,
+                    signal: controller.signal
+                });
+                console.log(res);
+                setResponse(res.data);
+            } catch (err) {
+                console.log(err.message);
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        // call the function
+        fetchData();
+
+        // useEffect cleanup function
+        return () => controller.abort();
+
+        // eslint-disable-next-line
+    }, [reload]);
+
+    return [response, error, loading, refetch];
 };
 
 export default useAxios;
 
-// https://the-trivia-api.com/api/questions?limit=12&region=NL&difficulty=easy
+// https://www.youtube.com/watch?v=NqdqnfzOQFE

@@ -30,6 +30,9 @@ import { getDepartmentsList } from 'store/slices/department';
 import { openDrawer } from 'store/slices/menu';
 import EmptyBoxImage from 'assets/Images/empty-box.png';
 
+import useAxios from 'hooks/useAxios';
+import axios from 'apis/backendApi';
+
 // constants
 import { gridSpacing } from 'store/constant';
 
@@ -93,30 +96,42 @@ const DepartmentList = () => {
         setOpenAdd(false);
     };
 
-    // department data
-    const [departments, setDepartments] = useState([]);
-    const departmentState = useSelector((state) => state.department);
+    // // department data
+    // const [departments, setDepartments] = useState([]);
+    // const departmentState = useSelector((state) => state.department);
 
-    useEffect(() => {
-        setDepartments(departmentState.departments);
-    }, [departmentState]);
+    // useEffect(() => {
+    //     setDepartments(departmentState.departments);
+    // }, [departmentState]);
 
-    useEffect(() => {
-        dispatch(getDepartmentsList());
+    // useEffect(() => {
+    //     dispatch(getDepartmentsList());
 
-        // hide left drawer when email app opens
-        dispatch(openDrawer(false));
-    }, [dispatch]);
+    //     // hide left drawer when email app opens
+    //     dispatch(openDrawer(false));
+    // }, [dispatch]);
 
     const theme = useTheme();
 
-    const [isLoading, setLoading] = useState(true);
+    // const [isLoading, setLoading] = useState(true);
 
-    useEffect(() => {
-        if (departments.length > 0) {
-            setLoading(false);
+    const [departments, error, loading, refetch] = useAxios({
+        axiosInstance: axios,
+        method: 'GET',
+        url: '/api/departments',
+        requestConfig: {
+            headers: {
+                'Content-Language': 'en-US'
+                //'Accept': 'text/html'
+            }
         }
-    }, [departments]);
+    });
+
+    // useEffect(() => {
+    //     if (departments.length > 0) {
+    //         setLoading(false);
+    //     }
+    // }, [departments]);
 
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('calories');
@@ -239,7 +254,7 @@ const DepartmentList = () => {
                         </Grid>
                     </Grid>
                 </CardContent>
-                {!isLoading && departments.length === 0 ? (
+                {!loading && departments.length === 0 ? (
                     <Grid container spacing={gridSpacing}>
                         <Grid item xs={12} md={4}>
                             <SubCard variant="body1" sx={{ height: '100%' }}>
@@ -271,7 +286,7 @@ const DepartmentList = () => {
                                     headCells={headCells}
                                 />
                                 <TableBody>
-                                    {isLoading ? (
+                                    {loading ? (
                                         <RowSkeleton rowsPerPage={rowsPerPage} attributeAmmount={headCells} />
                                     ) : (
                                         stableSort(rows, getComparator(order, orderBy))
