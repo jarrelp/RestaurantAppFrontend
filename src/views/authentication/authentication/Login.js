@@ -10,6 +10,7 @@ import AuthCardWrapper from '../AuthCardWrapper';
 import AuthLogin from '../auth-forms/AuthLogin';
 import Logo from 'ui-component/Logo';
 import AuthFooter from 'ui-component/cards/AuthFooter';
+import useAuth from 'hooks/useAuth';
 
 // assets
 
@@ -17,6 +18,7 @@ import AuthFooter from 'ui-component/cards/AuthFooter';
 
 const Login = () => {
     const theme = useTheme();
+    const { isLoggedIn } = useAuth();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
     return (
@@ -60,7 +62,7 @@ const Login = () => {
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <AuthLogin />
+                                        <AuthLogin loginProp={3} />
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Divider />
@@ -69,7 +71,7 @@ const Login = () => {
                                         <Grid item container direction="column" alignItems="center" xs={12}>
                                             <Typography
                                                 component={Link}
-                                                to="/auth/register"
+                                                to={isLoggedIn ? '/quiz' : '/register'}
                                                 variant="subtitle1"
                                                 sx={{ textDecoration: 'none' }}
                                             >

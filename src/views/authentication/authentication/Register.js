@@ -10,13 +10,15 @@ import AuthCardWrapper from '../AuthCardWrapper';
 import Logo from 'ui-component/Logo';
 import AuthRegister from '../auth-forms/AuthRegister';
 import AuthFooter from 'ui-component/cards/AuthFooter';
+import useAuth from 'hooks/useAuth';
 
 // assets
 
-// ===============================|| AUTH - REGISTER ||=============================== //
+// ===============================|| AUTH3 - REGISTER ||=============================== //
 
 const Register = () => {
     const theme = useTheme();
+    const { isLoggedIn } = useAuth();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
     return (
@@ -69,7 +71,7 @@ const Register = () => {
                                         <Grid item container direction="column" alignItems="center" xs={12}>
                                             <Typography
                                                 component={Link}
-                                                to="/auth/login"
+                                                to={isLoggedIn ? '/quiz' : '/register'}
                                                 variant="subtitle1"
                                                 sx={{ textDecoration: 'none' }}
                                             >

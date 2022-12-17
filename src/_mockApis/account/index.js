@@ -14,8 +14,8 @@ const delay = (timeout) => new Promise((res) => setTimeout(res, timeout));
 let users = [
     {
         id: '5e86809283e28b96d2d38537',
-        email: 'info@codedthemes.com',
-        password: '123456',
+        email: 'test@gmail.com',
+        password: 'Test1!',
         name: 'JWT User'
     }
 ];

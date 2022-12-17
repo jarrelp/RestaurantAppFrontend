@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 
 // project imports
+import GuestGuard from 'utils/route-guard/GuestGuard';
 import Loadable from 'ui-component/Loadable';
 import MinimalLayout from 'layout/MinimalLayout';
 
@@ -12,14 +13,18 @@ const AuthRegister = Loadable(lazy(() => import('views/authentication/authentica
 
 const AuthenticationRoutes = {
     path: '/',
-    element: <MinimalLayout />,
+    element: (
+        <GuestGuard>
+            <MinimalLayout />
+        </GuestGuard>
+    ),
     children: [
         {
-            path: '/auth/login',
+            path: '/login',
             element: <AuthLogin />
         },
         {
-            path: '/auth/register',
+            path: '/register',
             element: <AuthRegister />
         }
     ]

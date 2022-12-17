@@ -13,6 +13,8 @@ import themes from 'themes';
 import NavigationScroll from 'layout/NavigationScroll';
 import Snackbar from 'ui-component/extended/Snackbar';
 
+import { JWTProvider as AuthProvider } from 'contexts/JWTContext';
+
 // ==============================|| APP ||============================== //
 
 const App = () => {
@@ -23,8 +25,10 @@ const App = () => {
             <ThemeProvider theme={themes(menu)}>
                 <CssBaseline />
                 <NavigationScroll>
-                    <Routes />
-                    <Snackbar />
+                    <AuthProvider>
+                        <Routes />
+                        <Snackbar />
+                    </AuthProvider>
                 </NavigationScroll>
             </ThemeProvider>
         </StyledEngineProvider>

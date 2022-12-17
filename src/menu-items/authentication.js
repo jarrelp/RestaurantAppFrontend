@@ -24,14 +24,14 @@ const authentication = {
                     id: 'login',
                     title: 'Login',
                     type: 'item',
-                    url: '/auth/login',
+                    url: '/login',
                     target: true
                 },
                 {
                     id: 'register',
                     title: 'Register',
                     type: 'item',
-                    url: '/auth/register',
+                    url: '/register',
                     target: true
                 }
             ]

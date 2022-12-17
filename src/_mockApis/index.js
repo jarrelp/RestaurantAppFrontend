@@ -1,5 +1,5 @@
 // auth
-// import './account';
+import './account';
 
 // app pages
 import './department';

@@ -23,7 +23,7 @@ export const strengthColor = (count) => {
 };
 
 // password strength indicator
-export const strengthIndicator = (number) => {
+export const strengthIndicatorNumFunc = (number) => {
     let strengths = 0;
     if (number.length > 5) strengths += 1;
     if (number.length > 7) strengths += 1;
