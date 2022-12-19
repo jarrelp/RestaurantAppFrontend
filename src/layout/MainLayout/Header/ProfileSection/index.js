@@ -22,6 +22,8 @@ import {
 import MainCard from 'ui-component/cards/MainCard';
 import Transitions from 'ui-component/extended/Transitions';
 import Face2Icon from '@mui/icons-material/Face2';
+import useAuth from 'hooks/useAuth';
+
 // assets
 import { IconLogout, IconSettings } from '@tabler/icons';
 
@@ -35,13 +37,18 @@ const ProfileSection = () => {
     const navigate = useNavigate();
 
     const [selectedIndex, setSelectedIndex] = useState(-1);
+    const { logout } = useAuth();
     const [open, setOpen] = useState(false);
     /**
      * anchorRef is used on different componets and specifying one type leads to other components throwing an error
      * */
     const anchorRef = useRef(null);
     const handleLogout = async () => {
-        console.log('Logout');
+        try {
+            await logout();
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     const handleClose = (event) => {

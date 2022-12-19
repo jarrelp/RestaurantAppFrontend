@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import { createContext, useEffect, useReducer } from 'react';
 
 // third-party
-import { Chance } from 'chance';
 import jwtDecode from 'jwt-decode';
 
 // reducer - state management
@@ -11,9 +10,7 @@ import accountReducer from 'store/accountReducer';
 
 // project imports
 import Loader from 'ui-component/Loader';
-import axios from 'utils/axios';
-
-const chance = new Chance();
+import axios from 'apis/backendApi';
 
 // constant
 const initialState = {
@@ -55,7 +52,7 @@ export const JWTProvider = ({ children }) => {
                 const serviceToken = window.localStorage.getItem('serviceToken');
                 if (serviceToken && verifyToken(serviceToken)) {
                     setSession(serviceToken);
-                    const response = await axios.get('/api/account/me');
+                    const response = await axios.get('/api/auth/me');
                     const { user } = response.data;
                     dispatch({
                         type: LOGIN,
@@ -80,10 +77,10 @@ export const JWTProvider = ({ children }) => {
         init();
     }, []);
 
-    const login = async (email, password) => {
-        const response = await axios.post('/api/account/login', { email, password });
-        const { serviceToken, user } = response.data;
-        setSession(serviceToken);
+    const login = async (userName, password) => {
+        const response = await axios.post('/api/auth/login', { userName, password });
+        const { token, user } = response.data;
+        setSession(token);
         dispatch({
             type: LOGIN,
             payload: {
@@ -93,15 +90,13 @@ export const JWTProvider = ({ children }) => {
         });
     };
 
-    const register = async (email, password, firstName, lastName) => {
+    const register = async (userName, password, confirmPassword, departmentId) => {
         // todo: this flow need to be recode as it not verified
-        const id = chance.bb_pin();
-        const response = await axios.post('/api/account/register', {
-            id,
-            email,
+        const response = await axios.post('/api/Auth/register', {
+            userName,
             password,
-            firstName,
-            lastName
+            confirmPassword,
+            departmentId
         });
         let users = response.data;
 
@@ -110,10 +105,8 @@ export const JWTProvider = ({ children }) => {
             users = [
                 ...JSON.parse(localUsers),
                 {
-                    id,
-                    email,
-                    password,
-                    name: `${firstName} ${lastName}`
+                    userName,
+                    departmentId
                 }
             ];
         }
@@ -126,7 +119,7 @@ export const JWTProvider = ({ children }) => {
         dispatch({ type: LOGOUT });
     };
 
-    const resetPassword = (email) => console.log(email);
+    const resetPassword = (userName) => console.log(userName);
 
     const updateProfile = () => {};
 

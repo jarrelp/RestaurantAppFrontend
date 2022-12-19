@@ -16,9 +16,7 @@ import {
     InputAdornment,
     InputLabel,
     OutlinedInput,
-    TextField,
-    Typography,
-    useMediaQuery
+    Typography
 } from '@mui/material';
 
 // third party
@@ -44,7 +42,6 @@ const JWTRegister = ({ ...others }) => {
     const scriptedRef = useScriptRef();
     const dispatch = useDispatch();
 
-    const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     const [showPassword, setShowPassword] = React.useState(false);
     const [checked, setChecked] = React.useState(true);
 
@@ -75,26 +72,28 @@ const JWTRegister = ({ ...others }) => {
             <Grid container direction="column" justifyContent="center" spacing={2}>
                 <Grid item xs={12} container alignItems="center" justifyContent="center">
                     <Box sx={{ mb: 2 }}>
-                        <Typography variant="subtitle1">Sign up with Email address</Typography>
+                        <Typography variant="subtitle1">Sign up with UserName</Typography>
                     </Box>
                 </Grid>
             </Grid>
 
             <Formik
                 initialValues={{
-                    email: '',
+                    userName: '',
                     password: '',
-                    firstName: '',
-                    lastName: '',
+                    confirmPassword: '',
+                    departmentId: 1,
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
-                    email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                    password: Yup.string().max(255).required('Password is required')
+                    userName: Yup.string().max(255).required('UserName is required'),
+                    password: Yup.string().max(255).required('Password is required'),
+                    confirmPassword: Yup.string().max(255).required('ConfirmPassword is required'),
+                    departmentId: Yup.string().required('departmentId is required')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
-                        await register(values.email, values.password, values.firstName, values.lastName);
+                        await register(values.userName, values.password, values.confirmPassword, values.departmentId);
                         if (scriptedRef.current) {
                             setStatus({ success: true });
                             setSubmitting(false);
@@ -126,48 +125,24 @@ const JWTRegister = ({ ...others }) => {
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit} {...others}>
-                        <Grid container spacing={matchDownSM ? 0 : 2}>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    fullWidth
-                                    label="First Name"
-                                    margin="normal"
-                                    name="firstName"
-                                    type="text"
-                                    value={values.firstName}
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    sx={{ ...theme.typography.customInput }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    fullWidth
-                                    label="Last Name"
-                                    margin="normal"
-                                    name="lastName"
-                                    type="text"
-                                    value={values.lastName}
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    sx={{ ...theme.typography.customInput }}
-                                />
-                            </Grid>
-                        </Grid>
-                        <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-                            <InputLabel htmlFor="outlined-adornment-email-register">Email Address / Username</InputLabel>
+                        <FormControl
+                            fullWidth
+                            error={Boolean(touched.userName && errors.userName)}
+                            sx={{ ...theme.typography.customInput }}
+                        >
+                            <InputLabel htmlFor="outlined-adornment-userName-register">UserName</InputLabel>
                             <OutlinedInput
-                                id="outlined-adornment-email-register"
-                                type="email"
-                                value={values.email}
-                                name="email"
+                                id="outlined-adornment-userName-register"
+                                type="userName"
+                                value={values.userName}
+                                name="userName"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
                                 inputProps={{}}
                             />
-                            {touched.email && errors.email && (
+                            {touched.userName && errors.userName && (
                                 <FormHelperText error id="standard-weight-helper-text--register">
-                                    {errors.email}
+                                    {errors.userName}
                                 </FormHelperText>
                             )}
                         </FormControl>
@@ -207,6 +182,67 @@ const JWTRegister = ({ ...others }) => {
                             {touched.password && errors.password && (
                                 <FormHelperText error id="standard-weight-helper-text-password-register">
                                     {errors.password}
+                                </FormHelperText>
+                            )}
+                        </FormControl>
+
+                        <FormControl
+                            fullWidth
+                            error={Boolean(touched.confirmPassword && errors.confirmPassword)}
+                            sx={{ ...theme.typography.customInput }}
+                        >
+                            <InputLabel htmlFor="outlined-adornment-confirmPassword-register">Confirm Password</InputLabel>
+                            <OutlinedInput
+                                id="outlined-adornment-confirmPassword-register"
+                                type={showPassword ? 'text' : 'confirmPassword'}
+                                value={values.confirmPassword}
+                                name="confirmPassword"
+                                label="confirmPassword"
+                                onBlur={handleBlur}
+                                onChange={(e) => {
+                                    handleChange(e);
+                                    changePassword(e.target.value);
+                                }}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle confirmPassword visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                            size="large"
+                                        >
+                                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                                inputProps={{}}
+                            />
+                            {touched.confirmPassword && errors.confirmPassword && (
+                                <FormHelperText error id="standard-weight-helper-text-confirmPassword-register">
+                                    {errors.confirmPassword}
+                                </FormHelperText>
+                            )}
+                        </FormControl>
+
+                        <FormControl
+                            fullWidth
+                            error={Boolean(touched.departmentId && errors.departmentId)}
+                            sx={{ ...theme.typography.customInput }}
+                        >
+                            <InputLabel htmlFor="outlined-adornment-departmentId-register">Department Id</InputLabel>
+                            <OutlinedInput
+                                id="outlined-adornment-departmentId-register"
+                                type="departmentId"
+                                value={values.departmentId}
+                                name="departmentId"
+                                onBlur={handleBlur}
+                                onChange={handleChange}
+                                inputProps={{}}
+                            />
+                            {touched.departmentId && errors.departmentId && (
+                                <FormHelperText error id="standard-weight-helper-text--register">
+                                    {errors.departmentId}
                                 </FormHelperText>
                             )}
                         </FormControl>
