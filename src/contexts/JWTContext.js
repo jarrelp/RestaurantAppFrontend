@@ -98,20 +98,31 @@ export const JWTProvider = ({ children }) => {
             confirmPassword,
             departmentId
         });
-        let users = response.data;
 
-        if (window.localStorage.getItem('users') !== undefined && window.localStorage.getItem('users') !== null) {
-            const localUsers = window.localStorage.getItem('users');
-            users = [
-                ...JSON.parse(localUsers),
-                {
-                    userName,
-                    departmentId
-                }
-            ];
-        }
+        const { token, user } = response.data;
+        setSession(token);
+        dispatch({
+            type: LOGIN,
+            payload: {
+                isLoggedIn: true,
+                user
+            }
+        });
 
-        window.localStorage.setItem('users', JSON.stringify(users));
+        // let users = response.data;
+
+        // if (window.localStorage.getItem('users') !== undefined && window.localStorage.getItem('users') !== null) {
+        //     const localUsers = window.localStorage.getItem('users');
+        //     users = [
+        //         ...JSON.parse(localUsers),
+        //         {
+        //             userName,
+        //             departmentId
+        //         }
+        //     ];
+        // }
+
+        // window.localStorage.setItem('users', JSON.stringify(users));
     };
 
     const logout = () => {
