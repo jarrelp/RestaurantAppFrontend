@@ -28,6 +28,7 @@ import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch, useSelector } from 'store';
 import { addUser } from 'store/slices/user';
 import { getDepartmentsList } from 'store/slices/department';
+import { selectLoading } from 'store/slices/loading';
 
 // constants
 import { borderRadius } from 'store/constant';
@@ -48,6 +49,7 @@ const AddUser = ({ open, handleCloseDialog }) => {
     const user = useSelector((state) => state.user);
     const { users } = user;
 
+    // autocomplete
     const [departments, setDepartments] = useState([]);
     const departmentState = useSelector((state) => state.department);
 
@@ -58,18 +60,12 @@ const AddUser = ({ open, handleCloseDialog }) => {
     }, [departmentState]);
 
     useEffect(() => {
-        if (openAutoComplete) {
+        if (openAutoComplete && departments.length == 0) {
             dispatch(getDepartmentsList());
         }
     }, [dispatch, openAutoComplete]);
 
-    const [isLoading, setLoading] = useState(true);
-
-    useEffect(() => {
-        if (departments.length > 0) {
-            setLoading(false);
-        }
-    }, [departments]);
+    const isLoading = useSelector(selectLoading);
 
     const formik = useFormik({
         initialValues: {
@@ -139,13 +135,14 @@ const AddUser = ({ open, handleCloseDialog }) => {
                                     onClose={() => {
                                         setOpenAutoComplete(false);
                                     }}
-                                    value={formik.values.department.name}
-                                    onChange={(event, value) => formik.setFieldValue('department', value?.name)}
+                                    value={formik.values.department}
+                                    // onBlur={handleBlur}
+                                    onChange={(event, value) => formik.setFieldValue('department', value)}
                                     options={departments}
                                     fullWidth
                                     autoHighlight
-                                    getOptionLabel={(option) => option.name}
-                                    isOptionEqualToValue={(option) => option.name === formik.values.department}
+                                    getOptionLabel={(option) => option.name ?? ''}
+                                    isOptionEqualToValue={(option) => option === formik.values.department}
                                     renderOption={(props, option) => (
                                         <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
                                             {option.name}
@@ -154,7 +151,6 @@ const AddUser = ({ open, handleCloseDialog }) => {
                                     renderInput={(params) => (
                                         <TextField
                                             {...params}
-                                            label="department"
                                             InputProps={{
                                                 ...params.InputProps,
                                                 endAdornment: (
@@ -168,6 +164,7 @@ const AddUser = ({ open, handleCloseDialog }) => {
                                             }}
                                         />
                                     )}
+                                    sx={{ marginTop: '5px', marginBottom: '5px' }}
                                 />
                             </Grid>
                         </Grid>

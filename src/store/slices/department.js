@@ -1,11 +1,17 @@
 // third-party
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // project imports
-import axios from 'utils/axios';
+import axios from 'apis/backendApi';
 import { dispatch } from '../index';
 
 // ----------------------------------------------------------------------
+
+const slowCode = async () => {
+    return new Promise(function (resolve, reject) {
+        setTimeout(resolve, 3000);
+    });
+};
 
 const initialState = {
     error: null,
@@ -53,16 +59,15 @@ export default slice.reducer;
 
 // ----------------------------------------------------------------------
 
-export function getDepartmentsList() {
-    return async () => {
-        try {
-            const response = await axios.get('/api/department/list');
-            dispatch(slice.actions.getDepartmentsListSuccess(response.data.departments));
-        } catch (error) {
-            dispatch(slice.actions.hasError(error));
-        }
-    };
-}
+export const getDepartmentsList = createAsyncThunk('/api/departments', async () => {
+    try {
+        await slowCode();
+        const response = await axios.get('/api/departments');
+        dispatch(slice.actions.getDepartmentsListSuccess(response.data));
+    } catch (error) {
+        dispatch(slice.actions.hasError(error));
+    }
+});
 
 export function addDepartment(department, departments) {
     return async () => {

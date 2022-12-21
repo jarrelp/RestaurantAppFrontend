@@ -38,7 +38,7 @@ const UserProfile = () => {
                 <TextField fullWidth label="User Name" defaultValue={user?.userName} />
             </Grid>
             <Grid item xs={6} sm={3}>
-                <TextField fullWidth label="Department Id" defaultValue={String(user?.departmentId)} />
+                <TextField fullWidth label="Department" defaultValue={user?.departmentName} />
             </Grid>
         </Grid>
     );

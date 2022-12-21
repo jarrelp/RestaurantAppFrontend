@@ -34,6 +34,7 @@ import { strengthColor, strengthIndicatorNumFunc } from 'utils/password-strength
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch, useSelector } from 'store';
 import { getDepartmentsList } from 'store/slices/department';
+import { selectLoading } from 'store/slices/loading';
 
 // assets
 import Visibility from '@mui/icons-material/Visibility';
@@ -83,18 +84,12 @@ const JWTRegister = ({ ...others }) => {
     }, [departmentState]);
 
     useEffect(() => {
-        if (openAutoComplete) {
+        if (openAutoComplete && departments.length == 0) {
             dispatch(getDepartmentsList());
         }
     }, [dispatch, openAutoComplete]);
 
-    const [isLoading, setLoading] = useState(true);
-
-    useEffect(() => {
-        if (departments.length > 0) {
-            setLoading(false);
-        }
-    }, [departments]);
+    const isLoading = useSelector(selectLoading);
 
     return (
         <>
@@ -111,18 +106,19 @@ const JWTRegister = ({ ...others }) => {
                     userName: '',
                     password: '',
                     confirmPassword: '',
-                    departmentId: '',
+                    department: null,
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
                     userName: Yup.string().max(255).required('UserName is required'),
                     password: Yup.string().max(255).required('Password is required'),
-                    confirmPassword: Yup.string().max(255).required('ConfirmPassword is required'),
-                    departmentId: Yup.string().required('departmentId is required')
+                    confirmPassword: Yup.string().max(255).required('ConfirmPassword is required')
+                    // ,
+                    // department: Yup.string().required('department is required')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
-                        await register(values.userName, values.password, values.confirmPassword, values.departmentId);
+                        await register(values.userName, values.password, values.confirmPassword, values.department.id);
                         if (scriptedRef.current) {
                             setStatus({ success: true });
                             setSubmitting(false);
@@ -152,7 +148,7 @@ const JWTRegister = ({ ...others }) => {
                     }
                 }}
             >
-                {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+                {({ errors, handleBlur, handleChange, handleSubmit, setFieldValue, isSubmitting, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit} {...others}>
                         <FormControl
                             fullWidth
@@ -256,11 +252,14 @@ const JWTRegister = ({ ...others }) => {
 
                         <Divider sx={{ margin: '10px' }} />
 
-                        <FormControl fullWidth error={Boolean(touched.departmentId && errors.departmentId)}>
+                        <FormControl
+                            fullWidth
+                            // error={Boolean(touched.department && errors.department)}
+                        >
                             <Autocomplete
-                                id="outlined-adornment-departmentId-register"
-                                type="departmentId"
-                                name="departmentId"
+                                id="outlined-adornment-department-register"
+                                type="department"
+                                name="department"
                                 open={openAutoComplete}
                                 onOpen={() => {
                                     setOpenAutoComplete(true);
@@ -268,14 +267,14 @@ const JWTRegister = ({ ...others }) => {
                                 onClose={() => {
                                     setOpenAutoComplete(false);
                                 }}
-                                value={values.departmentId}
-                                onBlur={handleBlur}
-                                onChange={handleChange}
+                                value={values.department}
+                                // onBlur={handleBlur}
+                                onChange={(event, value) => setFieldValue('department', value)}
                                 options={departments}
                                 fullWidth
                                 autoHighlight
                                 getOptionLabel={(option) => option.name ?? ''}
-                                isOptionEqualToValue={(option) => option.name === values.departmentId}
+                                isOptionEqualToValue={(option) => option === values.department}
                                 renderOption={(props, option) => (
                                     <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
                                         {option.name}
@@ -284,7 +283,7 @@ const JWTRegister = ({ ...others }) => {
                                 renderInput={(params) => (
                                     <TextField
                                         {...params}
-                                        htmlFor="outlined-adornment-departmentId-register"
+                                        htmlFor="outlined-adornment-department-register"
                                         label="department"
                                         InputProps={{
                                             ...params.InputProps,
@@ -300,11 +299,11 @@ const JWTRegister = ({ ...others }) => {
                                 sx={{ marginTop: '5px', marginBottom: '5px' }}
                             />
 
-                            {touched.departmentId && errors.departmentId && (
-                                <FormHelperText error id="standard-weight-helper-text-departmentId-register">
-                                    {errors.departmentId}
+                            {/* {touched.department && errors.department && (
+                                <FormHelperText error id="standard-weight-helper-text-department-register">
+                                    {errors.department}
                                 </FormHelperText>
-                            )}
+                            )} */}
                         </FormControl>
 
                         {strength !== 0 && (
