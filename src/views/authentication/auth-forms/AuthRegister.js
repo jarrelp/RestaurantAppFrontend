@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'store';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // material-ui
@@ -16,7 +15,11 @@ import {
     InputAdornment,
     InputLabel,
     OutlinedInput,
-    Typography
+    Typography,
+    Autocomplete,
+    TextField,
+    CircularProgress,
+    Divider
 } from '@mui/material';
 
 // third party
@@ -29,6 +32,8 @@ import useAuth from 'hooks/useAuth';
 import useScriptRef from 'hooks/useScriptRef';
 import { strengthColor, strengthIndicatorNumFunc } from 'utils/password-strength';
 import { openSnackbar } from 'store/slices/snackbar';
+import { useDispatch, useSelector } from 'store';
+import { getDepartmentsList } from 'store/slices/department';
 
 // assets
 import Visibility from '@mui/icons-material/Visibility';
@@ -67,6 +72,30 @@ const JWTRegister = ({ ...others }) => {
         changePassword('123456');
     }, []);
 
+    // autocomplete
+    const [departments, setDepartments] = useState([]);
+    const departmentState = useSelector((state) => state.department);
+
+    const [openAutoComplete, setOpenAutoComplete] = useState(false);
+
+    useEffect(() => {
+        setDepartments(departmentState.departments);
+    }, [departmentState]);
+
+    useEffect(() => {
+        if (openAutoComplete) {
+            dispatch(getDepartmentsList());
+        }
+    }, [dispatch, openAutoComplete]);
+
+    const [isLoading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (departments.length > 0) {
+            setLoading(false);
+        }
+    }, [departments]);
+
     return (
         <>
             <Grid container direction="column" justifyContent="center" spacing={2}>
@@ -82,7 +111,7 @@ const JWTRegister = ({ ...others }) => {
                     userName: '',
                     password: '',
                     confirmPassword: '',
-                    departmentId: 1,
+                    departmentId: '',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
@@ -194,7 +223,7 @@ const JWTRegister = ({ ...others }) => {
                             <InputLabel htmlFor="outlined-adornment-confirmPassword-register">Confirm Password</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-confirmPassword-register"
-                                type={showPassword ? 'text' : 'confirmPassword'}
+                                type={showPassword ? 'text' : 'password'}
                                 value={values.confirmPassword}
                                 name="confirmPassword"
                                 label="confirmPassword"
@@ -225,23 +254,54 @@ const JWTRegister = ({ ...others }) => {
                             )}
                         </FormControl>
 
-                        <FormControl
-                            fullWidth
-                            error={Boolean(touched.departmentId && errors.departmentId)}
-                            sx={{ ...theme.typography.customInput }}
-                        >
-                            <InputLabel htmlFor="outlined-adornment-departmentId-register">Department Id</InputLabel>
-                            <OutlinedInput
+                        <Divider sx={{ margin: '10px' }} />
+
+                        <FormControl fullWidth error={Boolean(touched.departmentId && errors.departmentId)}>
+                            <Autocomplete
                                 id="outlined-adornment-departmentId-register"
                                 type="departmentId"
-                                value={values.departmentId}
                                 name="departmentId"
+                                open={openAutoComplete}
+                                onOpen={() => {
+                                    setOpenAutoComplete(true);
+                                }}
+                                onClose={() => {
+                                    setOpenAutoComplete(false);
+                                }}
+                                value={values.departmentId}
                                 onBlur={handleBlur}
                                 onChange={handleChange}
-                                inputProps={{}}
+                                options={departments}
+                                fullWidth
+                                autoHighlight
+                                getOptionLabel={(option) => option.name ?? ''}
+                                isOptionEqualToValue={(option) => option.name === values.departmentId}
+                                renderOption={(props, option) => (
+                                    <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                                        {option.name}
+                                    </Box>
+                                )}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        htmlFor="outlined-adornment-departmentId-register"
+                                        label="department"
+                                        InputProps={{
+                                            ...params.InputProps,
+                                            endAdornment: (
+                                                <Fragment>
+                                                    {isLoading && openAutoComplete ? <CircularProgress color="inherit" size={20} /> : null}
+                                                    {params.InputProps.endAdornment}
+                                                </Fragment>
+                                            )
+                                        }}
+                                    />
+                                )}
+                                sx={{ marginTop: '5px', marginBottom: '5px' }}
                             />
+
                             {touched.departmentId && errors.departmentId && (
-                                <FormHelperText error id="standard-weight-helper-text--register">
+                                <FormHelperText error id="standard-weight-helper-text-departmentId-register">
                                     {errors.departmentId}
                                 </FormHelperText>
                             )}
