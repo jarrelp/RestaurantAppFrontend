@@ -59,7 +59,7 @@ export default slice.reducer;
 
 // ----------------------------------------------------------------------
 
-export const getDepartmentsList = createAsyncThunk('/api/departments', async () => {
+export const getDepartmentsList = createAsyncThunk('/api/departments/get', async () => {
     try {
         await slowCode();
         const response = await axios.get('/api/departments');
@@ -72,24 +72,62 @@ export const getDepartmentsList = createAsyncThunk('/api/departments', async () 
 export function addDepartment(department, departments) {
     return async () => {
         try {
-            const response = await axios.post('/api/department/add-department', { department, departments });
-            dispatch(slice.actions.addDepartmentSuccess(response.data));
+            const result = {
+                departments: [...departments, department]
+            };
+            await slowCode();
+            await axios.post('/api/departments', { department });
+            dispatch(slice.actions.addDepartmentSuccess(result));
         } catch (error) {
             dispatch(slice.actions.hasError(error));
         }
     };
 }
 
-export function editDepartment(department, departments) {
-    return async () => {
-        try {
-            const response = await axios.post('/api/department/edit-department', { department, departments });
-            dispatch(slice.actions.editDepartmentSuccess(response.data));
-        } catch (error) {
-            dispatch(slice.actions.hasError(error));
-        }
-    };
-}
+// export const addDepartment = createAsyncThunk('/api/departments', async (department, departments) => {
+//     try {
+//         await slowCode();
+//         await axios.post('/api/departments', { department });
+//         const result = {
+//             departments: [...departments, department]
+//         };
+//         dispatch(slice.actions.addDepartmentSuccess(result));
+//     } catch (error) {
+//         dispatch(slice.actions.hasError(error));
+//     }
+// });
+
+export const editDepartment = createAsyncThunk('/api/departments', async (department, departments) => {
+    try {
+        await slowCode();
+        const response = await axios.post('/api/departments', { department, departments });
+        dispatch(slice.actions.editDepartmentSuccess(response.data));
+    } catch (error) {
+        dispatch(slice.actions.hasError(error));
+    }
+});
+
+// export function addDepartment(department, departments) {
+//     return async () => {
+//         try {
+//             const response = await axios.post('/api/department/add-department', { department, departments });
+//             dispatch(slice.actions.addDepartmentSuccess(response.data));
+//         } catch (error) {
+//             dispatch(slice.actions.hasError(error));
+//         }
+//     };
+// }
+
+// export function editDepartment(department, departments) {
+//     return async () => {
+//         try {
+//             const response = await axios.post('/api/department/edit-department', { department, departments });
+//             dispatch(slice.actions.editDepartmentSuccess(response.data));
+//         } catch (error) {
+//             dispatch(slice.actions.hasError(error));
+//         }
+//     };
+// }
 
 export function deleteDepartment(departmentId, departments) {
     return async () => {

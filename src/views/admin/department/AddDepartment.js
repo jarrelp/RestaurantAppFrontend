@@ -6,7 +6,6 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Slide,
 
 // third party
 import * as yup from 'yup';
-import { Chance } from 'chance';
 import { useFormik } from 'formik';
 
 // project imports
@@ -23,7 +22,6 @@ import { borderRadius } from 'store/constant';
 const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
 // validation
-const chance = new Chance();
 const validationSchema = yup.object({
     name: yup.string().required('Department name is required')
 });
@@ -37,7 +35,6 @@ const AddDepartment = ({ open, handleCloseDialog }) => {
 
     const formik = useFormik({
         initialValues: {
-            id: `${chance.integer({ min: 1000, max: 9999 })}`,
             name: ''
         },
         validationSchema,
