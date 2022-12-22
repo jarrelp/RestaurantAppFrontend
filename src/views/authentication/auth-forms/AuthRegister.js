@@ -252,10 +252,7 @@ const JWTRegister = ({ ...others }) => {
 
                         <Divider sx={{ margin: '10px' }} />
 
-                        <FormControl
-                            fullWidth
-                            // error={Boolean(touched.department && errors.department)}
-                        >
+                        <FormControl fullWidth error={Boolean(touched.department && errors.department)}>
                             <Autocomplete
                                 id="outlined-adornment-department-register"
                                 type="department"
@@ -299,11 +296,11 @@ const JWTRegister = ({ ...others }) => {
                                 sx={{ marginTop: '5px', marginBottom: '5px' }}
                             />
 
-                            {/* {touched.department && errors.department && (
+                            {touched.department && errors.department && (
                                 <FormHelperText error id="standard-weight-helper-text-department-register">
                                     {errors.department}
                                 </FormHelperText>
-                            )} */}
+                            )}
                         </FormControl>
 
                         {strength !== 0 && (

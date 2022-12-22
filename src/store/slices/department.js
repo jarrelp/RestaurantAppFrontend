@@ -72,11 +72,11 @@ export const getDepartmentsList = createAsyncThunk('/api/departments/get', async
 export function addDepartment(department, departments) {
     return async () => {
         try {
-            const result = {
-                departments: [...departments, department]
-            };
             await slowCode();
-            await axios.post('/api/departments', { department });
+            const response = await axios.post('/api/departments', department);
+            let result = {
+                departments: [...departments, response.data]
+            };
             dispatch(slice.actions.addDepartmentSuccess(result));
         } catch (error) {
             dispatch(slice.actions.hasError(error));
