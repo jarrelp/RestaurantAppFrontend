@@ -69,20 +69,18 @@ export const getDepartmentsList = createAsyncThunk('/api/departments/get', async
     }
 });
 
-export function addDepartment(department, departments) {
-    return async () => {
-        try {
-            await slowCode();
-            const response = await axios.post('/api/departments', department);
-            let result = {
-                departments: [...departments, response.data]
-            };
-            dispatch(slice.actions.addDepartmentSuccess(result));
-        } catch (error) {
-            dispatch(slice.actions.hasError(error));
-        }
-    };
-}
+export const addDepartment = createAsyncThunk('/api/departments/add', async (department, departments) => {
+    try {
+        await slowCode();
+        const response = await axios.post('/api/departments', department);
+        let result = {
+            departments: [...departments, response.data]
+        };
+        dispatch(slice.actions.addDepartmentSuccess(result));
+    } catch (error) {
+        dispatch(slice.actions.hasError(error));
+    }
+});
 
 // export const addDepartment = createAsyncThunk('/api/departments', async (department, departments) => {
 //     try {

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { addDepartment } from './department';
 
 const initialState = {
     action: false,
@@ -44,6 +45,28 @@ const snackbar = createSlice({
         closeSnackbar(state) {
             state.open = false;
         }
+    },
+    extraReducers: {
+        [addDepartment.fulfilled]: () =>
+            openSnackbar({
+                open: true,
+                message: 'Submit Success',
+                variant: 'alert',
+                alert: {
+                    color: 'success'
+                },
+                close: false
+            }),
+        [addDepartment.rejected]: () =>
+            openSnackbar({
+                open: true,
+                message: 'Error',
+                variant: 'alert',
+                alert: {
+                    color: 'error'
+                },
+                close: false
+            })
     }
 });
 
