@@ -6,11 +6,11 @@ import axios from 'apis/backendApi';
 
 // ----------------------------------------------------------------------
 
-const slowCode = async () => {
-    return new Promise(function (resolve, reject) {
-        setTimeout(resolve, 3000);
-    });
-};
+// const slowCode = async () => {
+//     return new Promise(function (resolve, reject) {
+//         setTimeout(resolve, 3000);
+//     });
+// };
 
 export const getDepartmentsList = createAsyncThunk('/api/departments/get', async () => {
     try {
@@ -42,24 +42,24 @@ export const deleteDepartment = createAsyncThunk('/api/departments/delete', asyn
     }
 });
 
-export const deleteDepartments = createAsyncThunk('/api/departments/deletemultiple', async (departmentIds) => {
-    try {
-        // {
-        //     "ids": [
-        //       1, 2
-        //     ]
-        //   }
-        // await slowCode();
+// export const deleteDepartments = createAsyncThunk('/api/departments/deletemultiple', async (departmentIds) => {
+//     try {
+//         // {
+//         //     "ids": [
+//         //       1, 2
+//         //     ]
+//         //   }
+//         // await slowCode();
 
-        // var ids = [];
-        // departmentIds.map((id) => ids.push(id));
-        // var iets = { ids };
-        const response = await axios.delete('/api/departments/multiple', departmentIds);
-        return response.data;
-    } catch (error) {
-        throw Error(error.message);
-    }
-});
+//         // var ids = [];
+//         // departmentIds.map((id) => ids.push(id));
+//         // var iets = { ids };
+//         const response = await axios.delete('/api/departments/multiple', departmentIds);
+//         return response.data;
+//     } catch (error) {
+//         throw Error(error.message);
+//     }
+// });
 
 export const updateDepartment = createAsyncThunk('/api/departments/put', async (department) => {
     try {
@@ -74,34 +74,34 @@ export const updateDepartment = createAsyncThunk('/api/departments/put', async (
 const slice = createSlice({
     name: 'departments',
     initialState: [],
-    reducers: {
-        // GET DEPARTMENTS
-        getDepartmentsListSuccess: (state, action) => action.payload,
+    // reducers: {
+    //     // GET DEPARTMENTS
+    //     getDepartmentsListSuccess: (state, action) => action.payload,
 
-        // ADD DEPARTMENT
-        addDepartmentSuccess: {
-            reducer: (state, action) => {
-                state.unshift(action.payload);
-            },
-            prepare: (department) => ({ payload: { id: 1, title: department } })
-        },
+    //     // ADD DEPARTMENT
+    //     addDepartmentSuccess: {
+    //         reducer: (state, action) => {
+    //             state.unshift(action.payload);
+    //         },
+    //         prepare: (department) => ({ payload: { id: 1, title: department } })
+    //     },
 
-        // EDIT DEPARTMENT
-        editDepartmentSuccess(state, action) {
-            state.departments = action.payload.departments;
-        },
+    //     // EDIT DEPARTMENT
+    //     editDepartmentSuccess(state, action) {
+    //         state.departments = action.payload.departments;
+    //     },
 
-        // DELETE DEPARTMENT
-        deleteDepartmentSuccess: (state, action) => {
-            let departmentIdx = state.findIndex((department) => department.id === parseInt(action.payload));
-            state.splice(departmentIdx, 1);
-        },
+    //     // DELETE DEPARTMENT
+    //     deleteDepartmentSuccess: (state, action) => {
+    //         let departmentIdx = state.findIndex((department) => department.id === parseInt(action.payload));
+    //         state.splice(departmentIdx, 1);
+    //     },
 
-        // DELETE DEPARTMENTS
-        deleteDepartmentsSuccess(state, action) {
-            state.departments = action.payload.departments;
-        }
-    },
+    //     // DELETE DEPARTMENTS
+    //     deleteDepartmentsSuccess(state, action) {
+    //         state.departments = action.payload.departments;
+    //     }
+    // },
     extraReducers: {
         [getDepartmentsList.fulfilled]: (state, { payload }) => payload,
         [addDepartment.fulfilled]: (state, { payload }) => {
@@ -111,14 +111,14 @@ const slice = createSlice({
             let departmentIdx = state.findIndex((department) => department.id === parseInt(payload));
             state.splice(departmentIdx, 1);
         },
-        [deleteDepartments.fulfilled]: (state, { payload }) => {
-            payload.map((id) =>
-                state.splice(
-                    state.findIndex((department) => department.id === parseInt(id)),
-                    1
-                )
-            );
-        },
+        // [deleteDepartments.fulfilled]: (state, { payload }) => {
+        //     payload.map((id) =>
+        //         state.splice(
+        //             state.findIndex((department) => department.id === parseInt(id)),
+        //             1
+        //         )
+        //     );
+        // },
         [updateDepartment.fulfilled]: (state, { payload }) => {
             let departmentIdx = state.findIndex((department) => department.id === parseInt(payload.id));
             state.splice(departmentIdx, 1, payload);

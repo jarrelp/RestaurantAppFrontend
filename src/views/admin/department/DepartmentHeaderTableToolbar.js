@@ -8,7 +8,7 @@ import { Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
 import AlertDepartmentDelete from './AlertDepartmentDelete';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch } from 'store';
-import { deleteDepartments } from 'store/slices/departments';
+import { deleteDepartment } from 'store/slices/departments';
 
 // assets
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -18,25 +18,54 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const DepartmentHeaderTableToolbar = ({ selected }) => {
     const dispatch = useDispatch();
 
+    // const dispatch = useDispatch();
+
+    // const [value, setValue] = useState({
+    //     ids: []
+    // });
+
+    // useEffect(() => {
+    //     setValue({
+    //         ids: selected
+    //     });
+    // }, [selected]);
+
+    // //delete
+    // const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+    // const handleDeleteModalClose = (status) => {
+    //     setOpenDeleteModal(false);
+    //     if (status) {
+    //         dispatch(
+
+    //             deleteDepartments(
+    //                 value
+    //                 //     {
+    //                 //     ids: selected
+    //                 // }
+    //             )
+    //         );
+
     //delete
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
     const handleDeleteModalClose = (status) => {
         setOpenDeleteModal(false);
         if (status) {
-            dispatch(deleteDepartments({ ids: [selected] }));
-            // dispatch(
-            //     openSnackbar({
-            //         open: true,
-            //         message: 'Departments Deleted successfully',
-            //         anchorOrigin: { vertical: 'top', horizontal: 'right' },
-            //         variant: 'alert',
-            //         alert: {
-            //             color: 'success'
-            //         },
-            //         close: false
-            //     })
-            // );
+            selected.map((id) => dispatch(deleteDepartment(id)));
+
+            dispatch(
+                openSnackbar({
+                    open: true,
+                    message: 'Departments Deleted successfully',
+                    anchorOrigin: { vertical: 'top', horizontal: 'right' },
+                    variant: 'alert',
+                    alert: {
+                        color: 'success'
+                    },
+                    close: false
+                })
+            );
         }
     };
     //delete
