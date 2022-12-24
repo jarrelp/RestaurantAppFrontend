@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addDepartment } from './department';
+import { addDepartment } from './departments';
 
 const initialState = {
     action: false,

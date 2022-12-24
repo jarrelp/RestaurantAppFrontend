@@ -7,8 +7,8 @@ import { Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
 // project imports
 import AlertDepartmentDelete from './AlertDepartmentDelete';
 import { openSnackbar } from 'store/slices/snackbar';
-import { useDispatch, useSelector } from 'store';
-import { deleteDepartments } from 'store/slices/department';
+import { useDispatch } from 'store';
+import { deleteDepartments } from 'store/slices/departments';
 
 // assets
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -17,8 +17,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 const DepartmentHeaderTableToolbar = ({ selected }) => {
     const dispatch = useDispatch();
-    const departmentSelector = useSelector((state) => state.department);
-    const { departments } = departmentSelector;
 
     //delete
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -26,19 +24,19 @@ const DepartmentHeaderTableToolbar = ({ selected }) => {
     const handleDeleteModalClose = (status) => {
         setOpenDeleteModal(false);
         if (status) {
-            dispatch(deleteDepartments(selected, departments));
-            dispatch(
-                openSnackbar({
-                    open: true,
-                    message: 'Departments Deleted successfully',
-                    anchorOrigin: { vertical: 'top', horizontal: 'right' },
-                    variant: 'alert',
-                    alert: {
-                        color: 'success'
-                    },
-                    close: false
-                })
-            );
+            dispatch(deleteDepartments({ ids: [selected] }));
+            // dispatch(
+            //     openSnackbar({
+            //         open: true,
+            //         message: 'Departments Deleted successfully',
+            //         anchorOrigin: { vertical: 'top', horizontal: 'right' },
+            //         variant: 'alert',
+            //         alert: {
+            //             color: 'success'
+            //         },
+            //         close: false
+            //     })
+            // );
         }
     };
     //delete

@@ -7,16 +7,14 @@ import { Checkbox, IconButton, Menu, MenuItem, TableCell, TableRow, Typography }
 import EditDepartment from './EditDepartment';
 import AlertDepartmentDelete from './AlertDepartmentDelete';
 import { openSnackbar } from 'store/slices/snackbar';
-import { useDispatch, useSelector } from 'store';
-import { deleteDepartment } from 'store/slices/department';
+import { useDispatch } from 'store';
+import { deleteDepartment } from 'store/slices/departments';
 
 // assets
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 
 const DepartmentItem = ({ department, isItemSelected, labelId, handleClick }) => {
     const dispatch = useDispatch();
-    const departmentSelector = useSelector((state) => state.department);
-    const { departments } = departmentSelector;
 
     const [openEdit, setOpenEdit] = useState(false);
     const handleClickOpenEditDialog = () => {
@@ -41,7 +39,7 @@ const DepartmentItem = ({ department, isItemSelected, labelId, handleClick }) =>
     const handleDeleteModalClose = (status) => {
         setOpenDeleteModal(false);
         if (status) {
-            dispatch(deleteDepartment(department.id, departments));
+            dispatch(deleteDepartment(department.id));
             dispatch(
                 openSnackbar({
                     open: true,

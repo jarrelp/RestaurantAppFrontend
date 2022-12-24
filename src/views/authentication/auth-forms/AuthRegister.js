@@ -33,7 +33,7 @@ import useScriptRef from 'hooks/useScriptRef';
 import { strengthColor, strengthIndicatorNumFunc } from 'utils/password-strength';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch, useSelector } from 'store';
-import { getDepartmentsList } from 'store/slices/department';
+import { getDepartmentsList } from 'store/slices/departments';
 import { selectLoading } from 'store/slices/loading';
 
 // assets

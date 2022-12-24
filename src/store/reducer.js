@@ -3,12 +3,13 @@ import { combineReducers } from 'redux';
 
 // project imports
 import snackbarReducer from './slices/snackbar';
-import departmentReducer from './slices/department';
+import departmentReducer from './slices/departments';
 import skillReducer from './slices/skill';
 import userReducer from './slices/user';
 import quizReducer from './slices/quiz';
 import resultReducer from './slices/result';
 import loadingReducer from './slices/loading';
+import errorReducer from './slices/error';
 
 import menuReducer from './slices/menu';
 
@@ -22,7 +23,8 @@ const reducer = combineReducers({
     menu: menuReducer,
     skill: skillReducer,
     user: userReducer,
-    loading: loadingReducer
+    loading: loadingReducer,
+    error: errorReducer
 });
 
 export default reducer;

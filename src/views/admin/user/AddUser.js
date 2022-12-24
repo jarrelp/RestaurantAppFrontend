@@ -27,7 +27,7 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch, useSelector } from 'store';
 import { addUser } from 'store/slices/user';
-import { getDepartmentsList } from 'store/slices/department';
+import { getDepartmentsList } from 'store/slices/departments';
 import { selectLoading } from 'store/slices/loading';
 
 // constants

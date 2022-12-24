@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getDepartmentsList } from './department';
+import { getDepartmentsList } from './departments';
 
 // ==============================|| SLICE - LOADING ||============================== //
 

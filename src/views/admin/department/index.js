@@ -26,7 +26,7 @@ import RowSkeleton from 'ui-component/cards/skeleton/RowSkeleton';
 import DepartmentItem from './DepartmentItem';
 import AddDepartment from './AddDepartment';
 import { useDispatch, useSelector } from 'store';
-import { getDepartmentsList } from 'store/slices/department';
+import { getDepartmentsList, selectDepartments } from 'store/slices/departments';
 import { openDrawer } from 'store/slices/menu';
 import EmptyBoxImage from 'assets/Images/empty-box.png';
 import { selectLoading } from 'store/slices/loading';
@@ -97,21 +97,31 @@ const DepartmentList = () => {
     const theme = useTheme();
 
     // autocomplete
-    const [departments, setDepartments] = useState([]);
-    const departmentState = useSelector((state) => state.department);
+    // const [departments, setDepartments] = useState([]);
+
+    const departmentState = useSelector(selectDepartments);
+
+    // useEffect(() => {
+    //     setDepartments(departmentState);
+    // }, [departmentState]);
 
     useEffect(() => {
-        setDepartments(departmentState.departments);
-    }, [departmentState]);
-
-    useEffect(() => {
-        if (departments.length == 0) {
+        if (departmentState == 0) {
             dispatch(getDepartmentsList());
         }
         dispatch(openDrawer(false));
     }, [dispatch]);
 
     const isLoading = useSelector(selectLoading);
+
+    // if (error) {
+    //     return (
+    //         <>
+    //             <div>{error}</div>
+    //             <button onClick={() => dispatch(getDepartmentsList())}>Retry</button>
+    //         </>
+    //     );
+    // }
 
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('calories');
@@ -122,8 +132,8 @@ const DepartmentList = () => {
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
-        setRows(departments);
-    }, [departments]);
+        setRows(departmentState);
+    }, [departmentState]);
 
     const handleSearch = (event) => {
         const newString = event?.target.value;
@@ -150,7 +160,7 @@ const DepartmentList = () => {
             });
             setRows(newRows);
         } else {
-            setRows(departments);
+            setRows(departmentState);
         }
     };
 
@@ -234,7 +244,7 @@ const DepartmentList = () => {
                         </Grid>
                     </Grid>
                 </CardContent>
-                {!isLoading && departments.length === 0 ? (
+                {!isLoading && departmentState.length === 0 ? (
                     <Grid container spacing={gridSpacing}>
                         <Grid item xs={12} md={4}>
                             <SubCard variant="body1" sx={{ height: '100%' }}>
