@@ -14,6 +14,6 @@ const slice = createSlice({
     }
 });
 
-export const selectLoading = (state) => state.error;
+export const selectError = (state) => state.error;
 
 export default slice.reducer;
