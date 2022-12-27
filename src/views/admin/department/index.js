@@ -96,14 +96,7 @@ const DepartmentList = () => {
 
     const theme = useTheme();
 
-    // autocomplete
-    // const [departments, setDepartments] = useState([]);
-
     const departmentState = useSelector(selectDepartments);
-
-    // useEffect(() => {
-    //     setDepartments(departmentState);
-    // }, [departmentState]);
 
     useEffect(() => {
         if (departmentState == 0) {
@@ -113,15 +106,6 @@ const DepartmentList = () => {
     }, [dispatch]);
 
     const isLoading = useSelector(selectLoading);
-
-    // if (error) {
-    //     return (
-    //         <>
-    //             <div>{error}</div>
-    //             <button onClick={() => dispatch(getDepartmentsList())}>Retry</button>
-    //         </>
-    //     );
-    // }
 
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('calories');

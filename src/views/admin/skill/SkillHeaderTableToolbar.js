@@ -7,8 +7,8 @@ import { Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
 // project imports
 import AlertSkillDelete from './AlertSkillDelete';
 import { openSnackbar } from 'store/slices/snackbar';
-import { useDispatch, useSelector } from 'store';
-import { deleteSkills } from 'store/slices/skill';
+import { useDispatch } from 'store';
+import { deleteSkill } from 'store/slices/skill';
 
 // assets
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -17,8 +17,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 const SkillHeaderTableToolbar = ({ selected }) => {
     const dispatch = useDispatch();
-    const skillSelector = useSelector((state) => state.skill);
-    const { skills } = skillSelector;
 
     //delete
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -26,7 +24,7 @@ const SkillHeaderTableToolbar = ({ selected }) => {
     const handleDeleteModalClose = (status) => {
         setOpenDeleteModal(false);
         if (status) {
-            dispatch(deleteSkills(selected, skills));
+            selected.map((id) => dispatch(deleteSkill(id)));
             dispatch(
                 openSnackbar({
                     open: true,

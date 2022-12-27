@@ -26,9 +26,10 @@ import RowSkeleton from 'ui-component/cards/skeleton/RowSkeleton';
 import SkillItem from './SkillItem';
 import AddSkill from './AddSkill';
 import { useDispatch, useSelector } from 'store';
-import { getSkillsList } from 'store/slices/skill';
+import { getSkillsList, selectSkills } from 'store/slices/skill';
 import { openDrawer } from 'store/slices/menu';
 import EmptyBoxImage from 'assets/Images/empty-box.png';
+import { selectLoading } from 'store/slices/loading';
 
 // constants
 import { gridSpacing } from 'store/constant';
@@ -79,7 +80,7 @@ const headCells = [
     }
 ];
 
-// ==============================|| DEPARTMENT LIST ||============================== //
+// ==============================|| SKILL LIST ||============================== //
 
 const SkillList = () => {
     const dispatch = useDispatch();
@@ -94,29 +95,18 @@ const SkillList = () => {
     };
 
     // skill data
-    const [skills, setSkills] = useState([]);
-    const skillState = useSelector((state) => state.skill);
+    const skillState = useSelector(selectSkills);
 
     useEffect(() => {
-        setSkills(skillState.skills);
-    }, [skillState]);
-
-    useEffect(() => {
-        dispatch(getSkillsList());
-
-        // hide left drawer when email app opens
+        if (skillState == 0) {
+            dispatch(getSkillsList());
+        }
         dispatch(openDrawer(false));
     }, [dispatch]);
 
+    const isLoading = useSelector(selectLoading);
+
     const theme = useTheme();
-
-    const [isLoading, setLoading] = useState(true);
-
-    useEffect(() => {
-        if (skills.length > 0) {
-            setLoading(false);
-        }
-    }, [skills]);
 
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('calories');
@@ -127,8 +117,8 @@ const SkillList = () => {
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
-        setRows(skills);
-    }, [skills]);
+        setRows(skillState);
+    }, [skillState]);
 
     const handleSearch = (event) => {
         const newString = event?.target.value;
@@ -155,7 +145,7 @@ const SkillList = () => {
             });
             setRows(newRows);
         } else {
-            setRows(skills);
+            setRows(skillState);
         }
     };
 
@@ -239,7 +229,7 @@ const SkillList = () => {
                         </Grid>
                     </Grid>
                 </CardContent>
-                {!isLoading && skills.length === 0 ? (
+                {!isLoading && skillState.length === 0 ? (
                     <Grid container spacing={gridSpacing}>
                         <Grid item xs={12} md={4}>
                             <SubCard variant="body1" sx={{ height: '100%' }}>

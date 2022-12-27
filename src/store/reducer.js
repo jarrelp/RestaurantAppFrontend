@@ -9,7 +9,6 @@ import userReducer from './slices/user';
 import quizReducer from './slices/quiz';
 import resultReducer from './slices/result';
 import loadingReducer from './slices/loading';
-import errorReducer from './slices/error';
 
 import menuReducer from './slices/menu';
 
@@ -23,8 +22,7 @@ const reducer = combineReducers({
     menu: menuReducer,
     skill: skillReducer,
     user: userReducer,
-    loading: loadingReducer,
-    error: errorReducer
+    loading: loadingReducer
 });
 
 export default reducer;

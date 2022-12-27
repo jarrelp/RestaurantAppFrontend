@@ -7,7 +7,7 @@ import { Checkbox, IconButton, Menu, MenuItem, TableCell, TableRow, Typography }
 import EditSkill from './EditSkill';
 import AlertSkillDelete from './AlertSkillDelete';
 import { openSnackbar } from 'store/slices/snackbar';
-import { useDispatch, useSelector } from 'store';
+import { useDispatch } from 'store';
 import { deleteSkill } from 'store/slices/skill';
 
 // assets
@@ -15,8 +15,6 @@ import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 
 const SkillItem = ({ skill, isItemSelected, labelId, handleClick }) => {
     const dispatch = useDispatch();
-    const skillSelector = useSelector((state) => state.skill);
-    const { skills } = skillSelector;
 
     const [openEdit, setOpenEdit] = useState(false);
     const handleClickOpenEditDialog = () => {
@@ -41,7 +39,7 @@ const SkillItem = ({ skill, isItemSelected, labelId, handleClick }) => {
     const handleDeleteModalClose = (status) => {
         setOpenDeleteModal(false);
         if (status) {
-            dispatch(deleteSkill(skill.id, skills));
+            dispatch(deleteSkill(skill.id));
             dispatch(
                 openSnackbar({
                     open: true,
