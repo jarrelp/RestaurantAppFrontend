@@ -37,7 +37,7 @@ const AddDepartment = ({ open, handleCloseDialog }) => {
         },
         validationSchema,
         onSubmit: (values) => {
-            dispatch(addDepartment(values, departments));
+            dispatch(addDepartment(values));
             dispatch(
                 openSnackbar({
                     open: true,
