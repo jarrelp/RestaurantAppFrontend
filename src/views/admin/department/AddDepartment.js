@@ -37,18 +37,18 @@ const AddDepartment = ({ open, handleCloseDialog }) => {
         },
         validationSchema,
         onSubmit: (values) => {
-            dispatch(addDepartment(values));
-            // dispatch(
-            //     openSnackbar({
-            //         open: true,
-            //         message: 'Submit Success',
-            //         variant: 'alert',
-            //         alert: {
-            //             color: 'success'
-            //         },
-            //         close: false
-            //     })
-            // );
+            dispatch(addDepartment(values, departments));
+            dispatch(
+                openSnackbar({
+                    open: true,
+                    message: 'Submit Success',
+                    variant: 'alert',
+                    alert: {
+                        color: 'success'
+                    },
+                    close: false
+                })
+            );
             handleCloseDialog();
         }
     });
