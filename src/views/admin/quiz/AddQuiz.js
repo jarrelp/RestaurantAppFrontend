@@ -13,7 +13,7 @@ import { useFormik } from 'formik';
 import { gridSpacing } from 'store/constant';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { openSnackbar } from 'store/slices/snackbar';
-import { useDispatch, useSelector } from 'store';
+import { useDispatch } from 'store';
 import { addQuiz } from 'store/slices/quiz';
 
 // constants
@@ -25,24 +25,22 @@ const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {.
 // validation
 const chance = new Chance();
 const validationSchema = yup.object({
-    name: yup.string().required('Quiz name is required')
+    description: yup.string().required('Quiz description is required')
 });
 
 // ==============================|| ADD DEPARTMENT DIALOG ||============================== //
 
 const AddQuiz = ({ open, handleCloseDialog }) => {
     const dispatch = useDispatch();
-    const quiz = useSelector((state) => state.quiz);
-    const { quizzes } = quiz;
 
     const formik = useFormik({
         initialValues: {
             id: `${chance.integer({ min: 1000, max: 9999 })}`,
-            name: ''
+            description: ''
         },
         validationSchema,
         onSubmit: (values) => {
-            dispatch(addQuiz(values, quizzes));
+            dispatch(addQuiz(values));
             dispatch(
                 openSnackbar({
                     open: true,
@@ -83,13 +81,13 @@ const AddQuiz = ({ open, handleCloseDialog }) => {
                             <Grid item xs={12}>
                                 <TextField
                                     fullWidth
-                                    id="name"
-                                    name="name"
-                                    label="Name"
-                                    value={formik.values.name}
+                                    id="description"
+                                    name="description"
+                                    label="Description"
+                                    value={formik.values.description}
                                     onChange={formik.handleChange}
-                                    error={formik.touched.name && Boolean(formik.errors.name)}
-                                    helperText={formik.touched.name && formik.errors.name}
+                                    error={formik.touched.description && Boolean(formik.errors.description)}
+                                    helperText={formik.touched.description && formik.errors.description}
                                 />
                             </Grid>
                         </Grid>

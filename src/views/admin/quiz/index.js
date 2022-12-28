@@ -26,9 +26,10 @@ import RowSkeleton from 'ui-component/cards/skeleton/RowSkeleton';
 import QuizItem from './QuizItem';
 import AddQuiz from './AddQuiz';
 import { useDispatch, useSelector } from 'store';
-import { getQuizzesList } from 'store/slices/quiz';
+import { getQuizzesList, selectQuizzes } from 'store/slices/quiz';
 import { openDrawer } from 'store/slices/menu';
 import EmptyBoxImage from 'assets/Images/empty-box.png';
+import { selectLoading } from 'store/slices/loading';
 
 // constants
 import { gridSpacing } from 'store/constant';
@@ -71,9 +72,9 @@ const headCells = [
         initialValue: 0
     },
     {
-        id: 'name',
+        id: 'description',
         numeric: false,
-        label: 'Name',
+        label: 'Description',
         align: 'left',
         initialValue: ''
     }
@@ -94,29 +95,18 @@ const QuizList = () => {
     };
 
     // quiz data
-    const [quizzes, setQuizzes] = useState([]);
-    const quizState = useSelector((state) => state.quiz);
+    const quizState = useSelector(selectQuizzes);
 
     useEffect(() => {
-        setQuizzes(quizState.quizzes);
-    }, [quizState]);
-
-    useEffect(() => {
-        dispatch(getQuizzesList());
-
-        // hide left drawer when email app opens
+        if (quizState == 0) {
+            dispatch(getQuizzesList());
+        }
         dispatch(openDrawer(false));
     }, [dispatch]);
 
+    const isLoading = useSelector(selectLoading);
+
     const theme = useTheme();
-
-    const [isLoading, setLoading] = useState(true);
-
-    useEffect(() => {
-        if (quizzes.length > 0) {
-            setLoading(false);
-        }
-    }, [quizzes]);
 
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('calories');
@@ -127,8 +117,8 @@ const QuizList = () => {
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
-        setRows(quizzes);
-    }, [quizzes]);
+        setRows(quizState);
+    }, [quizState]);
 
     const handleSearch = (event) => {
         const newString = event?.target.value;
@@ -155,7 +145,7 @@ const QuizList = () => {
             });
             setRows(newRows);
         } else {
-            setRows(quizzes);
+            setRows(quizState);
         }
     };
 
@@ -239,7 +229,7 @@ const QuizList = () => {
                         </Grid>
                     </Grid>
                 </CardContent>
-                {!isLoading && quizzes.length === 0 ? (
+                {!isLoading && quizState.length === 0 ? (
                     <Grid container spacing={gridSpacing}>
                         <Grid item xs={12} md={4}>
                             <SubCard variant="body1" sx={{ height: '100%' }}>

@@ -12,51 +12,47 @@ import Question from './question';
 import QuizSkeleton from 'ui-component/cards/skeleton/Quiz';
 
 import { useDispatch, useSelector } from 'store';
-import { getQuizActive } from 'store/slices/quiz';
+import { getActiveQuestionsList, selectActiveQuestions } from 'store/slices/activeQuestion';
 import { openDrawer } from 'store/slices/menu';
+import { selectLoading } from 'store/slices/loading';
 
 // ==============================|| QUIZ ||============================== //
 
 const Quiz = () => {
-    const [number, setNumber] = useState(0);
-    const [option, setOption] = useState([]);
+    // const dispatch = useDispatch();
 
-    const handleChange = (event, newNumber) => {
-        setNumber(newNumber);
-    };
+    // // quiz data
+    // const activeQuestionState = useSelector(selectActiveQuestions);
 
-    const dispatch = useDispatch();
+    // useEffect(() => {
+    //     if (activeQuestionState == 0) {
+    //         dispatch(getActiveQuestionsList());
+    //     }
+    //     dispatch(openDrawer(false));
+    // }, [dispatch, activeQuestionState]);
 
-    const [isLoading, setLoading] = useState(true);
+    // const isLoading = useSelector(selectLoading);
 
-    // quiz data
-    const [quizData, setQuizData] = useState([]);
-    const quizState = useSelector((state) => state.quiz);
+    // const [number, setNumber] = useState(0);
+    // const [option, setOption] = useState([]);
 
-    useEffect(() => {
-        setQuizData(quizState.activeQuiz);
-    }, [quizState]);
+    // const handleChange = (event, newNumber) => {
+    //     setNumber(newNumber);
+    // };
 
-    useEffect(() => {
-        dispatch(getQuizActive());
+    // const [activeQuestion, setActiveQuestion] = useState([]);
 
-        // hide left drawer when email app opens
-        dispatch(openDrawer(false));
-    }, [dispatch]);
-
-    useEffect(() => {
-        if (quizData.length > 0) {
-            setLoading(false);
-        }
-    }, [quizData]);
+    // useEffect(() => {
+    //     setActiveQuestion(activeQuestionState);
+    // }, [activeQuestionState]);
 
     return (
         <>
-            {isLoading ? (
+            {/* {isLoading ? (
                 <QuizSkeleton />
             ) : (
-                <Question question={quizData[number]} setOptionOnChange={setOption} questionId={number} optionList={option}>
-                    <UIProgress value={number + 1} maxValue={Object.keys(quizData).length - 1} />
+                <Question question={activeQuestion[number]} setOptionOnChange={setOption} questionId={number} optionList={option}>
+                    <UIProgress value={number + 1} maxValue={activeQuestion.length - 1} />
                     <CardActions>
                         <Grid container justifyContent="space-between" spacing={0}>
                             <Grid item>
@@ -69,14 +65,14 @@ const Quiz = () => {
                                 )}
                             </Grid>
                             <Grid item>
-                                {number < Object.keys(quizData).length - 1 && (
+                                {number < activeQuestion.length - 1 && (
                                     <AnimateButton>
                                         <Button variant="contained" size="large" onClick={(e) => handleChange(e, 1 + number)}>
                                             Next
                                         </Button>
                                     </AnimateButton>
                                 )}
-                                {number === Object.keys(quizData).length - 1 && (
+                                {number === activeQuestion.length - 1 && (
                                     <AnimateButton>
                                         <Button
                                             variant="contained"
@@ -93,10 +89,10 @@ const Quiz = () => {
                         </Grid>
                     </CardActions>
                     <Typography textAlign="center">
-                        Question: {number + 1} of {Object.keys(quizData).length}
+                        Question: {number + 1} of {activeQuestion.length}
                     </Typography>
                 </Question>
-            )}
+            )} */}
         </>
     );
 };

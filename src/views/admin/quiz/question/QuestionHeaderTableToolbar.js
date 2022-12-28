@@ -7,8 +7,8 @@ import { Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
 // project imports
 import AlertQuestionDelete from './AlertQuestionDelete';
 import { openSnackbar } from 'store/slices/snackbar';
-import { useDispatch, useSelector } from 'store';
-import { deleteQuestions } from 'store/slices/quiz';
+import { useDispatch } from 'store';
+import { deleteQuestion } from 'store/slices/question';
 
 // assets
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -17,8 +17,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 const QuestionHeaderTableToolbar = ({ quizId, selected }) => {
     const dispatch = useDispatch();
-    const quizSelector = useSelector((state) => state.quiz);
-    const { quizzes } = quizSelector;
 
     //delete
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -26,7 +24,7 @@ const QuestionHeaderTableToolbar = ({ quizId, selected }) => {
     const handleDeleteModalClose = (status) => {
         setOpenDeleteModal(false);
         if (status) {
-            dispatch(deleteQuestions(quizId, selected, quizzes));
+            selected.map((id) => dispatch(deleteQuestion(quizId, id)));
             dispatch(
                 openSnackbar({
                     open: true,

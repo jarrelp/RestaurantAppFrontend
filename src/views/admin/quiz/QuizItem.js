@@ -8,7 +8,7 @@ import { Checkbox, IconButton, Menu, MenuItem, TableCell, TableRow, Typography }
 import EditQuiz from './EditQuiz';
 import AlertQuizDelete from './AlertQuizDelete';
 import { openSnackbar } from 'store/slices/snackbar';
-import { useDispatch, useSelector } from 'store';
+import { useDispatch } from 'store';
 import { deleteQuiz } from 'store/slices/quiz';
 
 // assets
@@ -16,8 +16,6 @@ import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 
 const QuizItem = ({ quiz, isItemSelected, labelId, handleClick }) => {
     const dispatch = useDispatch();
-    const quizSelector = useSelector((state) => state.quiz);
-    const { quizzes } = quizSelector;
 
     const [openEdit, setOpenEdit] = useState(false);
     const handleClickOpenEditDialog = () => {
@@ -42,7 +40,7 @@ const QuizItem = ({ quiz, isItemSelected, labelId, handleClick }) => {
     const handleDeleteModalClose = (status) => {
         setOpenDeleteModal(false);
         if (status) {
-            dispatch(deleteQuiz(quiz.id, quizzes));
+            dispatch(deleteQuiz(quiz.id));
             dispatch(
                 openSnackbar({
                     open: true,
@@ -91,7 +89,7 @@ const QuizItem = ({ quiz, isItemSelected, labelId, handleClick }) => {
                     sx={{ cursor: 'pointer' }}
                 >
                     <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
-                        {quiz.name}
+                        {quiz.description}
                     </Typography>
                 </TableCell>
 
@@ -143,7 +141,7 @@ const QuizItem = ({ quiz, isItemSelected, labelId, handleClick }) => {
                             Delete
                         </MenuItem>
                         {openDeleteModal && (
-                            <AlertQuizDelete title={quiz.name} open={openDeleteModal} handleClose={handleDeleteModalClose} />
+                            <AlertQuizDelete title={quiz.description} open={openDeleteModal} handleClose={handleDeleteModalClose} />
                         )}
                     </Menu>
                 </TableCell>

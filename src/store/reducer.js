@@ -6,7 +6,9 @@ import snackbarReducer from './slices/snackbar';
 import departmentReducer from './slices/departments';
 import skillReducer from './slices/skill';
 import userReducer from './slices/user';
+// import activeQuestionReducer from './slices/activeQuestion';
 import quizReducer from './slices/quiz';
+import questionReducer from './slices/question';
 import resultReducer from './slices/result';
 import loadingReducer from './slices/loading';
 
@@ -22,7 +24,10 @@ const reducer = combineReducers({
     menu: menuReducer,
     skill: skillReducer,
     user: userReducer,
-    loading: loadingReducer
+    loading: loadingReducer,
+    question: questionReducer
+    // ,
+    // activeQuestion: activeQuestionReducer
 });
 
 export default reducer;

@@ -27,9 +27,10 @@ import RowSkeleton from 'ui-component/cards/skeleton/RowSkeleton';
 import QuestionItem from './QuestionItem';
 import AddQuestion from './AddQuestion';
 import { useDispatch, useSelector } from 'store';
-import { getQuestionsList } from 'store/slices/quiz';
+import { getQuestionsList, selectQuestions } from 'store/slices/question';
 import { openDrawer } from 'store/slices/menu';
 import EmptyBoxImage from 'assets/Images/empty-box.png';
+import { selectLoading } from 'store/slices/loading';
 
 // constants
 import { gridSpacing } from 'store/constant';
@@ -96,29 +97,18 @@ const QuestionList = () => {
     };
 
     // question data
-    const [questions, setQuestions] = useState([]);
-    const quizState = useSelector((state) => state.quiz);
+    const questionState = useSelector(selectQuestions);
 
     useEffect(() => {
-        setQuestions(quizState.questions);
-    }, [quizState]);
-
-    useEffect(() => {
-        dispatch(getQuestionsList(id));
-
-        // hide left drawer when email app opens
+        if (questionState) {
+            dispatch(getQuestionsList(id));
+        }
         dispatch(openDrawer(false));
     }, [dispatch, id]);
 
     const theme = useTheme();
 
-    const [isLoading, setLoading] = useState(true);
-
-    useEffect(() => {
-        if (questions.length > 0) {
-            setLoading(false);
-        }
-    }, [questions]);
+    const isLoading = useSelector(selectLoading);
 
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('calories');
@@ -129,8 +119,8 @@ const QuestionList = () => {
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
-        setRows(questions);
-    }, [questions]);
+        setRows(questionState);
+    }, [questionState]);
 
     const handleSearch = (event) => {
         const newString = event?.target.value;
@@ -157,7 +147,7 @@ const QuestionList = () => {
             });
             setRows(newRows);
         } else {
-            setRows(questions);
+            setRows(questionState);
         }
     };
 
@@ -241,7 +231,7 @@ const QuestionList = () => {
                         </Grid>
                     </Grid>
                 </CardContent>
-                {!isLoading && questions.length === 0 ? (
+                {!isLoading && questionState.length === 0 ? (
                     <Grid container spacing={gridSpacing}>
                         <Grid item xs={12} md={4}>
                             <SubCard variant="body1" sx={{ height: '100%' }}>

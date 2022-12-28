@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getDepartmentsList } from './departments';
+import { getActiveQuestionsList } from './activeQuestion';
 
 // ==============================|| SLICE - LOADING ||============================== //
 
@@ -13,6 +14,10 @@ const slice = createSlice({
         [getDepartmentsList.pending]: () => true,
         [getDepartmentsList.fulfilled]: () => false,
         [getDepartmentsList.rejected]: () => false
+
+        // [getActiveQuestionsList.pending]: () => true,
+        // [getActiveQuestionsList.fulfilled]: () => false,
+        // [getActiveQuestionsList.rejected]: () => false
     }
 });
 

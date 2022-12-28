@@ -12,8 +12,8 @@ import { useFormik } from 'formik';
 import { gridSpacing } from 'store/constant';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { openSnackbar } from 'store/slices/snackbar';
-import { useDispatch, useSelector } from 'store';
-import { editQuestion } from 'store/slices/quiz';
+import { useDispatch } from 'store';
+import { updateQuestion } from 'store/slices/question';
 
 // constants
 import { borderRadius } from 'store/constant';
@@ -30,8 +30,6 @@ const validationSchema = yup.object({
 
 const EditQuestion = ({ quizId, question, open, handleCloseDialog }) => {
     const dispatch = useDispatch();
-    const quizSelector = useSelector((state) => state.quiz);
-    const { quizzes } = quizSelector;
 
     const formik = useFormik({
         enableReinitialize: true,
@@ -41,7 +39,7 @@ const EditQuestion = ({ quizId, question, open, handleCloseDialog }) => {
         },
         validationSchema,
         onSubmit: (values) => {
-            dispatch(editQuestion(quizId, values, quizzes));
+            dispatch(updateQuestion(quizId, values));
             dispatch(
                 openSnackbar({
                     open: true,
