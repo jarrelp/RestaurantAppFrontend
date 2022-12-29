@@ -13,7 +13,7 @@ import { gridSpacing } from 'store/constant';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch } from 'store';
-import { addQuestion } from 'store/slices/question';
+import { updateOption } from 'store/slices/option';
 
 // constants
 import { borderRadius } from 'store/constant';
@@ -23,22 +23,23 @@ const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {.
 
 // validation
 const validationSchema = yup.object({
-    description: yup.string().required('Question description is required')
+    description: yup.string().required('Option description is required')
 });
 
 // ==============================|| ADD DEPARTMENT DIALOG ||============================== //
 
-const AddQuestion = ({ quizId, open, handleCloseDialog }) => {
+const EditOption = ({ option, open, handleCloseDialog }) => {
     const dispatch = useDispatch();
 
     const formik = useFormik({
+        enableReinitialize: true,
         initialValues: {
-            quizId: quizId,
-            description: ''
+            id: option.id,
+            description: option.description
         },
         validationSchema,
         onSubmit: (values) => {
-            dispatch(addQuestion(values));
+            dispatch(updateOption(values));
             dispatch(
                 openSnackbar({
                     open: true,
@@ -73,7 +74,7 @@ const AddQuestion = ({ quizId, open, handleCloseDialog }) => {
         >
             {open && (
                 <form onSubmit={formik.handleSubmit}>
-                    <DialogTitle variant="subtitle3">Add Question</DialogTitle>
+                    <DialogTitle variant="subtitle3">Edit Option</DialogTitle>
                     <DialogContent>
                         <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
                             <Grid item xs={12}>
@@ -93,7 +94,7 @@ const AddQuestion = ({ quizId, open, handleCloseDialog }) => {
                     <DialogActions>
                         <AnimateButton>
                             <Button variant="contained" type="submit">
-                                Create
+                                Save
                             </Button>
                         </AnimateButton>
                         <Button variant="text" color="error" onClick={handleCloseDialog}>
@@ -106,9 +107,10 @@ const AddQuestion = ({ quizId, open, handleCloseDialog }) => {
     );
 };
 
-AddQuestion.propTypes = {
+EditOption.propTypes = {
     open: PropTypes.bool,
-    handleCloseDialog: PropTypes.func
+    handleCloseDialog: PropTypes.func,
+    option: PropTypes.object
 };
 
-export default AddQuestion;
+export default EditOption;

@@ -13,7 +13,7 @@ import { gridSpacing } from 'store/constant';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch } from 'store';
-import { addQuestion } from 'store/slices/question';
+import { addOption } from 'store/slices/option';
 
 // constants
 import { borderRadius } from 'store/constant';
@@ -23,12 +23,12 @@ const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {.
 
 // validation
 const validationSchema = yup.object({
-    description: yup.string().required('Question description is required')
+    description: yup.string().required('Option description is required')
 });
 
 // ==============================|| ADD DEPARTMENT DIALOG ||============================== //
 
-const AddQuestion = ({ quizId, open, handleCloseDialog }) => {
+const AddOption = ({ quizId, open, handleCloseDialog }) => {
     const dispatch = useDispatch();
 
     const formik = useFormik({
@@ -38,7 +38,7 @@ const AddQuestion = ({ quizId, open, handleCloseDialog }) => {
         },
         validationSchema,
         onSubmit: (values) => {
-            dispatch(addQuestion(values));
+            dispatch(addOption(values));
             dispatch(
                 openSnackbar({
                     open: true,
@@ -73,7 +73,7 @@ const AddQuestion = ({ quizId, open, handleCloseDialog }) => {
         >
             {open && (
                 <form onSubmit={formik.handleSubmit}>
-                    <DialogTitle variant="subtitle3">Add Question</DialogTitle>
+                    <DialogTitle variant="subtitle3">Add Option</DialogTitle>
                     <DialogContent>
                         <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
                             <Grid item xs={12}>
@@ -106,9 +106,9 @@ const AddQuestion = ({ quizId, open, handleCloseDialog }) => {
     );
 };
 
-AddQuestion.propTypes = {
+AddOption.propTypes = {
     open: PropTypes.bool,
     handleCloseDialog: PropTypes.func
 };
 
-export default AddQuestion;
+export default AddOption;

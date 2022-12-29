@@ -9,6 +9,7 @@ import userReducer from './slices/user';
 // import activeQuestionReducer from './slices/activeQuestion';
 import quizReducer from './slices/quiz';
 import questionReducer from './slices/question';
+import optionReducer from './slices/option';
 import resultReducer from './slices/result';
 import loadingReducer from './slices/loading';
 
@@ -25,7 +26,8 @@ const reducer = combineReducers({
     skill: skillReducer,
     user: userReducer,
     loading: loadingReducer,
-    question: questionReducer
+    question: questionReducer,
+    option: optionReducer
     // ,
     // activeQuestion: activeQuestionReducer
 });

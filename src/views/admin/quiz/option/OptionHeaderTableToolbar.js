@@ -5,17 +5,17 @@ import { useState } from 'react';
 import { Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
 
 // project imports
-import AlertDepartmentDelete from './AlertDepartmentDelete';
+import AlertOptionDelete from './AlertOptionDelete';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch } from 'store';
-import { deleteDepartment } from 'store/slices/departments';
+import { deleteOption } from 'store/slices/option';
 
 // assets
 import DeleteIcon from '@mui/icons-material/Delete';
 
 // ==============================|| TABLE HEADER TOOLBAR ||============================== //
 
-const DepartmentHeaderTableToolbar = ({ selected }) => {
+const OptionHeaderTableToolbar = ({ selected }) => {
     const dispatch = useDispatch();
 
     //delete
@@ -24,12 +24,11 @@ const DepartmentHeaderTableToolbar = ({ selected }) => {
     const handleDeleteModalClose = (status) => {
         setOpenDeleteModal(false);
         if (status) {
-            selected.map((id) => dispatch(deleteDepartment(id)));
-
+            selected.map((id) => dispatch(deleteOption(id)));
             dispatch(
                 openSnackbar({
                     open: true,
-                    message: 'Departments Deleted successfully',
+                    message: 'Options Deleted successfully',
                     anchorOrigin: { vertical: 'top', horizontal: 'right' },
                     variant: 'alert',
                     alert: {
@@ -78,18 +77,14 @@ const DepartmentHeaderTableToolbar = ({ selected }) => {
                 )}
             </Toolbar>
             {openDeleteModal && (
-                <AlertDepartmentDelete
-                    title={`${selected.length} department(s)`}
-                    open={openDeleteModal}
-                    handleClose={handleDeleteModalClose}
-                />
+                <AlertOptionDelete title={`${selected.length} option(s)`} open={openDeleteModal} handleClose={handleDeleteModalClose} />
             )}
         </>
     );
 };
 
-DepartmentHeaderTableToolbar.propTypes = {
+OptionHeaderTableToolbar.propTypes = {
     selected: PropTypes.array.isRequired
 };
 
-export default DepartmentHeaderTableToolbar;
+export default OptionHeaderTableToolbar;

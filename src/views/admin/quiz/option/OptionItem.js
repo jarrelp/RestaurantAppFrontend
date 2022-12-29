@@ -5,16 +5,16 @@ import { Link } from 'react-router-dom';
 import { Checkbox, IconButton, Menu, MenuItem, TableCell, TableRow, Typography } from '@mui/material';
 
 // project imports
-import EditQuestion from './EditQuestion';
-import AlertQuestionDelete from './AlertQuestionDelete';
+import EditOption from './EditOption';
+import AlertOptionDelete from './AlertOptionDelete';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch } from 'store';
-import { deleteQuestion } from 'store/slices/question';
+import { deleteOption } from 'store/slices/option';
 
 // assets
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 
-const QuestionItem = ({ quizId, question, isItemSelected, labelId, handleClick }) => {
+const OptionItem = ({ quizId, option, isItemSelected, labelId, handleClick }) => {
     const dispatch = useDispatch();
 
     const [openEdit, setOpenEdit] = useState(false);
@@ -40,7 +40,7 @@ const QuestionItem = ({ quizId, question, isItemSelected, labelId, handleClick }
     const handleDeleteModalClose = (status) => {
         setOpenDeleteModal(false);
         if (status) {
-            dispatch(deleteQuestion(question.id));
+            dispatch(deleteOption(option.id));
             dispatch(
                 openSnackbar({
                     open: true,
@@ -59,7 +59,7 @@ const QuestionItem = ({ quizId, question, isItemSelected, labelId, handleClick }
     return (
         <>
             <TableRow hover role="checkbox" aria-checked={isItemSelected} tabIndex={-1} selected={isItemSelected}>
-                <TableCell padding="checkbox" sx={{ pl: 3, pr: 3 }} onClick={(event) => handleClick(event, question.id)}>
+                <TableCell padding="checkbox" sx={{ pl: 3, pr: 3 }} onClick={(event) => handleClick(event, option.id)}>
                     <Checkbox
                         color="primary"
                         checked={isItemSelected}
@@ -73,11 +73,11 @@ const QuestionItem = ({ quizId, question, isItemSelected, labelId, handleClick }
                     component="th"
                     id={labelId}
                     scope="row"
-                    onClick={(event) => handleClick(event, question.id)}
+                    onClick={(event) => handleClick(event, option.id)}
                     sx={{ cursor: 'pointer' }}
                 >
                     <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
-                        {question.id}
+                        {option.id}
                     </Typography>
                 </TableCell>
 
@@ -85,11 +85,11 @@ const QuestionItem = ({ quizId, question, isItemSelected, labelId, handleClick }
                     component="th"
                     id={labelId}
                     scope="row"
-                    onClick={(event) => handleClick(event, question.id)}
+                    onClick={(event) => handleClick(event, option.id)}
                     sx={{ cursor: 'pointer' }}
                 >
                     <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
-                        {question.description}
+                        {option.description}
                     </Typography>
                 </TableCell>
 
@@ -127,7 +127,7 @@ const QuestionItem = ({ quizId, question, isItemSelected, labelId, handleClick }
                             {' '}
                             Edit
                         </MenuItem>
-                        <MenuItem component={Link} to={`/admin/question/${question.id}`}>
+                        <MenuItem component={Link} to={`/admin/option/${option.id}`}>
                             {' '}
                             Options
                         </MenuItem>
@@ -141,14 +141,14 @@ const QuestionItem = ({ quizId, question, isItemSelected, labelId, handleClick }
                             Delete
                         </MenuItem>
                         {openDeleteModal && (
-                            <AlertQuestionDelete title={question.name} open={openDeleteModal} handleClose={handleDeleteModalClose} />
+                            <AlertOptionDelete title={option.name} open={openDeleteModal} handleClose={handleDeleteModalClose} />
                         )}
                     </Menu>
                 </TableCell>
             </TableRow>
-            <EditQuestion quizId={quizId} question={question} open={openEdit} handleCloseDialog={handleCloseEditDialog} />
+            <EditOption quizId={quizId} option={option} open={openEdit} handleCloseDialog={handleCloseEditDialog} />
         </>
     );
 };
 
-export default QuestionItem;
+export default OptionItem;

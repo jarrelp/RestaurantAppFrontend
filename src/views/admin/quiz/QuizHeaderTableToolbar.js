@@ -24,7 +24,7 @@ const QuizHeaderTableToolbar = ({ selected }) => {
     const handleDeleteModalClose = (status) => {
         setOpenDeleteModal(false);
         if (status) {
-            selected.map((id) => dispatch(deleteQuiz(selected)));
+            selected.map((id) => dispatch(deleteQuiz(id)));
             dispatch(
                 openSnackbar({
                     open: true,

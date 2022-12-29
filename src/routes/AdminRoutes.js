@@ -8,6 +8,7 @@ import MainLayout from 'layout/MainLayout';
 const Department = Loadable(lazy(() => import('views/admin/department')));
 const Quiz = Loadable(lazy(() => import('views/admin/quiz')));
 const Question = Loadable(lazy(() => import('views/admin/quiz/question')));
+const Option = Loadable(lazy(() => import('views/admin/quiz/option')));
 const Skill = Loadable(lazy(() => import('views/admin/skill')));
 const User = Loadable(lazy(() => import('views/admin/user')));
 
@@ -30,6 +31,10 @@ const AdminRoutes = {
         {
             path: '/admin/quiz/:id',
             element: <Question />
+        },
+        {
+            path: '/admin/question/:id',
+            element: <Option />
         },
         {
             path: '/admin/skills',
