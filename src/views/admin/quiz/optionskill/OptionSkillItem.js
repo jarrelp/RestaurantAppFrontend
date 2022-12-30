@@ -5,16 +5,16 @@ import { Link } from 'react-router-dom';
 import { Checkbox, IconButton, Menu, MenuItem, TableCell, TableRow, Typography } from '@mui/material';
 
 // project imports
-import EditOption from './EditOption';
-import AlertOptionDelete from './AlertOptionDelete';
+import EditOptionSkill from './EditOptionSkillSkill';
+import AlertOptionSkillDelete from './AlertOptionSkillSkillDelete';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch } from 'store';
-import { deleteOption } from 'store/slices/option';
+import { deleteOptionSkill } from 'store/slices/optionSkill';
 
 // assets
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 
-const OptionItem = ({ questionId, option, isItemSelected, labelId, handleClick }) => {
+const OptionSkillItem = ({ optionId, optionSkill, isItemSelected, labelId, handleClick }) => {
     const dispatch = useDispatch();
 
     const [openEdit, setOpenEdit] = useState(false);
@@ -40,7 +40,7 @@ const OptionItem = ({ questionId, option, isItemSelected, labelId, handleClick }
     const handleDeleteModalClose = (status) => {
         setOpenDeleteModal(false);
         if (status) {
-            dispatch(deleteOption(option.id));
+            dispatch(deleteOptionSkill(optionSkill.id));
             dispatch(
                 openSnackbar({
                     open: true,
@@ -59,7 +59,7 @@ const OptionItem = ({ questionId, option, isItemSelected, labelId, handleClick }
     return (
         <>
             <TableRow hover role="checkbox" aria-checked={isItemSelected} tabIndex={-1} selected={isItemSelected}>
-                <TableCell padding="checkbox" sx={{ pl: 3, pr: 3 }} onClick={(event) => handleClick(event, option.id)}>
+                <TableCell padding="checkbox" sx={{ pl: 3, pr: 3 }} onClick={(event) => handleClick(event, optionSkill.id)}>
                     <Checkbox
                         color="primary"
                         checked={isItemSelected}
@@ -73,11 +73,11 @@ const OptionItem = ({ questionId, option, isItemSelected, labelId, handleClick }
                     component="th"
                     id={labelId}
                     scope="row"
-                    onClick={(event) => handleClick(event, option.id)}
+                    onClick={(event) => handleClick(event, optionSkill.id)}
                     sx={{ cursor: 'pointer' }}
                 >
                     <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
-                        {option.id}
+                        {optionSkill.id}
                     </Typography>
                 </TableCell>
 
@@ -85,11 +85,11 @@ const OptionItem = ({ questionId, option, isItemSelected, labelId, handleClick }
                     component="th"
                     id={labelId}
                     scope="row"
-                    onClick={(event) => handleClick(event, option.id)}
+                    onClick={(event) => handleClick(event, optionSkill.id)}
                     sx={{ cursor: 'pointer' }}
                 >
                     <Typography variant="subtitle1" sx={{ color: 'grey.900' }}>
-                        {option.description}
+                        {optionSkill.description}
                     </Typography>
                 </TableCell>
 
@@ -127,9 +127,9 @@ const OptionItem = ({ questionId, option, isItemSelected, labelId, handleClick }
                             {' '}
                             Edit
                         </MenuItem>
-                        <MenuItem component={Link} to={`/admin/option/${option.id}`}>
+                        <MenuItem component={Link} to={`/admin/optionSkill/${optionSkill.id}`}>
                             {' '}
-                            Options
+                            OptionSkills
                         </MenuItem>
                         <MenuItem
                             onClick={() => {
@@ -141,14 +141,14 @@ const OptionItem = ({ questionId, option, isItemSelected, labelId, handleClick }
                             Delete
                         </MenuItem>
                         {openDeleteModal && (
-                            <AlertOptionDelete title={option.name} open={openDeleteModal} handleClose={handleDeleteModalClose} />
+                            <AlertOptionSkillDelete title={optionSkill.name} open={openDeleteModal} handleClose={handleDeleteModalClose} />
                         )}
                     </Menu>
                 </TableCell>
             </TableRow>
-            <EditOption questionId={questionId} option={option} open={openEdit} handleCloseDialog={handleCloseEditDialog} />
+            <EditOptionSkill optionId={optionId} optionSkill={optionSkill} open={openEdit} handleCloseDialog={handleCloseEditDialog} />
         </>
     );
 };
 
-export default OptionItem;
+export default OptionSkillItem;

@@ -13,7 +13,7 @@ import { gridSpacing } from 'store/constant';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch } from 'store';
-import { addOption } from 'store/slices/option';
+import { updateOptionSkill } from 'store/slices/optionSkill';
 
 // constants
 import { borderRadius } from 'store/constant';
@@ -23,23 +23,23 @@ const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {.
 
 // validation
 const validationSchema = yup.object({
-    description: yup.string().required('Option description is required')
+    description: yup.string().required('OptionSkill description is required')
 });
 
 // ==============================|| ADD DEPARTMENT DIALOG ||============================== //
 
-const AddOption = ({ questionId, open, handleCloseDialog }) => {
+const EditOptionSkill = ({ optionSkill, open, handleCloseDialog }) => {
     const dispatch = useDispatch();
 
     const formik = useFormik({
+        enableReinitialize: true,
         initialValues: {
-            questionId: questionId,
-            description: '',
-            OptionSkills: []
+            id: optionSkill.id,
+            description: optionSkill.description
         },
         validationSchema,
         onSubmit: (values) => {
-            dispatch(addOption(values));
+            dispatch(updateOptionSkill(values));
             dispatch(
                 openSnackbar({
                     open: true,
@@ -74,7 +74,7 @@ const AddOption = ({ questionId, open, handleCloseDialog }) => {
         >
             {open && (
                 <form onSubmit={formik.handleSubmit}>
-                    <DialogTitle variant="subtitle3">Add Option</DialogTitle>
+                    <DialogTitle variant="subtitle3">Edit OptionSkill</DialogTitle>
                     <DialogContent>
                         <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
                             <Grid item xs={12}>
@@ -94,7 +94,7 @@ const AddOption = ({ questionId, open, handleCloseDialog }) => {
                     <DialogActions>
                         <AnimateButton>
                             <Button variant="contained" type="submit">
-                                Create
+                                Save
                             </Button>
                         </AnimateButton>
                         <Button variant="text" color="error" onClick={handleCloseDialog}>
@@ -107,9 +107,10 @@ const AddOption = ({ questionId, open, handleCloseDialog }) => {
     );
 };
 
-AddOption.propTypes = {
+EditOptionSkill.propTypes = {
     open: PropTypes.bool,
-    handleCloseDialog: PropTypes.func
+    handleCloseDialog: PropTypes.func,
+    optionSkill: PropTypes.object
 };
 
-export default AddOption;
+export default EditOptionSkill;

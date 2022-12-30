@@ -13,7 +13,7 @@ import { gridSpacing } from 'store/constant';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch } from 'store';
-import { addOption } from 'store/slices/option';
+import { addOptionSkill } from 'store/slices/optionSkill';
 
 // constants
 import { borderRadius } from 'store/constant';
@@ -23,23 +23,23 @@ const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {.
 
 // validation
 const validationSchema = yup.object({
-    description: yup.string().required('Option description is required')
+    description: yup.string().required('OptionSkill description is required')
 });
 
 // ==============================|| ADD DEPARTMENT DIALOG ||============================== //
 
-const AddOption = ({ questionId, open, handleCloseDialog }) => {
+const AddOptionSkill = ({ optionId, open, handleCloseDialog }) => {
     const dispatch = useDispatch();
 
     const formik = useFormik({
         initialValues: {
-            questionId: questionId,
+            optionId: optionId,
             description: '',
-            OptionSkills: []
+            OptionSkillSkills: []
         },
         validationSchema,
         onSubmit: (values) => {
-            dispatch(addOption(values));
+            dispatch(addOptionSkill(values));
             dispatch(
                 openSnackbar({
                     open: true,
@@ -74,7 +74,7 @@ const AddOption = ({ questionId, open, handleCloseDialog }) => {
         >
             {open && (
                 <form onSubmit={formik.handleSubmit}>
-                    <DialogTitle variant="subtitle3">Add Option</DialogTitle>
+                    <DialogTitle variant="subtitle3">Add OptionSkill</DialogTitle>
                     <DialogContent>
                         <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
                             <Grid item xs={12}>
@@ -107,9 +107,9 @@ const AddOption = ({ questionId, open, handleCloseDialog }) => {
     );
 };
 
-AddOption.propTypes = {
+AddOptionSkill.propTypes = {
     open: PropTypes.bool,
     handleCloseDialog: PropTypes.func
 };
 
-export default AddOption;
+export default AddOptionSkill;

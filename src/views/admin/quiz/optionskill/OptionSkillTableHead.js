@@ -5,11 +5,21 @@ import { Box, Checkbox, TableCell, TableHead, TableRow, TableSortLabel, Typograp
 import { visuallyHidden } from '@mui/utils';
 
 // project imports
-import OptionHeaderTableToolbar from './OptionHeaderTableToolbar';
+import OptionSkillHeaderTableToolbar from './OptionSkillHeaderTableToolbar';
 
 // ==============================|| CUSTOM TABLE HEADER ||============================== //
 
-const OptionTableHead = ({ questionId, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, selected, headCells }) => {
+const OptionSkillTableHead = ({
+    optionId,
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+    selected,
+    headCells
+}) => {
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
@@ -30,7 +40,7 @@ const OptionTableHead = ({ questionId, onSelectAllClick, order, orderBy, numSele
                 </TableCell>
                 {numSelected > 0 && (
                     <TableCell padding="none" colSpan={7}>
-                        <OptionHeaderTableToolbar questionId={questionId} selected={selected} />
+                        <OptionSkillHeaderTableToolbar optionId={optionId} selected={selected} />
                     </TableCell>
                 )}
                 {numSelected <= 0 &&
@@ -67,7 +77,7 @@ const OptionTableHead = ({ questionId, onSelectAllClick, order, orderBy, numSele
     );
 };
 
-OptionTableHead.propTypes = {
+OptionSkillTableHead.propTypes = {
     theme: PropTypes.object,
     selected: PropTypes.array,
     numSelected: PropTypes.number.isRequired,
@@ -79,4 +89,4 @@ OptionTableHead.propTypes = {
     headCells: PropTypes.array
 };
 
-export default OptionTableHead;
+export default OptionSkillTableHead;

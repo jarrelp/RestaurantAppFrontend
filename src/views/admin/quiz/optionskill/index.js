@@ -22,12 +22,12 @@ import {
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import SubCard from 'ui-component/cards/SubCard';
-import OptionTableHead from './OptionTableHead';
+import OptionSkillTableHead from './OptionSkillTableHead';
 import RowSkeleton from 'ui-component/cards/skeleton/RowSkeleton';
-import OptionItem from './OptionItem';
-import AddOption from './AddOption';
+import OptionSkillItem from './OptionSkillItem';
+import AddOptionSkill from './AddOptionSkillSkill';
 import { useDispatch, useSelector } from 'store';
-import { getOptionsList, selectOptions } from 'store/slices/option';
+import { getOptionSkillsList, selectOptionSkills } from 'store/slices/optionSkill';
 import { openDrawer } from 'store/slices/menu';
 import EmptyBoxImage from 'assets/Images/empty-box.png';
 import { selectLoading } from 'store/slices/loading';
@@ -63,7 +63,7 @@ function stableSort(array, comparator) {
     return stabilizedThis.map((el) => el[0]);
 }
 
-// table header options
+// table header optionSkills
 const headCells = [
     {
         id: 'id',
@@ -83,7 +83,7 @@ const headCells = [
 
 // ==============================|| DEPARTMENT LIST ||============================== //
 
-const OptionList = () => {
+const OptionSkillList = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
 
@@ -96,12 +96,12 @@ const OptionList = () => {
         setOpenAdd(false);
     };
 
-    // option data
-    const optionState = useSelector(selectOptions);
+    // optionSkill data
+    const optionSkillState = useSelector(selectOptionSkills);
 
     useEffect(() => {
-        if (optionState) {
-            dispatch(getOptionsList(id));
+        if (optionSkillState) {
+            dispatch(getOptionSkillsList(id));
         }
         dispatch(openDrawer(false));
     }, [dispatch, id]);
@@ -119,8 +119,8 @@ const OptionList = () => {
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
-        setRows(optionState);
-    }, [optionState]);
+        setRows(optionSkillState);
+    }, [optionSkillState]);
 
     const handleSearch = (event) => {
         const newString = event?.target.value;
@@ -147,7 +147,7 @@ const OptionList = () => {
             });
             setRows(newRows);
         } else {
-            setRows(optionState);
+            setRows(optionSkillState);
         }
     };
 
@@ -197,7 +197,7 @@ const OptionList = () => {
 
     return (
         <>
-            <MainCard title="Option List" content={true}>
+            <MainCard title="OptionSkill List" content={true}>
                 <CardContent>
                     <Grid container justifyContent="space-between" alignItems="center" spacing={2}>
                         <Grid item xs={12} sm={6}>
@@ -210,14 +210,14 @@ const OptionList = () => {
                                     )
                                 }}
                                 onChange={handleSearch}
-                                placeholder="Search Option"
+                                placeholder="Search OptionSkill"
                                 value={search}
                                 size="small"
                             />
                         </Grid>
                         <Grid item xs={12} sm={6} sx={{ textAlign: 'right' }}>
                             {/* custom add & dialog */}
-                            <Tooltip title="Add Option">
+                            <Tooltip title="Add OptionSkill">
                                 <Fab
                                     color="primary"
                                     size="small"
@@ -227,16 +227,16 @@ const OptionList = () => {
                                     <AddIcon fontSize="small" />
                                 </Fab>
                             </Tooltip>
-                            <AddOption questionId={id} open={openAdd} handleCloseDialog={handleCloseAddDialog} />
+                            <AddOptionSkill optionId={id} open={openAdd} handleCloseDialog={handleCloseAddDialog} />
                         </Grid>
                     </Grid>
                 </CardContent>
-                {!isLoading && optionState.length === 0 ? (
+                {!isLoading && optionSkillState.length === 0 ? (
                     <Grid container spacing={gridSpacing}>
                         <Grid item xs={12} md={4}>
                             <SubCard variant="body1" sx={{ height: '100%' }}>
                                 <Typography variant="subtitle1" sx={{ textAlign: 'center' }}>
-                                    No options found
+                                    No optionSkills found
                                 </Typography>
                             </SubCard>
                         </Grid>
@@ -251,8 +251,8 @@ const OptionList = () => {
                         {/* table */}
                         <TableContainer>
                             <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-                                <OptionTableHead
-                                    questionId={id}
+                                <OptionSkillTableHead
+                                    optionId={id}
                                     numSelected={selected.length}
                                     order={order}
                                     orderBy={orderBy}
@@ -275,10 +275,10 @@ const OptionList = () => {
                                                 const labelId = `enhanced-table-checkbox-${index}`;
 
                                                 return (
-                                                    <OptionItem
-                                                        questionId={id}
+                                                    <OptionSkillItem
+                                                        optionId={id}
                                                         key={index}
-                                                        option={row}
+                                                        optionSkill={row}
                                                         isItemSelected={isItemSelected}
                                                         labelId={labelId}
                                                         handleClick={handleClick}
@@ -302,7 +302,7 @@ const OptionList = () => {
 
                         {/* table pagination */}
                         <TablePagination
-                            rowsPerPageOptions={[5, 10, 25]}
+                            rowsPerPageOptionSkills={[5, 10, 25]}
                             component="div"
                             count={rows.length}
                             rowsPerPage={rowsPerPage}
@@ -317,4 +317,4 @@ const OptionList = () => {
     );
 };
 
-export default OptionList;
+export default OptionSkillList;
