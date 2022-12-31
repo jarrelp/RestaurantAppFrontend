@@ -4,12 +4,13 @@ import { combineReducers } from 'redux';
 // project imports
 import snackbarReducer from './slices/snackbar';
 import departmentReducer from './slices/departments';
-import skillReducer from './slices/skill';
+import skillReducer from './slices/skills';
 import userReducer from './slices/user';
 // import activeQuestionReducer from './slices/activeQuestion';
 import quizReducer from './slices/quiz';
 import questionReducer from './slices/question';
 import optionReducer from './slices/option';
+import optionSkillReducer from './slices/optionSkill';
 import resultReducer from './slices/result';
 import loadingReducer from './slices/loading';
 
@@ -27,7 +28,8 @@ const reducer = combineReducers({
     user: userReducer,
     loading: loadingReducer,
     question: questionReducer,
-    option: optionReducer
+    option: optionReducer,
+    optionSkill: optionSkillReducer
     // ,
     // activeQuestion: activeQuestionReducer
 });

@@ -25,7 +25,7 @@ import SubCard from 'ui-component/cards/SubCard';
 import OptionSkillTableHead from './OptionSkillTableHead';
 import RowSkeleton from 'ui-component/cards/skeleton/RowSkeleton';
 import OptionSkillItem from './OptionSkillItem';
-import AddOptionSkill from './AddOptionSkillSkill';
+import AddOptionSkill from './AddOptionSkill';
 import { useDispatch, useSelector } from 'store';
 import { getOptionSkillsList, selectOptionSkills } from 'store/slices/optionSkill';
 import { openDrawer } from 'store/slices/menu';
@@ -73,9 +73,9 @@ const headCells = [
         initialValue: 0
     },
     {
-        id: 'description',
+        id: 'skillLevel',
         numeric: false,
-        label: 'Description',
+        label: 'SkillLevel',
         align: 'left',
         initialValue: ''
     }
@@ -302,7 +302,7 @@ const OptionSkillList = () => {
 
                         {/* table pagination */}
                         <TablePagination
-                            rowsPerPageOptionSkills={[5, 10, 25]}
+                            rowsPerPageOptions={[5, 10, 25]}
                             component="div"
                             count={rows.length}
                             rowsPerPage={rowsPerPage}

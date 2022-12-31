@@ -13,7 +13,7 @@ import { gridSpacing } from 'store/constant';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch } from 'store';
-import { updateSkill } from 'store/slices/skill';
+import { updateSkill } from 'store/slices/skills';
 
 // constants
 import { borderRadius } from 'store/constant';

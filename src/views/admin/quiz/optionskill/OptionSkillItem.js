@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import { Checkbox, IconButton, Menu, MenuItem, TableCell, TableRow, Typography } from '@mui/material';
 
 // project imports
-import EditOptionSkill from './EditOptionSkillSkill';
-import AlertOptionSkillDelete from './AlertOptionSkillSkillDelete';
+import EditOptionSkill from './EditOptionSkill';
+import AlertOptionSkillDelete from './AlertOptionSkillDelete';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch } from 'store';
 import { deleteOptionSkill } from 'store/slices/optionSkill';
@@ -126,10 +126,6 @@ const OptionSkillItem = ({ optionId, optionSkill, isItemSelected, labelId, handl
                         >
                             {' '}
                             Edit
-                        </MenuItem>
-                        <MenuItem component={Link} to={`/admin/optionSkill/${optionSkill.id}`}>
-                            {' '}
-                            OptionSkills
                         </MenuItem>
                         <MenuItem
                             onClick={() => {

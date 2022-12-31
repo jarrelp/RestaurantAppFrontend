@@ -8,7 +8,7 @@ import EditSkill from './EditSkill';
 import AlertSkillDelete from './AlertSkillDelete';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch } from 'store';
-import { deleteSkill } from 'store/slices/skill';
+import { deleteSkill } from 'store/slices/skills';
 
 // assets
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';

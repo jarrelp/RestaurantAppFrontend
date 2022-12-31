@@ -33,7 +33,7 @@ import useScriptRef from 'hooks/useScriptRef';
 import { strengthColor, strengthIndicatorNumFunc } from 'utils/password-strength';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch, useSelector } from 'store';
-import { getDepartmentsList } from 'store/slices/departments';
+import { getDepartmentsList, selectDepartments } from 'store/slices/departments';
 import { selectLoading } from 'store/slices/loading';
 
 // assets
@@ -74,17 +74,12 @@ const JWTRegister = ({ ...others }) => {
     }, []);
 
     // autocomplete
-    const [departments, setDepartments] = useState([]);
-    const departmentState = useSelector((state) => state.department);
+    const departmentState = useSelector(selectDepartments);
 
     const [openAutoComplete, setOpenAutoComplete] = useState(false);
 
     useEffect(() => {
-        setDepartments(departmentState.departments);
-    }, [departmentState]);
-
-    useEffect(() => {
-        if (openAutoComplete && departments.length == 0) {
+        if (openAutoComplete && departmentState.length == 0) {
             dispatch(getDepartmentsList());
         }
     }, [dispatch, openAutoComplete]);
@@ -267,7 +262,7 @@ const JWTRegister = ({ ...others }) => {
                                 value={values.department}
                                 // onBlur={handleBlur}
                                 onChange={(event, value) => setFieldValue('department', value)}
-                                options={departments}
+                                options={departmentState}
                                 fullWidth
                                 autoHighlight
                                 getOptionLabel={(option) => option.name ?? ''}

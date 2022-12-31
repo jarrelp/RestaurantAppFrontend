@@ -8,7 +8,7 @@ import { Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
 import AlertSkillDelete from './AlertSkillDelete';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch } from 'store';
-import { deleteSkill } from 'store/slices/skill';
+import { deleteSkill } from 'store/slices/skills';
 
 // assets
 import DeleteIcon from '@mui/icons-material/Delete';

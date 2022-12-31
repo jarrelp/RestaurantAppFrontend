@@ -14,7 +14,7 @@ import { gridSpacing } from 'store/constant';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch } from 'store';
-import { addSkill } from 'store/slices/skill';
+import { addSkill } from 'store/slices/skills';
 
 // constants
 import { borderRadius } from 'store/constant';

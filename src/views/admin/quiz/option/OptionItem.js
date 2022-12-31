@@ -129,7 +129,7 @@ const OptionItem = ({ questionId, option, isItemSelected, labelId, handleClick }
                         </MenuItem>
                         <MenuItem component={Link} to={`/admin/option/${option.id}`}>
                             {' '}
-                            Options
+                            OptionSkills
                         </MenuItem>
                         <MenuItem
                             onClick={() => {

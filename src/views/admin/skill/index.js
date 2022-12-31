@@ -26,7 +26,7 @@ import RowSkeleton from 'ui-component/cards/skeleton/RowSkeleton';
 import SkillItem from './SkillItem';
 import AddSkill from './AddSkill';
 import { useDispatch, useSelector } from 'store';
-import { getSkillsList, selectSkills } from 'store/slices/skill';
+import { getSkillsList, selectSkills } from 'store/slices/skills';
 import { openDrawer } from 'store/slices/menu';
 import EmptyBoxImage from 'assets/Images/empty-box.png';
 import { selectLoading } from 'store/slices/loading';

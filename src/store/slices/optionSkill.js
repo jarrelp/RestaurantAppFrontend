@@ -6,9 +6,9 @@ import axios from 'apis/backendApi';
 
 // ----------------------------------------------------------------------
 
-export const getOptionSkillsList = createAsyncThunk('/api/optionSkills/getbyquestion', async (id) => {
+export const getOptionSkillsList = createAsyncThunk('/api/optionSkills/getbyoption', async (id) => {
     try {
-        const response = await axios.get(`/api/optionSkills/byquestion/${id}`);
+        const response = await axios.get(`/api/optionSkills/byoption/${id}`);
         return response.data;
     } catch (error) {
         throw Error(error.message);
@@ -51,11 +51,11 @@ const slice = createSlice({
             state.push(payload);
         },
         [deleteOptionSkill.fulfilled]: (state, { payload }) => {
-            let optionSkillIdx = state.findIndex((optionSkill) => optionSkill.id === parseInt(payload));
+            let optionSkillIdx = state.findIndex((optionSkill) => optionSkill.id == payload);
             state.splice(optionSkillIdx, 1);
         },
         [updateOptionSkill.fulfilled]: (state, { payload }) => {
-            let optionSkillIdx = state.findIndex((optionSkill) => optionSkill.id === parseInt(payload.id));
+            let optionSkillIdx = state.findIndex((optionSkill) => optionSkill.id === payload.id);
             state.splice(optionSkillIdx, 1, payload);
         }
     }

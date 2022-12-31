@@ -9,7 +9,9 @@ const Department = Loadable(lazy(() => import('views/admin/department')));
 const Quiz = Loadable(lazy(() => import('views/admin/quiz')));
 const Question = Loadable(lazy(() => import('views/admin/quiz/question')));
 const Option = Loadable(lazy(() => import('views/admin/quiz/option')));
+const OptionSkill = Loadable(lazy(() => import('views/admin/quiz/optionskill')));
 const Skill = Loadable(lazy(() => import('views/admin/skill')));
+
 const User = Loadable(lazy(() => import('views/admin/user')));
 
 const Result = Loadable(lazy(() => import('views/admin/result')));
@@ -35,6 +37,10 @@ const AdminRoutes = {
         {
             path: '/admin/question/:id',
             element: <Option />
+        },
+        {
+            path: '/admin/option/:id',
+            element: <OptionSkill />
         },
         {
             path: '/admin/skills',
