@@ -6,6 +6,9 @@ import Loadable from 'ui-component/Loadable';
 import AuthGuard from 'utils/route-guard/AuthGuard';
 
 // result routing
+const Dashboard = Loadable(lazy(() => import('views/dashboard')));
+
+// result routing
 const Result = Loadable(lazy(() => import('views/result')));
 
 // quiz routing
@@ -26,7 +29,11 @@ const MainRoutes = {
     children: [
         {
             path: '/',
-            element: <Result />
+            element: <Dashboard />
+        },
+        {
+            path: '/dashboard',
+            element: <Dashboard />
         },
         {
             path: '/result',
